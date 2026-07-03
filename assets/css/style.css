@@ -171,7 +171,7 @@ header.scrolled {
   background: rgba(44, 51, 44, 0.9);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  padding: 10px 0;
+  padding: 8px 0;
   border-bottom: 1px solid rgba(234, 235, 232, 0.08);
 }
 
@@ -182,8 +182,13 @@ header.scrolled {
 }
 
 .logo-container {
-  height: 70px;
+  height: 80px;
   width: auto;
+}
+.logo-container a {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 .logo-container img {
   height: 100%;
