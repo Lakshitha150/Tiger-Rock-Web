@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dambulla Tiger Rock | Premium Boutique Eco-Hotel & Viewpoint</title>
+  <meta name="description" content="Wake above the forest at Dambulla Tiger Rock. Experience premium boho A-frame lofts, natural boulder terrains, and a 360° stairway climb to panoramic Sigiriya views.">
+  <link rel="icon" href="assets/images/logo-dark.svg" type="image/svg+xml">
+  <!-- Style Link -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       HEADER & NAVIGATION
+       ========================================== -->
+  <header>
+    <div class="container nav-wrapper">
+      <div class="logo-container">
+        <a href="index.html">
+          <img src="assets/images/logo-light.svg" alt="Dambulla Tiger Rock Logo">
+        </a>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="#about">About</a>
+        <a href="#cabanas">Cabanas</a>
+        <a href="#experience">Experiences</a>
+        <a href="#services">Services</a>
+        <a href="#" class="open-booking btn-secondary" style="font-size: 10px; padding: 10px 20px;">Book Now</a>
+      </nav>
+
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Overlay -->
+  <div class="mobile-nav-overlay">
+    <a href="#about">About</a>
+    <a href="#cabanas">Cabanas</a>
+    <a href="#experience">Experiences</a>
+    <a href="#services">Services</a>
+    <a href="#" class="open-booking btn-primary" style="margin-top: 20px;">Book Now</a>
+  </div>
+
+  <!-- ==========================================
+       HERO CANVAS
+       ========================================== -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="assets/images/hero-bg.png" alt="Dambulla Misty Forest Canopy View">
+    </div>
+    
+    <div class="hero-content">
+      <p class="section-tag" style="margin-bottom: 10px; color: var(--color-gold);">Dambulla, Sri Lanka</p>
+      <h1 class="serif-title">Where <em>Sunrise</em> Meets Stone</h1>
+      <p style="font-size: 16px; opacity: 0.9; max-width: 600px; margin: 0 auto 30px auto; font-weight: 300;">
+        Escape to an intimate, boulder-integrated eco-retreat offering panoramic 360° views of Sigiriya and Pidurangala.
+      </p>
+      <a href="#" class="open-booking btn-primary">Start Reservation</a>
+    </div>
+
+    <!-- Glassmorphism Booking Bar -->
+    <div class="booking-bar glass">
+      <div class="booking-fields">
+        <div class="booking-field">
+          <label for="home-checkin">Check In</label>
+          <input type="date" id="home-checkin" required>
+        </div>
+        <div class="booking-field">
+          <label for="home-checkout">Check Out</label>
+          <input type="date" id="home-checkout" required>
+        </div>
+        <div class="booking-field">
+          <label for="home-guests">Guests</label>
+          <select id="home-guests">
+            <option value="1">1 Guest</option>
+            <option value="2" selected>2 Guests</option>
+            <option value="3">3 Guests</option>
+            <option value="4">4 Guests</option>
+          </select>
+        </div>
+      </div>
+      <button class="open-booking btn-primary" id="home-check-availability">Check Availability</button>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION PILLARS
+       ========================================== -->
+  <section class="pillars">
+    <div class="pillar-item">
+      <svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 2.5c2.3 0 4.1 1.8 4.1 4.1h-8.2c0-2.3 1.8-4.1 4.1-4.1z"/></svg>
+      <h3>Premium Privacy</h3>
+      <p>Only two architectural lofts nestled in private, secure bouldering grounds.</p>
+    </div>
+    <div class="pillar-item">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L12 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      <h3>Eco-Luxury Lofts</h3>
+      <p>Striking A-frame cabins designed with natural teak and open-air glass outlooks.</p>
+    </div>
+    <div class="pillar-item">
+      <svg viewBox="0 0 24 24"><path d="M14 6l-1-2H5v17h2v-7h5l1 2h7V6h-6zm4 6h-4l-1-2H7V8h5l1 2h5v2z"/></svg>
+      <h3>360° Viewpoint</h3>
+      <p>Climb steps through Sigiriya-like giant rocks to catch the sunrise at the summit.</p>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       INTRODUCTION SEGMENT
+       ========================================== -->
+  <section class="section-padding" id="about">
+    <div class="container intro-grid">
+      <div class="intro-images">
+        <div class="intro-img-main">
+          <img src="assets/images/intro-bg.png" alt="Tiger Rock Cozy Lounge Terrace" style="width: 100%; height: 100%; border-radius: var(--radius-lg);">
+        </div>
+        <div class="intro-img-sub">
+          <img src="assets/images/caban_renovation_2.jpg" alt="Dambulla Tiger Rock A-Frame Cabin Exterior" style="width: 100%; height: 100%; border-radius: var(--radius-md);">
+        </div>
+      </div>
+
+      <div class="intro-content">
+        <p class="section-tag">01 Introduction</p>
+        <h2 class="serif-title">Where Serenity Meets Sri Lankan Stone</h2>
+        <p>
+          Situated in the heart of Sri Lanka's Cultural Triangle, **Dambulla Tiger Rock** is a boutique eco-hotel nestled within ancient granite boulders. Styled with a premium bohemian edge, our retreat offers guests a completely private immersion into nature.
+        </p>
+        <p>
+          Our highlights are **two exclusive, A-frame lofts** boasting floor-to-ceiling glass windows and cosy mezzanine decks. Step outside your cabin to hike our private stone steps winding directly through giant rocks to reach the summit viewpoint, capturing panoramic sunrises over the forest canopy.
+        </p>
+        <a href="#cabanas" class="btn-secondary" style="align-self: flex-start;">Explore Cabanas</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       ACCOMMODATIONS / ROOMS CAROUSEL
+       ========================================== -->
+  <section class="section-padding" id="cabanas" style="border-top: 1px solid rgba(234,235,232,0.05);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-tag">Accommodations</p>
+          <h2 class="serif-title">Our Exclusive A-Frames</h2>
+        </div>
+        <p style="max-width: 400px; font-size: 13px; opacity: 0.6; text-align: right;">
+          Experience rustic eco-luxury inside our private lofts. Only two units exist to preserve intimate peace.
+        </p>
+      </div>
+
+      <div class="room-grid">
+        <!-- Room 1 -->
+        <div class="room-card">
+          <img src="assets/images/caban_renovation_1.jpg" alt="The Sunrise Loft Cozy Interior Loft Bedroom">
+          <div class="room-card-content">
+            <span class="room-card-price">$180 <span style="font-size:10px; opacity:0.6;">/ night</span></span>
+            <h3 class="serif-title">The Sunrise Loft</h3>
+            <p>Premium boho styling, double-decker mezzanine layout, low platform bed, desk work zone, and jungle views.</p>
+            <a href="#" class="open-booking room-card-btn">Book Now</a>
+          </div>
+        </div>
+
+        <!-- Room 2 -->
+        <div class="room-card">
+          <img src="assets/images/viewpoint_capture_1.jpg" alt="The Sigiriya View Chalet Boho Double Bed Deck">
+          <div class="room-card-content">
+            <span class="room-card-price">$220 <span style="font-size:10px; opacity:0.6;">/ night</span></span>
+            <h3 class="serif-title">The Sigiriya View Chalet</h3>
+            <p>Direct Sigiriya views, bohemian platform bed, rattan lantern lights, and close access to the viewpoint stairs.</p>
+            <a href="#" class="open-booking room-card-btn">Book Now</a>
+          </div>
+        </div>
+
+        <!-- Experience Card -->
+        <div class="room-card">
+          <img src="assets/images/viewpoint_capture_2.jpg" alt="Stairway Climb to Viewpoint through Rocks">
+          <div class="room-card-content">
+            <span class="room-card-price" style="color: var(--color-gold);">Guest Experience</span>
+            <h3 class="serif-title">360° Rock Trail</h3>
+            <p>Hike steps leading through massive granite boulders to reach the private summit viewing nets and sunrise tea deck.</p>
+            <a href="#experience" class="room-card-btn" style="border-color: var(--color-ivory);">Explore Trail</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SERVICES ACCORDION & SPA
+       ========================================== -->
+  <section class="section-padding" id="services" style="background-color: #232823; border-top: 1px solid rgba(234,235,232,0.05);">
+    <div class="container services-section">
+      <div class="services-accordion">
+        <p class="section-tag" style="margin-bottom: 10px;">Guest Services</p>
+        <h2 class="serif-title" style="font-size: 36px; margin-bottom: 30px;">Immersive Mountain Amenities</h2>
+
+        <div class="accordion-item active">
+          <div class="accordion-header">
+            <h3>Accommodations</h3>
+            <span>+</span>
+          </div>
+          <div class="accordion-content">
+            <p>Two luxury A-frame lofts crafted with local timber and featuring tall glass window frames looking out onto natural boulder gardens and a private brick patio.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <h3>360° Rock Climb & Viewpoint</h3>
+            <span>+</span>
+          </div>
+          <div class="accordion-content">
+            <p>A lit wooden step trail threading between granite rocks to reach our peak. Features suspended net beds and early sunrise Ceylon tea servings.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <h3>Forest Dining</h3>
+            <span>+</span>
+          </div>
+          <div class="accordion-content">
+            <p>Enjoy locally sourced Sri Lankan curries, organic fruits, and direct room-service breakfast served on your cabin's private veranda.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <h3>Wellness Massage</h3>
+            <span>+</span>
+          </div>
+          <div class="accordion-content">
+            <p>Book traditional Ayurvedic body massages and steam therapies conducted by local therapists directly in your room or on the deck courtyard.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="services-image">
+        <img src="assets/images/cat-suites.png" alt="Tiger Rock Plunge Pool Deck" style="width: 100%; height: 480px; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium);">
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       TESTIMONIAL SLIDER
+       ========================================== -->
+  <section class="section-padding testimonials">
+    <div class="container">
+      <p class="section-tag" style="margin-bottom: 10px;">Guest Reviews</p>
+      <h2 class="serif-title" style="font-size: 36px; margin-bottom: 50px;">Words From Our Guests</h2>
+      
+      <div class="testimonial-container">
+        <!-- Slide 1 -->
+        <div class="testimonial-slide active">
+          <div class="quote-mark">“</div>
+          <p>An A-frame paradise! Waking up on the platform bed looking out onto the huge granite rocks was unforgettable. Watching the sunrise from the peak hammock is a must-do in Sri Lanka.</p>
+          <div class="client-info">
+            <div class="client-img">
+              <img src="assets/images/cat-rooms.png" alt="Guest Sophia R.">
+            </div>
+            <div class="client-meta">
+              <h4>Sophia R.</h4>
+              <p>Stayed in The Sunrise Loft • June 2026</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="testimonial-slide">
+          <div class="quote-mark">“</div>
+          <p>Absolute peace. Dambulla Tiger Rock feels like a secret sanctuary. Climb through the rocks at sunset—it's less crowded than Sigiriya and ten times more magical. Excellent service.</p>
+          <div class="client-info">
+            <div class="client-img">
+              <img src="assets/images/cat-villas.png" alt="Guest Ernest M.">
+            </div>
+            <div class="client-meta">
+              <h4>Ernest M.</h4>
+              <p>Stayed in The Sigiriya View Chalet • July 2026</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       INSTAGRAM MASONRY FEED
+       ========================================== -->
+  <section class="section-padding">
+    <div class="container" style="text-align: center;">
+      <p class="section-tag" style="margin-bottom: 5px;">Feel Inspired</p>
+      <h2 class="serif-title" style="font-size: 32px; margin-bottom: 40px;"><a href="#" style="color: var(--color-gold);">@DambullaTigerRock</a></h2>
+      
+      <div class="instagram-feed">
+        <div class="instagram-item">
+          <img src="assets/images/caban_renovation_1.jpg" alt="Interior loft bedroom details">
+          <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></div>
+        </div>
+        <div class="instagram-item">
+          <img src="assets/images/viewpoint_capture_1.jpg" alt="Boho bedroom layout A-frame">
+          <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></div>
+        </div>
+        <div class="instagram-item">
+          <img src="assets/images/viewpoint_capture_2.jpg" alt="Steps climb through the rocks">
+          <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></div>
+        </div>
+        <div class="instagram-item">
+          <img src="assets/images/intro-bg.png" alt="Cozy outdoor bar area">
+          <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></div>
+        </div>
+        <div class="instagram-item">
+          <img src="assets/images/caban_renovation_2.jpg" alt="A-frame cabin exterior structure">
+          <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></div>
+        </div>
+        <div class="instagram-item">
+          <img src="assets/images/cat-suites.png" alt="Deck overview plunge pool">
+          <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <img src="assets/images/logo-light.svg" alt="Dambulla Tiger Rock Logo" style="height: 100%; border-radius: 0;">
+        </div>
+        <p>A premium eco-hotel experience in Dambulla, Sri Lanka. Offering unique A-frame loft cabins and scenic 360° viewpoint bouldering walks.</p>
+        <div class="socials">
+          <a href="#"><svg viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+          <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#cabanas">Cabanas</a></li>
+          <li><a href="#experience">Experiences</a></li>
+          <li><a href="#services">Services</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Address</h4>
+        <p style="margin-bottom: 10px;">Dambulla Tiger Rock<br>Pidurangala Access Rd,<br>Dambulla, Sri Lanka</p>
+        <p><strong>SEO Profile:</strong> Tiger Rock Dambulla 360 Sunrise</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+94771234567">+94 77 123 4567</a></li>
+          <li><a href="mailto:stay@dambullatigerrock.com">stay@dambullatigerrock.com</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Dambulla Tiger Rock. All Rights Reserved.</p>
+      <p>Boutique Canopy Retreats</p>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       BOOKING FLOW MODAL & STEP WIZARD OVERLAY
+       ========================================== -->
+  <div class="booking-modal-overlay">
+    <div class="booking-modal-container glass">
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="progress-tracker">
+          <div class="progress-step active" data-step="1">
+            <span class="progress-number">1</span> Dates
+          </div>
+          <div class="progress-step" data-step="2">
+            <span class="progress-number">2</span> Cabanas
+          </div>
+          <div class="progress-step" data-step="3">
+            <span class="progress-number">3</span> Guest Info
+          </div>
+          <div class="progress-step" data-step="4">
+            <span class="progress-number">4</span> Payment
+          </div>
+        </div>
+        
+        <div class="close-modal" id="close-modal-btn">
+          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        
+        <!-- STEP 1: Select Dates & Guests -->
+        <div class="wizard-step active" data-step="1">
+          <div class="step-dates-layout">
+            <h3 class="serif-title" style="font-size: 24px; text-align: center; margin-bottom: 10px;">Select Dates & Guests</h3>
+            
+            <div class="form-group">
+              <label for="modal-checkin">Arrival Date</label>
+              <input type="date" id="modal-checkin" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="modal-checkout">Departure Date</label>
+              <input type="date" id="modal-checkout" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="modal-guests">Number of Guests</label>
+              <select id="modal-guests" class="form-control">
+                <option value="1">1 Guest</option>
+                <option value="2" selected>2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4">4 Guests</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Choose Cabana -->
+        <div class="wizard-step" data-step="2">
+          <div class="step-rooms-layout">
+            <h3 class="serif-title" style="font-size: 24px; text-align: center; margin-bottom: 15px;">Choose Your Cabana</h3>
+            
+            <div class="modal-room-list">
+              <!-- Room 1 -->
+              <div class="modal-room-card" data-room-id="sunrise-loft">
+                <div class="modal-room-img">
+                  <img src="assets/images/caban_renovation_1.jpg" alt="The Sunrise Loft Bedroom">
+                </div>
+                <div class="modal-room-info">
+                  <h4>The Sunrise Loft</h4>
+                  <p>Boho mezzanine layout, low platform bed, workstation.</p>
+                  <div class="modal-room-meta">
+                    <span class="modal-room-price">$180 / night</span>
+                    <div class="select-indicator"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Room 2 -->
+              <div class="modal-room-card" data-room-id="sigiriya-view">
+                <div class="modal-room-img">
+                  <img src="assets/images/viewpoint_capture_1.jpg" alt="The Sigiriya View Chalet Bedroom">
+                </div>
+                <div class="modal-room-info">
+                  <h4>The Sigiriya View Chalet</h4>
+                  <p>Boulders outlook, rattan details, Sigiriya horizon views.</p>
+                  <div class="modal-room-meta">
+                    <span class="modal-room-price">$220 / night</span>
+                    <div class="select-indicator"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Guest Information -->
+        <div class="wizard-step" data-step="3">
+          <div class="step-split-layout">
+            <div class="checkout-form">
+              <h3 class="serif-title" style="font-size: 24px;">Guest details</h3>
+              
+              <div class="checkout-grid">
+                <div class="form-group">
+                  <label for="cust-fname">First Name*</label>
+                  <input type="text" id="cust-fname" class="form-control" placeholder="John">
+                </div>
+                <div class="form-group">
+                  <label for="cust-lname">Last Name*</label>
+                  <input type="text" id="cust-lname" class="form-control" placeholder="Doe">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="cust-email">Email Address*</label>
+                <input type="email" id="cust-email" class="form-control" placeholder="john.doe@example.com">
+              </div>
+
+              <div class="form-group">
+                <label for="cust-phone">Phone Number*</label>
+                <input type="text" id="cust-phone" class="form-control" placeholder="+94 77 123 4567">
+              </div>
+            </div>
+
+            <!-- Booking Summary Sidebar -->
+            <div class="summary-sidebar">
+              <h4>Booking Summary</h4>
+              <div class="summary-details">
+                <div class="summary-row">
+                  <span>Selected Room:</span>
+                  <strong class="sum-room">-</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Arrival:</span>
+                  <span class="sum-arrive">-</span>
+                </div>
+                <div class="summary-row">
+                  <span>Departure:</span>
+                  <span class="sum-depart">-</span>
+                </div>
+                <div class="summary-row">
+                  <span>Duration:</span>
+                  <span class="sum-nights">-</span>
+                </div>
+                <div class="summary-row">
+                  <span>Guests:</span>
+                  <span class="sum-guests">-</span>
+                </div>
+                <div class="summary-row">
+                  <span>Rate:</span>
+                  <span class="sum-rate">-</span>
+                </div>
+                <div class="summary-row" style="margin-top: 10px; border-top: 1px solid rgba(234,235,232,0.05); padding-top: 10px;">
+                  <span>Subtotal:</span>
+                  <span class="sum-subtotal">-</span>
+                </div>
+                <div class="summary-row sum-discount-row" style="color: var(--color-gold); display: none;">
+                  <span>Promo Discount:</span>
+                  <span class="sum-discount">-</span>
+                </div>
+              </div>
+              <div class="summary-total">
+                <span>Grand Total:</span>
+                <span class="sum-total-val">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: Payment -->
+        <div class="wizard-step" data-step="4">
+          <div class="step-split-layout">
+            <div class="checkout-form">
+              <h3 class="serif-title" style="font-size: 24px;">Secure Payment</h3>
+              
+              <!-- Express Checkout GPay -->
+              <div class="gpay-btn">
+                <span>Pay Express with</span>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay" class="gpay-logo">
+              </div>
+
+              <div class="payment-separator">Or pay with card</div>
+
+              <div class="form-group">
+                <label for="pay-name">Cardholder Name*</label>
+                <input type="text" id="pay-name" class="form-control" placeholder="John Doe">
+              </div>
+
+              <div class="form-group">
+                <label for="pay-card">Card Number*</label>
+                <input type="text" id="pay-card" class="form-control" placeholder="4111 2222 3333 4444">
+              </div>
+
+              <div class="checkout-grid">
+                <div class="form-group">
+                  <label for="pay-expiry">Expiry Date*</label>
+                  <input type="text" id="pay-expiry" class="form-control" placeholder="MM/YY">
+                </div>
+                <div class="form-group">
+                  <label for="pay-cvc">CVC*</label>
+                  <input type="password" id="pay-cvc" class="form-control" placeholder="•••">
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary Sidebar -->
+            <div class="summary-sidebar">
+              <h4>Booking Summary</h4>
+              <div class="summary-details">
+                <div class="summary-row">
+                  <span>Selected Room:</span>
+                  <strong class="sum-room">-</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Duration:</span>
+                  <span class="sum-nights">-</span>
+                </div>
+                <div class="summary-row">
+                  <span>Guests:</span>
+                  <span class="sum-guests">-</span>
+                </div>
+                <div class="summary-row" style="margin-top: 10px; border-top: 1px solid rgba(234,235,232,0.05); padding-top: 10px;">
+                  <span>Subtotal:</span>
+                  <span class="sum-subtotal">-</span>
+                </div>
+                <div class="summary-row sum-discount-row" style="color: var(--color-gold); display: none;">
+                  <span>Promo Discount:</span>
+                  <span class="sum-discount">-</span>
+                </div>
+              </div>
+
+              <!-- Promo Code Box -->
+              <div class="coupon-group">
+                <input type="text" class="form-control" placeholder="Promo Code (e.g. TIGER360)" style="padding: 10px 14px; font-size: 11px;">
+                <button class="btn-primary btn-apply-coupon" style="padding: 10px 16px; font-size: 11px; border-radius: var(--radius-sm);">Apply</button>
+              </div>
+
+              <div class="summary-total">
+                <span>Grand Total:</span>
+                <span class="sum-total-val">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5: Success screen -->
+        <div class="wizard-step" data-step="5">
+          <div class="success-layout">
+            <div class="success-icon">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            
+            <h3 class="serif-title">Booking Confirmed!</h3>
+            <p style="font-size: 14px; opacity: 0.8; margin-top: -10px;">
+              Thank you! Your boutique retreat is reserved. A confirmation email with details has been sent to your inbox.
+            </p>
+
+            <div class="success-bill-card">
+              <div class="success-bill-row">
+                <span>Booking ID:</span>
+                <strong id="rec-id">TR-00000</strong>
+              </div>
+              <div class="success-bill-row">
+                <span>Guest Name:</span>
+                <span id="rec-name">-</span>
+              </div>
+              <div class="success-bill-row">
+                <span>Cabana Loft:</span>
+                <span id="rec-room">-</span>
+              </div>
+              <div class="success-bill-row">
+                <span>Arrival:</span>
+                <span id="rec-checkin">-</span>
+              </div>
+              <div class="success-bill-row">
+                <span>Departure:</span>
+                <span id="rec-checkout">-</span>
+              </div>
+              <div class="success-bill-row">
+                <span>Duration:</span>
+                <span id="rec-nights">-</span>
+              </div>
+              <div class="success-bill-row success-bill-total">
+                <span>Amount Paid:</span>
+                <span id="rec-total">-</span>
+              </div>
+            </div>
+
+            <div class="success-actions">
+              <button class="btn-primary" id="btn-close-success">Done</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer (Navigation controls) -->
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btn-prev" style="display: none;">Back</button>
+        <button class="btn-primary" id="btn-next" style="margin-left: auto;">Choose Room →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Script link -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
