@@ -14,7 +14,7 @@
   <!-- Typography (Ivory #EAEBE8) -->
   <g transform="translate(105, 0)">
     <!-- Brand Name (Serif style stacked) -->
-    <text x="0" y="26" font-family="'Poppins', 'Inter', sans-serif" font-size="10" font-weight="500" fill="#EAEBE8" opacity="0.8" letter-spacing="4.5">DAMBULLA</text>
+    <text x="0" y="26" font-family="'Poppins', 'Inter', sans-serif" font-size="10" font-weight="500" fill="#EAEBE8" opacity="0.8" letter-spacing="4.5">Dambulla</text>
     <text x="0" y="51" font-family="'Playfair Display', 'Didot', 'Garamond', 'Georgia', serif" font-size="22" font-weight="600" fill="#EAEBE8" letter-spacing="2.5">TIGER ROCK</text>
     <!-- Subtitle (Sans-serif) -->
     <text x="0" y="67" font-family="'Poppins', 'Inter', sans-serif" font-size="8" font-weight="500" fill="#EAEBE8" opacity="0.6" letter-spacing="4">CALM MOUNTAIN ESCAPE</text>
