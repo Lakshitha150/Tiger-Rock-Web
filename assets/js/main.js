@@ -334,22 +334,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update Step 3 & 4 summaries
     const summaries = document.querySelectorAll('.summary-sidebar');
     summaries.forEach(sidebar => {
-      sidebar.querySelector('.sum-room').textContent = bookingData.selectedRoom.name;
-      sidebar.querySelector('.sum-arrive').textContent = dateArr;
-      sidebar.querySelector('.sum-depart').textContent = dateDep;
-      sidebar.querySelector('.sum-nights').textContent = `${bookingData.nights} Nights`;
-      sidebar.querySelector('.sum-guests').textContent = `${bookingData.guests} Guests`;
-      sidebar.querySelector('.sum-rate').textContent = `$${rate} / night`;
-      sidebar.querySelector('.sum-subtotal').textContent = `$${baseTotal.toFixed(2)}`;
+      const roomEl = sidebar.querySelector('.sum-room');
+      if (roomEl) roomEl.textContent = bookingData.selectedRoom.name;
+
+      const arriveEl = sidebar.querySelector('.sum-arrive');
+      if (arriveEl) arriveEl.textContent = dateArr;
+
+      const departEl = sidebar.querySelector('.sum-depart');
+      if (departEl) departEl.textContent = dateDep;
+
+      const nightsEl = sidebar.querySelector('.sum-nights');
+      if (nightsEl) nightsEl.textContent = `${bookingData.nights} Nights`;
+
+      const guestsEl = sidebar.querySelector('.sum-guests');
+      if (guestsEl) guestsEl.textContent = `${bookingData.guests} Guests`;
+
+      const rateEl = sidebar.querySelector('.sum-rate');
+      if (rateEl) rateEl.textContent = `$${rate} / night`;
+
+      const subtotalEl = sidebar.querySelector('.sum-subtotal');
+      if (subtotalEl) subtotalEl.textContent = `$${baseTotal.toFixed(2)}`;
       
-      if (bookingData.discount > 0) {
-        sidebar.querySelector('.sum-discount-row').style.display = 'flex';
-        sidebar.querySelector('.sum-discount').textContent = `-$${bookingData.discount.toFixed(2)}`;
-      } else {
-        sidebar.querySelector('.sum-discount-row').style.display = 'none';
+      const discountRowEl = sidebar.querySelector('.sum-discount-row');
+      const discountEl = sidebar.querySelector('.sum-discount');
+      if (discountRowEl && discountEl) {
+        if (bookingData.discount > 0) {
+          discountRowEl.style.display = 'flex';
+          discountEl.textContent = `-$${bookingData.discount.toFixed(2)}`;
+        } else {
+          discountRowEl.style.display = 'none';
+        }
       }
       
-      sidebar.querySelector('.sum-total-val').textContent = `$${finalTotal.toFixed(2)}`;
+      const totalValEl = sidebar.querySelector('.sum-total-val');
+      if (totalValEl) totalValEl.textContent = `$${finalTotal.toFixed(2)}`;
     });
   };
 
