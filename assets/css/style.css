@@ -182,13 +182,14 @@ header.scrolled {
 }
 
 .logo-container {
-  height: 50px;
+  height: 70px;
   width: auto;
 }
 .logo-container img {
   height: 100%;
   width: auto;
   border-radius: 0;
+  object-fit: contain;
 }
 
 .nav-links {
