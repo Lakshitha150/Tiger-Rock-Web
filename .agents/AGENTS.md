@@ -27,3 +27,15 @@ AI agents working across sub-folders must respect these structural requirements:
 ## 4. Developer & Content Rules
 - **Code Standards:** Always write descriptive inline comments for complex calculations, API integrations, and styling states to guarantee smooth handoffs between AI sessions.
 - **Social Media Tone:** Warm, inspiring, heavily photography-driven, minimal captions with high emotional impact.
+
+## 5. Contact Information & Specifics
+- **Address:** Tikiri Mawatha, Dambulla, Sri Lanka
+- **Hotline / WhatsApp:** +94 74 343 5434
+- **Website Domain:** dambullatigerrock.com
+- **Email:** dambullatigerrock@gmail.com
+
+## 6. Image Asset Structure
+To maintain an organized digital asset structure, raw photos should be placed in the following categorized directories under `assets/images/`:
+- **`viewpoint-scenery/`:** Panoramic sunrise/sunset views, landscapes, and observation deck shots.
+- **`cabana-architecture/`:** Exterior structures, A-frame cabanas, and buildings (hold interior shots until construction is complete).
+- **`pathways-nature/`:** Winding red-brick pathways, massive boulders, forest scenes, and nature retreat elements.

@@ -453,4 +453,35 @@ document.addEventListener('DOMContentLoaded', () => {
       modalRoomCards.forEach(c => c.classList.remove('selected'));
     });
   }
+
+  /* ==========================================
+     9. PHOTO GALLERY LIGHTBOX
+     ========================================== */
+  const lightboxModal = document.getElementById('lightbox-modal');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxClose = document.querySelector('.lightbox-close');
+  const galleryItems = document.querySelectorAll('.instagram-item img');
+
+  if (lightboxModal && lightboxImg) {
+    galleryItems.forEach(img => {
+      img.parentElement.addEventListener('click', () => {
+        lightboxModal.classList.add('show');
+        lightboxImg.src = img.src;
+      });
+    });
+
+    // Close when clicking X
+    if (lightboxClose) {
+      lightboxClose.addEventListener('click', () => {
+        lightboxModal.classList.remove('show');
+      });
+    }
+
+    // Close when clicking outside image
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target !== lightboxImg) {
+        lightboxModal.classList.remove('show');
+      }
+    });
+  }
 });

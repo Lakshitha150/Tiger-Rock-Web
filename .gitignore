@@ -1,0 +1,9 @@
+# Ignore all video files
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+
+# Except for homepage videos
+!assets/images/Tiger Rock.mp4

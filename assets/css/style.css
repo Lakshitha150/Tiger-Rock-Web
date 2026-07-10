@@ -1524,3 +1524,71 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================
+   PHOTO GALLERY LIGHTBOX
+   ========================================== */
+.lightbox-modal {
+  display: none; 
+  position: fixed; 
+  z-index: 2000; 
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; 
+  background-color: rgba(15, 17, 15, 0.95);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.lightbox-modal.show {
+  display: block;
+  opacity: 1;
+}
+.lightbox-content {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 90vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  box-shadow: var(--shadow-premium);
+  animation: zoomIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes zoomIn {
+  from {transform: translate(-50%, -50%) scale(0.9); opacity: 0;}
+  to {transform: translate(-50%, -50%) scale(1); opacity: 1;}
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: var(--color-ivory);
+  font-size: 40px;
+  font-weight: 300;
+  transition: 0.3s;
+  cursor: pointer;
+  z-index: 2001;
+}
+.lightbox-close:hover {
+  color: var(--color-gold);
+}
+.instagram-item {
+  cursor: pointer;
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
