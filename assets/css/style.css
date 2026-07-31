@@ -195,6 +195,7 @@ header.scrolled {
   width: auto;
   border-radius: 0;
   object-fit: contain;
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6));
 }
 
 .nav-links {
@@ -810,6 +811,10 @@ footer {
 .footer-brand .logo {
   height: 50px;
   align-self: flex-start;
+}
+
+.footer-brand .logo img {
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6));
 }
 
 .footer-brand p {

@@ -1,0 +1,29 @@
+{
+  "name": "tiger-rock-web",
+  "version": "1.0.0",
+  "description": "-HOtel recognization website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lakshitha150/Tiger-Rock-Web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Lakshitha150/Tiger-Rock-Web/issues"
+  },
+  "homepage": "https://github.com/Lakshitha150/Tiger-Rock-Web#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "nodemailer": "^9.0.3",
+    "pdfkit": "^0.19.1",
+    "sqlite3": "^6.0.1"
+  }
+}

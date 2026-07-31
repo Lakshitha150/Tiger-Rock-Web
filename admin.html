@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Tiger Rock Reservations</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    body { padding: 50px 20px; }
+    .admin-container { max-width: 1000px; margin: 0 auto; background: var(--bg-glass-dark); padding: 30px; border-radius: var(--radius-lg); }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { text-align: left; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    th { color: var(--color-gold); }
+    .btn-delete { background: #d9534f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+    .form-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+    .form-row input, .form-row select { padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 4px; flex: 1; min-width: 200px; }
+  </style>
+</head>
+<body>
+  <div class="admin-container glass">
+    <h1 class="serif-title" style="color: var(--color-gold); margin-bottom: 30px;">Reservation Management</h1>
+    
+    <h3>Add Manual Reservation / Block Dates</h3>
+    <form id="admin-form" style="margin-top: 15px; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 8px;">
+      <div class="form-row">
+        <input type="text" id="admin-name" placeholder="Guest Name (or Reason to Block)" required>
+        <select id="admin-room" required>
+          <option value="">Select Room...</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <input type="date" id="admin-checkin" required>
+        <input type="date" id="admin-checkout" required>
+      </div>
+      <button type="submit" class="btn-primary" style="padding: 10px 20px; font-size: 14px;">Add Reservation</button>
+    </form>
+
+    <h3 style="margin-top: 40px;">Current Bookings</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Guest</th>
+          <th>Room</th>
+          <th>Dates</th>
+          <th>Total</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="bookings-list">
+        <tr><td colspan="6">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>
