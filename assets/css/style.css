@@ -1643,3 +1643,36 @@ footer {
 .hero-slideshow .slide.active {
   opacity: 1;
 }
+
+/* Sound Toggle Button */
+#sound-toggle {
+  position: absolute;
+  bottom: 130px;
+  right: 28px;
+  z-index: 10;
+  background: rgba(44, 51, 44, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(244, 196, 48, 0.3);
+  color: var(--color-ivory);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#sound-toggle:hover {
+  background: rgba(244, 196, 48, 0.2);
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  transform: scale(1.1);
+}
+
+#sound-toggle svg {
+  width: 22px;
+  height: 22px;
+}

@@ -569,3 +569,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }, { once: true });
     }
 })();
+
+// Sound Toggle Button Logic
+(function () {
+    var btn = document.getElementById('sound-toggle');
+    var video = document.getElementById('bg-video');
+    var iconMuted = document.getElementById('icon-muted');
+    var iconSound = document.getElementById('icon-sound');
+    if (!btn || !video) return;
+
+    btn.addEventListener('click', function () {
+        video.muted = !video.muted;
+        if (video.muted) {
+            iconMuted.style.display = 'block';
+            iconSound.style.display = 'none';
+        } else {
+            iconMuted.style.display = 'none';
+            iconSound.style.display = 'block';
+        }
+    });
+})();
