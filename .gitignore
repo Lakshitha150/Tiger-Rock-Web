@@ -1,9 +1,10 @@
-# Ignore all video files
+# Ignore all video files (too large for GitHub)
 *.mp4
 *.mov
 *.avi
 *.mkv
 *.webm
 
-# Except for homepage videos
+# Allow specific small videos used on the website
 !assets/images/Tiger Rock.mp4
+!assets/images/hotel-full.mp4
