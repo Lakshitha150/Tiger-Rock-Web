@@ -1597,3 +1597,25 @@ footer {
   clip: rect(0,0,0,0);
   border: 0;
 }
+
+/* Gallery Filter Buttons */
+.filter-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-ivory);
+  padding: 8px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  color: var(--color-dark);
+}

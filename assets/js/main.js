@@ -485,3 +485,75 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// Dynamic Gallery Loading & Filtering Logic
+document.addEventListener('DOMContentLoaded', function() {
+    const galleryGrid = document.getElementById('main-gallery-grid');
+    if (!galleryGrid) return;
+
+    fetch('assets/images/gallery-memory.json')
+        .then(response => response.json())
+        .then(data => {
+            let html = '';
+            data.forEach(item => {
+                html += `
+                <div class="instagram-item gallery-item ${item.category}">
+                  <img src="${item.filepath}" loading="lazy" alt="${item.caption}">
+                  <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></div>
+                </div>`;
+            });
+            galleryGrid.innerHTML = html;
+
+            // Initialize filtering after images are loaded
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            if (filterBtns.length > 0) {
+                filterBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        filterBtns.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        const filterValue = btn.getAttribute('data-filter');
+                        galleryItems.forEach(item => {
+                            if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                                item.style.display = 'block';
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                    });
+                });
+            }
+        })
+        .catch(error => console.error('Error loading gallery data:', error));
+});
+            });
+        });
+    }
+});
+
+
+// Background Video Playlist — cycles through all 7 clips sequentially
+(function () {
+    var bgVideo = document.getElementById('bg-video');
+    if (!bgVideo) return;
+
+    var playlist = [
+        'assets/images/movie-hotel/movie_hotel_202607312059_1.mp4',
+        'assets/images/movie-hotel/movie_hotel_202607312059_2.mp4',
+        'assets/images/movie-hotel/movie_hotel_202607312059_3.mp4',
+        'assets/images/movie-hotel/movie_hotel_202607312059_4.mp4',
+        'assets/images/movie-hotel/movie_hotel_202607312059_5.mp4',
+        'assets/images/movie-hotel/movie_hotel_202607312059_6.mp4',
+        'assets/images/movie-hotel/movie_hotel_202607312059_7.mp4',
+    ];
+
+    var idx = 0; // 0 = clip 1, already loaded in HTML
+
+    bgVideo.addEventListener('ended', function () {
+        idx = (idx + 1) % playlist.length;
+        bgVideo.setAttribute('src', playlist[idx]);
+        bgVideo.load();
+        bgVideo.play().catch(function () {});
+    });
+})();

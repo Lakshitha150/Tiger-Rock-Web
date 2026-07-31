@@ -55,8 +55,11 @@
        ========================================== -->
   <section class="hero">
     <div class="hero-bg">
-      <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0;" poster="assets/images/viewpoint-scenery/IMG_20260707_192005.jpg">
-        <source src="assets/images/Tiger%20Rock.mp4" type="video/mp4">
+      <!-- Hero background video — poster shows while video loads; JS cycles through all 7 clips -->
+      <video id="bg-video" autoplay muted playsinline
+        src="assets/images/movie-hotel/movie_hotel_202607312059_1.mp4"
+        style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0;"
+        poster="assets/images/viewpoint-scenery/IMG_20260707_192005.jpg">
       </video>
     </div>
     
@@ -161,22 +164,11 @@
       <div class="room-grid">
         <!-- Room 1 -->
         <div class="room-card">
-          <img src="assets/images/caban_renovation_1.jpg" alt="The Sunrise Loft Cozy Interior Loft Bedroom">
+          <img src="assets/images/caban_renovation_1.jpg" alt="A-Frame Cabana Cozy Interior Loft Bedroom">
           <div class="room-card-content">
-            <span class="room-card-price">$180 <span style="font-size:10px; opacity:0.6;">/ night</span></span>
-            <h3 class="serif-title">The Sunrise Loft</h3>
-            <p>Premium boho styling, double-decker mezzanine layout, low platform bed, desk work zone, and jungle views.</p>
-            <a href="#" class="open-booking room-card-btn">Book Now</a>
-          </div>
-        </div>
-
-        <!-- Room 2 -->
-        <div class="room-card">
-          <img src="assets/images/viewpoint_capture_1.jpg" alt="The Sigiriya View Chalet Boho Double Bed Deck">
-          <div class="room-card-content">
-            <span class="room-card-price">$220 <span style="font-size:10px; opacity:0.6;">/ night</span></span>
-            <h3 class="serif-title">The Sigiriya View Chalet</h3>
-            <p>Direct Sigiriya views, bohemian platform bed, rattan lantern lights, and close access to the viewpoint stairs.</p>
+            <span class="room-card-price">$40 <span style="font-size:10px; opacity:0.6;">/ night</span></span>
+            <h3 class="serif-title">A-Frame Cabana</h3>
+            <p>Premium boho styling, double-decker mezzanine layout, low platform bed, desk work zone, and jungle views. Includes full access to viewpoint.</p>
             <a href="#" class="open-booking room-card-btn">Book Now</a>
           </div>
         </div>
@@ -185,13 +177,24 @@
         <div class="room-card">
           <img src="assets/images/pathways-nature/IMG-20260705-WA0068.jpg" alt="Scenic Red Brick Stairway Climb to Viewpoint through Giant Rocks">
           <div class="room-card-content">
-            <span class="room-card-price" style="color: var(--color-gold);">Guest Experience</span>
-            <h3 class="serif-title">360° Rock Trail</h3>
+            <span class="room-card-price">$6 <span style="font-size:10px; opacity:0.6;">/ person</span></span>
+            <h3 class="serif-title">360° Rock Trail (Sunrise/Sunset)</h3>
             <p>Hike steps leading through massive granite boulders to reach the private summit viewing nets and sunrise tea deck.</p>
             <a href="#experience" class="room-card-btn" style="border-color: var(--color-ivory);">Explore Trail</a>
           </div>
         </div>
+        <!-- Quad Bike Card -->
+        <div class="room-card">
+          <img src="assets/images/pathways-nature/dambulla-tiger-rock-atv-adventure-1.jpeg" alt="ATV Quad Bike Adventure in Nature">
+          <div class="room-card-content">
+            <span class="room-card-price" style="color: var(--color-gold);">Paid Option</span>
+            <h3 class="serif-title">Quad Bike Ride</h3>
+            <p>Explore the rugged off-road pathways and nature trails around the property on our premium ATVs.</p>
+            <a href="#contact" class="room-card-btn" style="border-color: var(--color-ivory);">Inquire Now</a>
+          </div>
+        </div>
       </div>
+
     </div>
   </section>
 
@@ -270,7 +273,7 @@
             </div>
             <div class="client-meta">
               <h4>Sophia R.</h4>
-              <p>Stayed in The Sunrise Loft • June 2026</p>
+              <p>Stayed in A-Frame Cabana • June 2026</p>
             </div>
           </div>
         </div>
@@ -304,37 +307,13 @@
       <p class="section-tag" style="margin-bottom: 5px;">Our Retreat</p>
       <h2 class="serif-title" style="font-size: 32px; margin-bottom: 40px; color: var(--color-ivory);">Photo Gallery</h2>
       
-      <div class="instagram-feed">
-        <!-- Gallery Item 1 -->
-        <div class="instagram-item">
-          <img src="assets/images/viewpoint-scenery/IMG_20260707_191927.jpg" alt="Breathtaking golden hour Dambulla sunrise over the forest">
-          <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></div>
-        </div>
-        <!-- Gallery Item 2 -->
-        <div class="instagram-item">
-          <img src="assets/images/cabana-architecture/IMG_20260707_202512.jpg" alt="A-frame cabana integrated into the boulders">
-          <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></div>
-        </div>
-        <!-- Gallery Item 3 -->
-        <div class="instagram-item">
-          <img src="assets/images/pathways-nature/IMG_20260707_190933.jpg" alt="Scenic pathway wrapping around a forest tree during your rock climb experience">
-          <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></div>
-        </div>
-        <!-- Gallery Item 4 -->
-        <div class="instagram-item">
-          <img src="assets/images/viewpoint-scenery/IMG_20260707_190833.jpg" alt="Observation deck with a stunning Sigiriya view and 360° panorama">
-          <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></div>
-        </div>
-        <!-- Gallery Item 5 -->
-        <div class="instagram-item">
-          <img src="assets/images/pathways-nature/IMG-20260705-WA0065.jpg" alt="Brick stairs ascending the steep rocky incline">
-          <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></div>
-        </div>
-        <!-- Gallery Item 6 -->
-        <div class="instagram-item">
-          <img src="assets/images/viewpoint-scenery/IMG_20260707_192005.jpg" alt="Forest canopy view from our premier sunset viewpoint">
-          <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></div>
-        </div>
+      <div class="gallery-filters" style="margin-bottom: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="cabana">Cabanas</button>
+        <button class="filter-btn" data-filter="viewpoint">Viewpoint</button>
+        <button class="filter-btn" data-filter="nature">Nature & Trails</button>
+      </div>
+      <div class="instagram-feed" id="main-gallery-grid">
       </div>
     </div>
   </section>
@@ -454,32 +433,19 @@
               <!-- Room 1 -->
               <div class="modal-room-card" data-room-id="sunrise-loft">
                 <div class="modal-room-img">
-                  <img src="assets/images/caban_renovation_1.jpg" alt="The Sunrise Loft Bedroom">
+                  <img src="assets/images/caban_renovation_1.jpg" alt="A-Frame Cabana Bedroom">
                 </div>
                 <div class="modal-room-info">
-                  <h4>The Sunrise Loft</h4>
+                  <h4>A-Frame Cabana</h4>
                   <p>Boho mezzanine layout, low platform bed, workstation.</p>
                   <div class="modal-room-meta">
-                    <span class="modal-room-price">$180 / night</span>
+                    <span class="modal-room-price">$40 / night</span>
                     <div class="select-indicator"></div>
                   </div>
                 </div>
               </div>
 
-              <!-- Room 2 -->
-              <div class="modal-room-card" data-room-id="sigiriya-view">
-                <div class="modal-room-img">
-                  <img src="assets/images/viewpoint_capture_1.jpg" alt="The Sigiriya View Chalet Bedroom">
-                </div>
-                <div class="modal-room-info">
-                  <h4>The Sigiriya View Chalet</h4>
-                  <p>Boulders outlook, rattan details, Sigiriya horizon views.</p>
-                  <div class="modal-room-meta">
-                    <span class="modal-room-price">$220 / night</span>
-                    <div class="select-indicator"></div>
-                  </div>
-                </div>
-              </div>
+</div>
             </div>
           </div>
         </div>
