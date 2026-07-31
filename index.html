@@ -55,10 +55,19 @@
        ========================================== -->
   <section class="hero">
     <div class="hero-bg">
-      <!-- Hero background video — poster shows while video loads; JS cycles through all 7 clips -->
-      <video id="bg-video" autoplay muted playsinline
-        src="assets/images/movie-hotel/movie_hotel_202607312059_1.mp4"
-        style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0;"
+      <!-- Fallback slideshow — sits behind video, fades out once video plays -->
+      <div id="hero-slideshow" class="hero-slideshow">
+        <div class="slide active" style="background-image: url('assets/images/viewpoint-scenery/IMG_20260707_192005.jpg')"></div>
+        <div class="slide" style="background-image: url('assets/images/viewpoint-scenery/IMG_20260707_190833.jpg')"></div>
+        <div class="slide" style="background-image: url('assets/images/pathways-nature/IMG-20260705-WA0068.jpg')"></div>
+        <div class="slide" style="background-image: url('assets/images/cabana-architecture/IMG_20260707_202512.jpg')"></div>
+        <div class="slide" style="background-image: url('assets/images/viewpoint-scenery/IMG_20260707_191927.jpg')"></div>
+        <div class="slide" style="background-image: url('assets/images/pathways-nature/IMG_20260707_190933.jpg')"></div>
+      </div>
+      <!-- Hero background video — loops automatically; poster shows while buffering -->
+      <video id="bg-video" autoplay muted loop playsinline
+        src="assets/images/hotel-full.mp4"
+        style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1;"
         poster="assets/images/viewpoint-scenery/IMG_20260707_192005.jpg">
       </video>
     </div>

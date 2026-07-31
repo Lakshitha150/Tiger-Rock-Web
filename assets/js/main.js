@@ -533,27 +533,39 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// Background Video Playlist — cycles through all 7 clips sequentially
+// Single full hotel video plays and loops automatically via the HTML loop attribute.
+
+// Hero Slideshow Fallback + Video Fade-In Logic
+// Cycles through images while the video buffers, then fades video in once ready.
 (function () {
+    var slideshow = document.getElementById('hero-slideshow');
+    var slides = document.querySelectorAll('.hero-slideshow .slide');
     var bgVideo = document.getElementById('bg-video');
-    if (!bgVideo) return;
+    var slideIndex = 0;
+    var slideshowTimer = null;
 
-    var playlist = [
-        'assets/images/movie-hotel/movie_hotel_202607312059_1.mp4',
-        'assets/images/movie-hotel/movie_hotel_202607312059_2.mp4',
-        'assets/images/movie-hotel/movie_hotel_202607312059_3.mp4',
-        'assets/images/movie-hotel/movie_hotel_202607312059_4.mp4',
-        'assets/images/movie-hotel/movie_hotel_202607312059_5.mp4',
-        'assets/images/movie-hotel/movie_hotel_202607312059_6.mp4',
-        'assets/images/movie-hotel/movie_hotel_202607312059_7.mp4',
-    ];
+    if (slides.length === 0) return;
 
-    var idx = 0; // 0 = clip 1, already loaded in HTML
+    // Advance to the next slide every 4 seconds
+    function nextSlide() {
+        slides[slideIndex].classList.remove('active');
+        slideIndex = (slideIndex + 1) % slides.length;
+        slides[slideIndex].classList.add('active');
+    }
 
-    bgVideo.addEventListener('ended', function () {
-        idx = (idx + 1) % playlist.length;
-        bgVideo.setAttribute('src', playlist[idx]);
-        bgVideo.load();
-        bgVideo.play().catch(function () {});
-    });
+    slideshowTimer = setInterval(nextSlide, 4000);
+
+    // When video starts playing, fade the slideshow out and stop cycling
+    if (bgVideo) {
+        bgVideo.addEventListener('playing', function () {
+            clearInterval(slideshowTimer);
+            if (slideshow) {
+                slideshow.style.transition = 'opacity 1.5s ease';
+                slideshow.style.opacity = '0';
+                setTimeout(function () {
+                    slideshow.style.display = 'none';
+                }, 1600);
+            }
+        }, { once: true });
+    }
 })();
