@@ -453,83 +453,84 @@ document.addEventListener('DOMContentLoaded', () => {
       modalRoomCards.forEach(c => c.classList.remove('selected'));
     });
   }
-
-  /* ==========================================
-     9. PHOTO GALLERY LIGHTBOX
-     ========================================== */
-  const lightboxModal = document.getElementById('lightbox-modal');
-  const lightboxImg = document.getElementById('lightbox-img');
-  const lightboxClose = document.querySelector('.lightbox-close');
-  const galleryItems = document.querySelectorAll('.instagram-item img');
-
-  if (lightboxModal && lightboxImg) {
-    galleryItems.forEach(img => {
-      img.parentElement.addEventListener('click', () => {
-        lightboxModal.classList.add('show');
-        lightboxImg.src = img.src;
-      });
-    });
-
-    // Close when clicking X
-    if (lightboxClose) {
-      lightboxClose.addEventListener('click', () => {
-        lightboxModal.classList.remove('show');
-      });
-    }
-
-    // Close when clicking outside image
-    lightboxModal.addEventListener('click', (e) => {
-      if (e.target !== lightboxImg) {
-        lightboxModal.classList.remove('show');
-      }
-    });
-  }
+  /* Lightbox is initialized inside the gallery fetch callback below,
+     after images are injected into the DOM. */
 });
 
-// Dynamic Gallery Loading & Filtering Logic
-document.addEventListener('DOMContentLoaded', function() {
-    const galleryGrid = document.getElementById('main-gallery-grid');
+// Dynamic Gallery Loading, Filtering & Lightbox Logic
+// Gallery images are loaded from gallery-memory.json after DOM is ready.
+document.addEventListener('DOMContentLoaded', function () {
+    var galleryGrid = document.getElementById('main-gallery-grid');
     if (!galleryGrid) return;
 
+    var lightboxModal = document.getElementById('lightbox-modal');
+    var lightboxImg = document.getElementById('lightbox-img');
+    var lightboxClose = document.querySelector('.lightbox-close');
+
+    // Wire up lightbox AFTER images are injected into the DOM
+    function initLightbox() {
+        var galleryImgs = document.querySelectorAll('.instagram-item img');
+        galleryImgs.forEach(function (img) {
+            img.parentElement.addEventListener('click', function () {
+                if (lightboxModal && lightboxImg) {
+                    lightboxImg.src = img.src;
+                    lightboxModal.classList.add('show');
+                }
+            });
+        });
+        if (lightboxClose) {
+            lightboxClose.addEventListener('click', function () {
+                lightboxModal.classList.remove('show');
+            });
+        }
+        if (lightboxModal) {
+            lightboxModal.addEventListener('click', function (e) {
+                if (e.target !== lightboxImg) {
+                    lightboxModal.classList.remove('show');
+                }
+            });
+        }
+    }
+
     fetch('assets/images/gallery-memory.json')
-        .then(response => response.json())
-        .then(data => {
-            let html = '';
-            data.forEach(item => {
-                html += `
-                <div class="instagram-item gallery-item ${item.category}">
-                  <img src="${item.filepath}" loading="lazy" alt="${item.caption}">
-                  <div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></div>
-                </div>`;
+        .then(function (response) { return response.json(); })
+        .then(function (data) {
+            var html = '';
+            data.forEach(function (item) {
+                html += '<div class="instagram-item gallery-item ' + item.category + '">'
+                    + '<img src="' + item.filepath + '" loading="lazy" alt="' + item.caption + '">'
+                    + '<div class="instagram-overlay"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></div>'
+                    + '</div>';
             });
             galleryGrid.innerHTML = html;
 
-            // Initialize filtering after images are loaded
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const galleryItems = document.querySelectorAll('.gallery-item');
+            // Wire up filter buttons
+            var filterBtns = document.querySelectorAll('.filter-btn');
+            var galleryItems = document.querySelectorAll('.gallery-item');
 
-            if (filterBtns.length > 0) {
-                filterBtns.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        filterBtns.forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        const filterValue = btn.getAttribute('data-filter');
-                        galleryItems.forEach(item => {
-                            if (filterValue === 'all' || item.classList.contains(filterValue)) {
-                                item.style.display = 'block';
-                            } else {
-                                item.style.display = 'none';
-                            }
-                        });
+            filterBtns.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    filterBtns.forEach(function (b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    var filterValue = btn.getAttribute('data-filter');
+                    galleryItems.forEach(function (item) {
+                        if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
                     });
                 });
-            }
-        })
-        .catch(error => console.error('Error loading gallery data:', error));
-});
             });
+
+            // Wire lightbox now that images exist in DOM
+            initLightbox();
+        })
+        .catch(function (error) {
+            console.error('Error loading gallery data:', error);
+            // Fallback: show a message in the grid
+            galleryGrid.innerHTML = '<p style="color:rgba(234,235,232,0.5); text-align:center; padding: 40px;">Gallery loading failed. Please refresh.</p>';
         });
-    }
 });
 
 
