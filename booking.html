@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking | Dambulla Tiger Rock 360 Sunrise</title>
+  <meta name="description" content="Book your stay at Dambulla Tiger Rock. Choose your cabana, add experiences, and send a booking request to our concierge.">
+  <meta name="keywords" content="Dambulla Tiger Rock booking, book cabana Sri Lanka, sunrise retreat reservation, Dambulla eco hotel">
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="assets/css/style.css?v=3">
+  <style>
+    .booking-hero {
+      position: relative;
+      min-height: 58vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 150px 20px 90px;
+      background: linear-gradient(135deg, #0c140c 0%, #182418 58%, #0c140c 100%);
+    }
+    .booking-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('assets/images/viewpoint-scenery/IMG_20260707_191722.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.22;
+    }
+    .booking-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(244,196,48,0.12) 0%, transparent 65%);
+    }
+    .booking-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+    }
+    .booking-tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+    .booking-hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(42px, 7vw, 74px);
+      line-height: 1.05;
+      color: var(--color-ivory);
+      margin-bottom: 18px;
+    }
+    .booking-hero h1 em {
+      color: var(--color-gold);
+      font-style: italic;
+      font-weight: 400;
+    }
+    .booking-hero p {
+      max-width: 640px;
+      margin: 0 auto 30px;
+      font-size: 16px;
+      line-height: 1.9;
+      opacity: 0.74;
+    }
+
+    .booking-section {
+      padding: 90px 0 60px;
+    }
+    .booking-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.85fr);
+      gap: 28px;
+      align-items: start;
+    }
+    .booking-panel {
+      background: linear-gradient(180deg, rgba(20,30,20,0.96), rgba(17,25,17,0.96));
+      border: 1px solid rgba(234,235,232,0.08);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-premium);
+      overflow: hidden;
+    }
+    .booking-panel-body {
+      padding: 32px;
+    }
+    .panel-kicker {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.38em;
+      color: var(--color-gold);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .panel-title {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.1;
+      color: var(--color-ivory);
+      margin-bottom: 14px;
+    }
+    .panel-copy {
+      font-size: 14px;
+      opacity: 0.7;
+      line-height: 1.9;
+      margin-bottom: 26px;
+      max-width: 680px;
+    }
+
+    .package-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .package-card {
+      position: relative;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(234,235,232,0.08);
+      overflow: hidden;
+      min-height: 170px;
+      padding: 18px;
+      display: flex;
+      align-items: flex-end;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+      background: linear-gradient(180deg, rgba(8,14,8,0.15), rgba(8,14,8,0.88));
+    }
+    .package-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.36;
+      transform: scale(1.02);
+      transition: transform 0.8s ease;
+    }
+    .package-card:hover::before {
+      transform: scale(1.07);
+    }
+    .package-card.active {
+      border-color: rgba(244,196,48,0.55);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.28);
+      transform: translateY(-3px);
+    }
+    .package-card-content {
+      position: relative;
+      z-index: 1;
+    }
+    .package-price-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 12px;
+      margin-bottom: 10px;
+      border-radius: 999px;
+      background: rgba(244, 196, 48, 0.16);
+      border: 1px solid rgba(244, 196, 48, 0.28);
+      color: var(--color-gold);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .package-name {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      line-height: 1.15;
+      color: var(--color-ivory);
+      margin-bottom: 6px;
+    }
+    .package-price {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--color-gold);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .package-meta {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(234, 235, 232, 0.76);
+      margin-bottom: 8px;
+    }
+    .summary-points {
+      margin: 0 0 18px;
+      padding: 0 0 0 18px;
+      display: grid;
+      gap: 10px;
+      color: rgba(234, 235, 232, 0.88);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .summary-points li {
+      padding-left: 4px;
+    }
+    .summary-points strong {
+      color: var(--color-gold);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    .summary-chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .summary-chip-group {
+      margin-top: 4px;
+    }
+    .summary-chip-group .group-label {
+      display: inline-block;
+      margin-bottom: 6px;
+      color: rgba(234, 235, 232, 0.65);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+    .package-card[data-package="rock-loft"]::before {
+      background-image: url('assets/images/cabana-architecture/dambulla-tiger-rock-cabana-interior-13.jpeg');
+    }
+    .package-card[data-package="boulder-retreat"]::before {
+      background-image: url('assets/images/cabana-architecture/dambulla-tiger-rock-cabana-exterior-5.jpeg');
+    }
+    .package-card[data-package="tailored-stay"]::before {
+      background-image: url('assets/images/cabana-architecture/dambulla-tiger-rock-cabana-exterior-1.jpeg');
+    }
+
+    .booking-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+    .form-group label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      opacity: 0.72;
+      font-weight: 600;
+    }
+    .form-control {
+      width: 100%;
+      background: rgba(234,235,232,0.05);
+      border: 1px solid rgba(234,235,232,0.08);
+      color: var(--color-ivory);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+    .form-control::placeholder {
+      color: rgba(234,235,232,0.4);
+    }
+    .form-control:focus {
+      border-color: rgba(244,196,48,0.45);
+      box-shadow: 0 0 0 3px rgba(244,196,48,0.08);
+    }
+    textarea.form-control {
+      min-height: 126px;
+      resize: vertical;
+    }
+
+    .addon-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .addon-card {
+      border: 1px solid rgba(234,235,232,0.1);
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(244,196,48,0.08), rgba(234,235,232,0.03));
+      padding: 14px 15px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .addon-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(244,196,48,0.28);
+    }
+    .addon-card input {
+      margin-top: 2px;
+      accent-color: var(--color-gold);
+      flex-shrink: 0;
+    }
+    .addon-card .addon-content {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+      flex: 1;
+    }
+    .addon-card .addon-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .addon-card strong {
+      display: inline-flex;
+      align-items: center;
+      color: var(--color-ivory);
+      font-size: 13px;
+      margin: 0;
+      line-height: 1.35;
+    }
+    .addon-card .addon-price {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(244,196,48,0.14);
+      border: 1px solid rgba(244,196,48,0.24);
+      color: var(--color-gold);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .addon-card .addon-description {
+      display: block;
+      font-size: 12px;
+      opacity: 0.66;
+      line-height: 1.55;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 26px;
+    }
+    .helper-note {
+      font-size: 12px;
+      opacity: 0.56;
+    }
+
+    .summary-panel {
+      position: sticky;
+      top: 120px;
+    }
+    .summary-visual {
+      position: relative;
+      height: 230px;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(234,235,232,0.08);
+    }
+    .summary-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .summary-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,14,8,0.85), transparent 65%);
+    }
+    .summary-visual-copy {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 18px;
+      z-index: 1;
+    }
+    .summary-visual-copy p {
+      font-size: 9px;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .summary-visual-copy h3 {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      line-height: 1.15;
+      color: var(--color-ivory);
+    }
+    .summary-content {
+      padding: 26px 24px 28px;
+    }
+    .summary-content p {
+      font-size: 13px;
+      line-height: 1.8;
+      opacity: 0.66;
+      margin-bottom: 18px;
+    }
+    .summary-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+    .summary-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      font-size: 13px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(234,235,232,0.06);
+    }
+    .summary-list li span {
+      opacity: 0.7;
+    }
+    .summary-list li strong {
+      color: var(--color-ivory);
+      text-align: right;
+    }
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-top: 16px;
+      margin-top: 8px;
+      border-top: 1px solid rgba(234,235,232,0.08);
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--color-ivory);
+    }
+    .summary-total strong {
+      color: var(--color-gold);
+      font-size: 28px;
+    }
+
+    .link-section {
+      padding: 0 0 90px;
+    }
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .link-card {
+      background: rgba(234,235,232,0.04);
+      border: 1px solid rgba(234,235,232,0.08);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      transition: var(--transition-smooth);
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .link-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(244,196,48,0.28);
+    }
+    .link-card h3 {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .link-card p {
+      font-size: 13px;
+      line-height: 1.7;
+      opacity: 0.66;
+      margin-bottom: 18px;
+    }
+    .link-card a {
+      align-self: flex-start;
+    }
+
+    .reservation-band {
+      background: linear-gradient(135deg, #172117, #0f170f);
+      border-top: 1px solid rgba(234,235,232,0.05);
+      border-bottom: 1px solid rgba(234,235,232,0.05);
+      padding: 56px 0;
+      margin-bottom: 80px;
+    }
+    .reservation-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .reservation-card {
+      background: rgba(234,235,232,0.04);
+      border: 1px solid rgba(234,235,232,0.08);
+      border-radius: var(--radius-md);
+      padding: 22px;
+    }
+    .reservation-card p.label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.32em;
+      color: var(--color-gold);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .reservation-card h3 {
+      font-family: var(--font-serif);
+      font-size: 23px;
+      margin-bottom: 12px;
+      color: var(--color-ivory);
+    }
+    .reservation-card p {
+      font-size: 13px;
+      line-height: 1.75;
+      opacity: 0.66;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 1100px) {
+      .booking-grid,
+      .link-grid,
+      .reservation-grid {
+        grid-template-columns: 1fr;
+      }
+      .summary-panel {
+        position: static;
+      }
+    }
+    @media (max-width: 780px) {
+      .booking-hero {
+        min-height: 50vh;
+        padding-top: 140px;
+      }
+      .booking-panel-body {
+        padding: 22px;
+      }
+      .package-grid,
+      .booking-form-grid,
+      .addon-grid {
+        grid-template-columns: 1fr;
+      }
+      .action-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .action-row .btn-primary,
+      .action-row .btn-secondary {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav-wrapper">
+      <div class="logo-container">
+        <a href="index.html">
+          <img src="assets/images/Dambulla%20Tiger%20Rock%20Logo.png" alt="Dambulla Tiger Rock Logo">
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html"><div class="nav-text-wrap"><span>Home</span><span class="nav-text-hover">Home</span></div></a>
+        <a href="cabanas.html"><div class="nav-text-wrap"><span>Cabanas</span><span class="nav-text-hover">Cabanas</span></div></a>
+        <a href="experiences.html"><div class="nav-text-wrap"><span>Experiences</span><span class="nav-text-hover">Experiences</span></div></a>
+        <a href="find-us.html" class="find-us-link"><div class="nav-text-wrap"><span>Find Us</span><span class="nav-text-hover">Find Us</span></div></a>
+        <a href="booking.html" class="booking-link">Book Now</a>
+      </nav>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </header>
+
+  <div class="mobile-nav-overlay">
+    <a href="index.html">Home</a>
+    <a href="cabanas.html">Cabanas</a>
+    <a href="experiences.html">Experiences</a>
+    <a href="find-us.html">Find Us</a>
+    <a href="booking.html">Booking</a>
+    <a href="booking.html" class="btn-primary booking-link" style="margin-top:20px;">Book Now</a>
+  </div>
+
+  <h1 class="sr-only">Dambulla Tiger Rock Booking</h1>
+
+  <section class="booking-hero">
+    <div class="booking-hero-content">
+      <p class="booking-tag">Tailored Stays</p>
+      <h1>Begin Your <em>Journey</em></h1>
+      <p>
+        Select your cabana, add bespoke experiences, and send a booking request to our concierge.
+        We will reply with availability, transport options, and any custom requests as soon as possible.
+      </p>
+      <a href="#booking-form" class="btn-primary booking-link">Send Booking Request</a>
+    </div>
+  </section>
+
+  <section class="booking-section" id="booking-form">
+    <div class="container booking-grid">
+      <div class="booking-panel">
+        <div class="booking-panel-body">
+          <p class="panel-kicker">Choose Your Package</p>
+          <h2 class="panel-title">Select the Rock Side That Fits Your Trip</h2>
+          <p class="panel-copy">
+            The page structure follows a simple concierge flow: choose a stay, share your dates, add optional
+            experiences, and send us one clean request.
+          </p>
+
+          <div class="package-grid" id="package-grid"></div>
+
+          <form id="booking-request-form">
+            <div class="booking-form-grid">
+              <div class="form-group">
+                <label for="arrival-date">Arrival Date</label>
+                <input type="date" id="arrival-date" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="departure-date">Departure Date</label>
+                <input type="date" id="departure-date" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="guest-name">Full Name</label>
+                <input type="text" id="guest-name" class="form-control" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label for="guest-count">Guests</label>
+                <select id="guest-count" class="form-control" required>
+                  <option value="1">1 Guest</option>
+                  <option value="2" selected>2 Guests</option>
+                  <option value="3">3 Guests</option>
+                  <option value="4">4 Guests</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="guest-email">Email Address</label>
+                <input type="email" id="guest-email" class="form-control" placeholder="your@email.com" required>
+              </div>
+              <div class="form-group">
+                <label for="guest-phone">Phone Number</label>
+                <input type="tel" id="guest-phone" class="form-control" placeholder="+94 XX XXX XXXX" required>
+              </div>
+              <div class="form-group full">
+                <label>Add Enhancements</label>
+                <div id="enhancement-options" class="addon-grid"></div>
+              </div>
+              <div class="form-group full">
+                <label for="special-requests">Special Requests</label>
+                <textarea id="special-requests" class="form-control" placeholder="Tell us about transport, food preferences, arrival timing, or anything else."></textarea>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <button type="submit" class="btn-primary booking-link">Send Booking Request</button>
+              <a href="experiences.html" class="btn-secondary">Explore Experiences</a>
+              <span class="helper-note">We usually respond within 2 hours.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <aside class="booking-panel summary-panel">
+        <div class="summary-visual">
+          <img id="summary-image" src="assets/images/cabana-architecture/dambulla-tiger-rock-cabana-interior-13.jpeg" alt="Tiger Rock Cabana Booking Summary">
+          <div class="summary-visual-copy">
+            <p>Booking Summary</p>
+            <h3 id="summary-package-title">The Rock Loft</h3>
+          </div>
+        </div>
+        <div class="summary-content">
+          <p id="summary-package-desc">
+            Signature A-frame loft with mezzanine sleeping deck and forest glass walls.
+          </p>
+          <div id="summary-chips"></div>
+          <ul class="summary-list">
+            <li><span>Nights</span><strong id="summary-nights">-</strong></li>
+            <li><span>Guests</span><strong id="summary-guests">2</strong></li>
+            <li><span>Package Rate</span><strong id="summary-rate">$40 / guest</strong></li>
+            <li><span>Add-ons</span><strong id="summary-addons">$0.00</strong></li>
+            <li><span>Status</span><strong id="summary-status">Select dates for total</strong></li>
+          </ul>
+          <div class="summary-total">
+            <span>Estimated Total</span>
+            <strong id="summary-total">--</strong>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="link-section">
+    <div class="container">
+      <div class="link-grid">
+        <div class="link-card">
+          <div>
+            <h3>Cabanas</h3>
+            <p>View the two signature A-frame lofts before you book.</p>
+          </div>
+          <a href="cabanas.html" class="btn-secondary">Open Cabanas</a>
+        </div>
+        <div class="link-card">
+          <div>
+            <h3>Experiences</h3>
+            <p>See the summit walk, ATV ride, dining and transport options.</p>
+          </div>
+          <a href="experiences.html" class="btn-secondary">Open Experiences</a>
+        </div>
+        <div class="link-card">
+          <div>
+            <h3>Home</h3>
+            <p>Return to the full story, hero gallery and booking bar.</p>
+          </div>
+          <a href="index.html" class="btn-secondary">Open Home</a>
+        </div>
+        <div class="link-card">
+          <div>
+            <h3>WhatsApp</h3>
+            <p>Message us directly if you want a fast manual quote.</p>
+          </div>
+          <a href="https://wa.me/94743435434" target="_blank" rel="noopener noreferrer" class="btn-secondary">Chat Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reservation-band">
+    <div class="container reservation-grid">
+      <div class="reservation-card">
+        <p class="label">Reservations</p>
+        <h3>Concierge Desk</h3>
+        <p>Call or message us for availability, transport, or special arrangements.</p>
+        <a href="tel:+94743435434" class="btn-primary">+94 74 343 5434</a>
+      </div>
+      <div class="reservation-card">
+        <p class="label">Email</p>
+        <h3>Quick Replies</h3>
+        <p>Send your stay details and we will reply with a confirmed quote.</p>
+        <a href="mailto:dambullatigerrock@gmail.com" class="btn-primary">dambullatigerrock@gmail.com</a>
+      </div>
+      <div class="reservation-card">
+        <p class="label">Visit Us</p>
+        <h3>Dambulla, Sri Lanka</h3>
+        <p>Tikiri Mawatha, close to the town and the summit viewpoint trail.</p>
+        <a href="https://maps.google.com/?q=Dambulla+Tiger+Rock" target="_blank" rel="noopener noreferrer" class="btn-primary">Open Map</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><img src="assets/images/Dambulla%20Tiger%20Rock%20Logo.png" alt="Dambulla Tiger Rock Logo" style="height:100%;border-radius:0;"></div>
+        <p>A premium eco-hotel in Dambulla, Sri Lanka. A-frame loft cabins and a 360 degree rock summit viewpoint.</p>
+        <div class="socials">
+          <a href="https://www.facebook.com/Dambullatigerrock2/" target="_blank" rel="noopener noreferrer" title="Facebook"><svg viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+          <a href="https://www.instagram.com/dambullatigerrock/" target="_blank" rel="noopener noreferrer" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="cabanas.html">Cabanas</a></li>
+          <li><a href="experiences.html">Experiences</a></li>
+          <li><a href="find-us.html">Find Us</a></li>
+          <li><a href="booking.html">Booking</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+94743435434">+94 74 343 5434</a></li>
+          <li><a href="mailto:dambullatigerrock@gmail.com">dambullatigerrock@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Stay</h4>
+        <ul>
+          <li><a href="cabanas.html">A-Frame Cabanas</a></li>
+          <li><a href="experiences.html">Summit Trail</a></li>
+          <li><a href="booking.html">Send Request</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Dambulla Tiger Rock. All Rights Reserved.</p>
+      <p>Where Sunrise Meets Stone</p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/94743435434" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"
+    style="position:fixed;bottom:24px;right:24px;z-index:9999;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 25px rgba(37,211,102,0.4);">
+    <svg viewBox="0 0 32 32" style="width:28px;height:28px;fill:white;"><path d="M16.004 2.667A13.26 13.26 0 0 0 2.72 15.893a13.16 13.16 0 0 0 1.788 6.627L2.667 29.333l7.027-1.813A13.33 13.33 0 0 0 16.004 29.4c7.353 0 13.33-5.977 13.33-13.333 0-7.36-5.977-13.4-13.33-13.4Zm0 24.4a10.97 10.97 0 0 1-5.587-1.52l-.4-.24-4.16 1.093 1.12-4.08-.267-.42a10.93 10.93 0 0 1-1.68-5.84c0-6.067 4.94-11 11-11 6.053 0 11.067 4.933 11.067 11-.004 6.067-5.02 11.007-11.093 11.007Zm6.027-8.24c-.333-.167-1.96-.967-2.267-1.08-.307-.107-.527-.167-.747.167-.22.333-.86 1.08-1.053 1.3-.193.22-.393.247-.727.08-.333-.167-1.407-.52-2.68-1.653-.993-.88-1.66-1.973-1.853-2.307-.193-.333-.02-.513.147-.68.147-.147.333-.387.5-.58.167-.193.22-.333.333-.553.113-.22.06-.413-.027-.58-.08-.167-.747-1.8-1.02-2.467-.267-.647-.54-.56-.747-.567l-.64-.013a1.22 1.22 0 0 0-.887.413c-.307.333-1.16 1.133-1.16 2.767 0 1.633 1.187 3.213 1.353 3.433.167.22 2.34 3.567 5.667 5 .793.34 1.413.547 1.893.7.793.253 1.52.22 2.093.133.64-.1 1.96-.8 2.24-1.573.28-.773.28-1.44.193-1.573-.08-.14-.3-.22-.633-.387Z"/></svg>
+  </a>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var fallbackPackages = {
+        'rock-loft': {
+          name: 'The Rock Loft',
+          rate: 40,
+          image: 'assets/images/cabana-architecture/dambulla-tiger-rock-cabana-interior-13.jpeg',
+          description: 'Signature A-frame loft with mezzanine sleeping deck and forest glass walls.',
+          room_type: 'Deluxe Cabana',
+          condition: 'Excellent'
+        },
+        'boulder-retreat': {
+          name: 'The Boulder Retreat',
+          rate: 40,
+          image: 'assets/images/cabana-architecture/dambulla-tiger-rock-cabana-exterior-5.jpeg',
+          description: 'A quieter hideaway beside the granite boulder with a more secluded feel.',
+          room_type: 'Deluxe Cabana',
+          condition: 'Excellent'
+        },
+        'tailored-stay': {
+          name: 'Tailored Stay',
+          rate: 0,
+          image: 'assets/images/cabana-architecture/dambulla-tiger-rock-cabana-exterior-1.jpeg',
+          description: 'Custom quote for special requests, longer stays, or bundled transport and experiences.',
+          room_type: 'Custom Stay',
+          condition: 'By Request'
+        }
+      };
+
+      var packages = {};
+      var activePackage = 'rock-loft';
+      var packageCards = document.querySelectorAll('.package-card');
+      var packageGrid = document.getElementById('package-grid');
+      var arrivalInput = document.getElementById('arrival-date');
+      var departureInput = document.getElementById('departure-date');
+      var guestCount = document.getElementById('guest-count');
+      var summaryImage = document.getElementById('summary-image');
+      var summaryPackageTitle = document.getElementById('summary-package-title');
+      var summaryPackageDesc = document.getElementById('summary-package-desc');
+      var summaryNights = document.getElementById('summary-nights');
+      var summaryGuests = document.getElementById('summary-guests');
+      var summaryRate = document.getElementById('summary-rate');
+      var summaryAddons = document.getElementById('summary-addons');
+      var summaryStatus = document.getElementById('summary-status');
+      var summaryTotal = document.getElementById('summary-total');
+      var summaryChips = document.getElementById('summary-chips');
+      var enhancementOptions = document.getElementById('enhancement-options');
+      var addonInputs = [];
+      var bookingForm = document.getElementById('booking-request-form');
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function getPriceUnitSuffix(value) {
+        var unit = String(value || '').trim().toLowerCase();
+        if (unit === 'per person' || unit === 'per-person') {
+          return ' / person';
+        }
+        if (unit === 'per guest') {
+          return ' / guest';
+        }
+        return ' / night';
+      }
+
+      function toPackageRecord(room) {
+        return {
+          id: room.id,
+          name: room.name,
+          rate: Number(room.price || 0),
+          price_unit: room.price_unit || 'per night',
+          image: room.image_url || 'assets/images/cabana-architecture/dambulla-tiger-rock-cabana-interior-13.jpeg',
+          description: room.description || '',
+          room_type: room.room_type || 'Cabana',
+          condition: room.condition || 'Condition not set',
+          amenities: room.amenities || [],
+          facilities: room.facilities || [],
+          enhancements: room.enhancements || []
+        };
+      }
+
+      function renderEnhancementOptions() {
+        var pkg = packages[activePackage];
+        if (!pkg) {
+          enhancementOptions.innerHTML = '';
+          addonInputs = [];
+          return;
+        }
+
+        var options = (pkg.enhancements || []).filter(function (item) {
+          return item && item.name;
+        });
+
+        if (!options.length) {
+          enhancementOptions.innerHTML = '<p class="muted">No enhancements available for this package yet.</p>';
+          addonInputs = [];
+          return;
+        }
+
+        enhancementOptions.innerHTML = options.map(function (item) {
+          var label = String(item.name || '').replace(/\s+/g, ' ').trim();
+          var price = Number(item.price || 0);
+          var priceLabel = '$' + price.toFixed(2);
+          return '<label class="addon-card"><input type="checkbox" data-addon-name="' + escapeHtml(label) + '" data-price="' + price + '"><span class="addon-content"><span class="addon-title-row"><strong>' + escapeHtml(label) + '</strong><span class="addon-price">' + priceLabel + '</span></span><span class="addon-description">Optional add-on for this stay.</span></span></label>';
+        }).join('');
+
+        addonInputs = Array.prototype.slice.call(document.querySelectorAll('#enhancement-options .addon-card input'));
+        addonInputs.forEach(function (input) {
+          input.addEventListener('change', updateSummary);
+        });
+      }
+
+      function renderPackageCards() {
+        var packageArray = Object.values(packages);
+        if (!packageArray.length) {
+          packages = fallbackPackages;
+          packageArray = Object.values(packages);
+        }
+
+        packageGrid.innerHTML = packageArray.map(function (pkg, index) {
+          return '<div class="package-card' + (index === 0 ? ' active' : '') + '" data-package="' + pkg.id + '">'
+            + '<div class="package-card-content">'
+            + '<div class="package-price-badge">' + (pkg.rate > 0 ? ('$' + pkg.rate + getPriceUnitSuffix(pkg.price_unit)) : 'Custom Quote') + '</div>'
+            + '<div class="package-name">' + pkg.name + '</div>'
+            + '<div class="package-meta">' + (pkg.room_type || 'Cabana') + ' • ' + (pkg.condition || 'Condition not set') + '</div>'
+            + '<div class="package-price">' + (pkg.rate > 0 ? ('$' + pkg.rate + getPriceUnitSuffix(pkg.price_unit)) : 'Custom quote') + '</div>'
+            + '</div>'
+            + '</div>';
+        }).join('');
+
+        packageCards = document.querySelectorAll('.package-card');
+        activePackage = packageArray[0] ? packageArray[0].id : 'rock-loft';
+
+        packageCards.forEach(function (card) {
+          card.addEventListener('click', function () {
+            packageCards.forEach(function (item) {
+              item.classList.remove('active');
+            });
+            card.classList.add('active');
+            activePackage = card.dataset.package;
+            renderEnhancementOptions();
+            updateSummary();
+          });
+        });
+
+        renderEnhancementOptions();
+      }
+
+      function getNights() {
+        if (!arrivalInput.value || !departureInput.value) {
+          return 0;
+        }
+        var start = new Date(arrivalInput.value);
+        var end = new Date(departureInput.value);
+        var diff = end.getTime() - start.getTime();
+        if (diff <= 0) {
+          return -1;
+        }
+        return Math.ceil(diff / (1000 * 60 * 60 * 24));
+      }
+
+      function getAddonTotal() {
+        var total = 0;
+        addonInputs.forEach(function (input) {
+          if (input.checked) {
+            total += Number(input.dataset.price || 0);
+          }
+        });
+        return total;
+      }
+
+      function updateSummary() {
+        var pkg = packages[activePackage];
+        if (!pkg) return;
+        var nights = getNights();
+        var guests = Number(guestCount.value || 0);
+        var addonTotal = getAddonTotal();
+        var priceMultiplier = pkg.price_unit === 'per guest' ? Math.max(guests, 0) : Math.max(nights, 0);
+        var packageTotal = pkg.rate * priceMultiplier;
+        var finalTotal = packageTotal + addonTotal;
+
+        summaryImage.src = pkg.image;
+        summaryImage.alt = pkg.name + ' booking summary';
+        summaryPackageTitle.textContent = pkg.name;
+        summaryPackageDesc.textContent = pkg.description;
+        summaryGuests.textContent = guests + ' Guests';
+        summaryRate.textContent = pkg.rate > 0 ? ('$' + pkg.rate + getPriceUnitSuffix(pkg.price_unit)) : 'Custom quote';
+        summaryAddons.textContent = '$' + addonTotal.toFixed(2);
+        var cleanAmenities = (pkg.amenities || []).map(function (item) {
+          var label = item && item.name ? String(item.name).replace(/\s+/g, ' ').trim() : '';
+          return label ? '<span class="chip">' + escapeHtml(label) + '</span>' : '';
+        }).filter(Boolean);
+        var cleanFacilities = (pkg.facilities || []).map(function (item) {
+          var label = item && item.name ? String(item.name).replace(/\s+/g, ' ').trim() : '';
+          return label ? '<span class="chip">' + escapeHtml(label) + '</span>' : '';
+        }).filter(Boolean);
+        var selectedEnhancementChips = (addonInputs || []).filter(function (input) {
+          return input.checked;
+        }).map(function (input) {
+          var label = input.dataset.addonName ? String(input.dataset.addonName).replace(/\s+/g, ' ').trim() : '';
+          var price = Number(input.dataset.price || 0);
+          return label ? '<span class="chip">' + escapeHtml(label) + ' • $' + price.toFixed(2) + '</span>' : '';
+        }).filter(Boolean);
+
+        summaryChips.innerHTML = [
+          '<div class="summary-chip-group"><span class="group-label">Room</span><div class="summary-chip-list"><span class="chip">' + escapeHtml(pkg.room_type || 'Cabana') + '</span></div></div>',
+          cleanAmenities.length ? '<div class="summary-chip-group"><span class="group-label">Amenities</span><div class="summary-chip-list">' + cleanAmenities.join('') + '</div></div>' : '',
+          cleanFacilities.length ? '<div class="summary-chip-group"><span class="group-label">Facilities</span><div class="summary-chip-list">' + cleanFacilities.join('') + '</div></div>' : '',
+          selectedEnhancementChips.length ? '<div class="summary-chip-group"><span class="group-label">Selected Enhancements</span><div class="summary-chip-list">' + selectedEnhancementChips.join('') + '</div></div>' : ''
+        ].filter(Boolean).join('');
+
+        if (nights === 0) {
+          summaryNights.textContent = '-';
+          summaryStatus.textContent = 'Select dates for total';
+          summaryTotal.textContent = pkg.rate > 0 ? '--' : 'Custom quote';
+          return;
+        }
+
+        if (nights < 0) {
+          summaryNights.textContent = 'Invalid';
+          summaryStatus.textContent = 'Departure must be after arrival';
+          summaryTotal.textContent = '--';
+          return;
+        }
+
+        summaryNights.textContent = nights + (nights === 1 ? ' Night' : ' Nights');
+        summaryStatus.textContent = pkg.rate > 0 ? 'Ready for request' : 'Custom quote request';
+        summaryTotal.textContent = pkg.rate > 0 ? ('$' + finalTotal.toFixed(2)) : 'Custom quote';
+      }
+
+      arrivalInput.addEventListener('change', updateSummary);
+      departureInput.addEventListener('change', updateSummary);
+      guestCount.addEventListener('change', updateSummary);
+
+      bookingForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        var pkg = packages[activePackage];
+        if (!pkg) {
+          alert('No room package is available right now.');
+          return;
+        }
+        var nights = getNights();
+        if (nights <= 0 && pkg.rate > 0) {
+          alert('Please choose a valid arrival and departure date.');
+          return;
+        }
+
+        var selectedAddons = [];
+        addonInputs.forEach(function (input) {
+          if (input.checked) {
+            var label = input.dataset.addonName || input.closest('.addon-card').querySelector('strong').textContent || 'Enhancement';
+            selectedAddons.push(label);
+          }
+        });
+
+        var requestText = [
+          'Hello Dambulla Tiger Rock, I would like to request a booking.',
+          'Package: ' + pkg.name,
+          'Arrival: ' + (arrivalInput.value || 'Not selected'),
+          'Departure: ' + (departureInput.value || 'Not selected'),
+          'Guests: ' + guestCount.value,
+          'Name: ' + (document.getElementById('guest-name').value || 'Not added'),
+          'Email: ' + (document.getElementById('guest-email').value || 'Not added'),
+          'Phone: ' + (document.getElementById('guest-phone').value || 'Not added'),
+          'Add-ons: ' + (selectedAddons.length ? selectedAddons.join(', ') : 'None'),
+          'Requests: ' + (document.getElementById('special-requests').value || 'None')
+        ].join('\n');
+
+        window.open('https://wa.me/94743435434?text=' + encodeURIComponent(requestText), '_blank', 'noopener');
+      });
+
+      async function loadPackagesFromApi() {
+        try {
+          var roomData = await fetch('/api/rooms').then(function (res) { return res.json(); });
+          packages = {};
+          roomData.forEach(function (room) {
+            packages[room.id] = toPackageRecord(room);
+          });
+          renderPackageCards();
+          updateSummary();
+        } catch (err) {
+          packages = fallbackPackages;
+          renderPackageCards();
+          updateSummary();
+        }
+      }
+
+      loadPackagesFromApi();
+    });
+  </script>
+</body>
+</html>

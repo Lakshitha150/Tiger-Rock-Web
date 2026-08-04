@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
 const nodemailer = require('nodemailer');
+const { normalizePriceUnit } = require('./pricing');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -27,6 +28,197 @@ const db = new sqlite3.Database('./database.sqlite', (err) => {
   }
 });
 
+function runAsync(sql, params = []) {
+  return new Promise((resolve, reject) => {
+    db.run(sql, params, function(err) {
+      if (err) reject(err);
+      else resolve(this);
+    });
+  });
+}
+
+function getAsync(sql, params = []) {
+  return new Promise((resolve, reject) => {
+    db.get(sql, params, function(err, row) {
+      if (err) reject(err);
+      else resolve(row);
+    });
+  });
+}
+
+function allAsync(sql, params = []) {
+  return new Promise((resolve, reject) => {
+    db.all(sql, params, function(err, rows) {
+      if (err) reject(err);
+      else resolve(rows);
+    });
+  });
+}
+
+function normalizeText(value) {
+  if (value === null || value === undefined) return '';
+  if (typeof value !== 'string') return String(value);
+
+  return value
+    .replace(/\u0000/g, '')
+    .replace(/[\uFFFD]/g, '')
+    .replace(/[\u0001-\u001F\u007F-\u009F]/g, '')
+    .normalize('NFC')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+async function sanitizeExistingRecords() {
+  const rooms = await allAsync('SELECT id, name, description, room_type, condition, image_url FROM rooms');
+  for (const room of rooms) {
+    const cleanedName = normalizeText(room.name);
+    const cleanedDescription = normalizeText(room.description);
+    const cleanedType = normalizeText(room.room_type);
+    const cleanedCondition = normalizeText(room.condition);
+    const cleanedImage = normalizeText(room.image_url);
+
+    if (cleanedName !== room.name || cleanedDescription !== room.description || cleanedType !== room.room_type || cleanedCondition !== room.condition || cleanedImage !== room.image_url) {
+      await runAsync(
+        `UPDATE rooms SET name = ?, description = ?, room_type = ?, condition = ?, image_url = ? WHERE id = ?`,
+        [cleanedName, cleanedDescription, cleanedType, cleanedCondition, cleanedImage, room.id]
+      );
+    }
+  }
+
+  const amenities = await allAsync('SELECT id, name FROM room_amenities');
+  for (const amenity of amenities) {
+    const cleanedName = normalizeText(amenity.name);
+    if (cleanedName !== amenity.name) {
+      await runAsync('UPDATE room_amenities SET name = ? WHERE id = ?', [cleanedName, amenity.id]);
+    }
+  }
+
+  const facilities = await allAsync('SELECT id, name FROM room_facilities');
+  for (const facility of facilities) {
+    const cleanedName = normalizeText(facility.name);
+    if (cleanedName !== facility.name) {
+      await runAsync('UPDATE room_facilities SET name = ? WHERE id = ?', [cleanedName, facility.id]);
+    }
+  }
+
+  const enhancements = await allAsync('SELECT id, name FROM room_enhancements');
+  for (const enhancement of enhancements) {
+    const cleanedName = normalizeText(enhancement.name);
+    if (cleanedName !== enhancement.name) {
+      await runAsync('UPDATE room_enhancements SET name = ? WHERE id = ?', [cleanedName, enhancement.id]);
+    }
+  }
+}
+
+async function ensureSchema() {
+  await runAsync(`CREATE TABLE IF NOT EXISTS rooms (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    price REAL NOT NULL,
+    total_quantity INTEGER NOT NULL,
+    room_type TEXT DEFAULT '',
+    condition TEXT DEFAULT '',
+    description TEXT DEFAULT '',
+    image_url TEXT DEFAULT '',
+    price_unit TEXT DEFAULT 'per night'
+  )`);
+
+  await runAsync(`CREATE TABLE IF NOT EXISTS bookings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    room_id TEXT NOT NULL,
+    checkIn TEXT NOT NULL,
+    checkOut TEXT NOT NULL,
+    guest_name TEXT NOT NULL,
+    guest_email TEXT,
+    guest_phone TEXT,
+    guests INTEGER,
+    total_cost REAL,
+    status TEXT DEFAULT 'confirmed',
+    source TEXT DEFAULT 'website',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(room_id) REFERENCES rooms(id)
+  )`);
+
+  await runAsync(`CREATE TABLE IF NOT EXISTS room_amenities (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    room_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(room_id) REFERENCES rooms(id) ON DELETE CASCADE
+  )`);
+
+  await runAsync(`CREATE TABLE IF NOT EXISTS room_facilities (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    room_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(room_id) REFERENCES rooms(id) ON DELETE CASCADE
+  )`);
+
+  await runAsync(`CREATE TABLE IF NOT EXISTS room_enhancements (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    room_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    price REAL NOT NULL DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(room_id) REFERENCES rooms(id) ON DELETE CASCADE
+  )`);
+
+  const existingColumns = await allAsync(`PRAGMA table_info(rooms)`);
+  const columnNames = existingColumns.map((col) => col.name);
+  if (!columnNames.includes('description')) {
+    await runAsync(`ALTER TABLE rooms ADD COLUMN description TEXT DEFAULT ''`);
+  }
+  if (!columnNames.includes('image_url')) {
+    await runAsync(`ALTER TABLE rooms ADD COLUMN image_url TEXT DEFAULT ''`);
+  }
+  if (!columnNames.includes('room_type')) {
+    await runAsync(`ALTER TABLE rooms ADD COLUMN room_type TEXT DEFAULT ''`);
+  }
+  if (!columnNames.includes('condition')) {
+    await runAsync(`ALTER TABLE rooms ADD COLUMN condition TEXT DEFAULT ''`);
+  }
+  if (!columnNames.includes('price_unit')) {
+    await runAsync(`ALTER TABLE rooms ADD COLUMN price_unit TEXT DEFAULT 'per night'`);
+  }
+  await runAsync(`UPDATE rooms SET price_unit = COALESCE(NULLIF(price_unit, ''), 'per night') WHERE price_unit IS NULL OR price_unit = ''`);
+
+  const legacyRoomIds = ['sunrise-loft', 'sigiriya-view'];
+  for (const roomId of legacyRoomIds) {
+    await runAsync('DELETE FROM room_enhancements WHERE room_id = ?', [roomId]);
+    await runAsync('DELETE FROM room_amenities WHERE room_id = ?', [roomId]);
+    await runAsync('DELETE FROM room_facilities WHERE room_id = ?', [roomId]);
+    await runAsync('DELETE FROM rooms WHERE id = ?', [roomId]);
+  }
+
+  await runAsync(`INSERT OR REPLACE INTO rooms (id, name, price, total_quantity, room_type, condition, description, image_url, price_unit) VALUES
+    ('viewpoint-access', 'Viewpoint Access Pass', 40, 10, 'Short Access', 'Excellent', 'Short access pass for the viewpoint for 1-2 hours, ideal for a quick visit rather than an overnight stay.', 'assets/images/viewpoint-scenery/dambulla-tiger-rock-viewpoint-1.jpeg', 'per person')
+  `);
+
+  await runAsync('DELETE FROM room_amenities WHERE room_id = ?', ['viewpoint-access']);
+  await runAsync('DELETE FROM room_facilities WHERE room_id = ?', ['viewpoint-access']);
+  await runAsync('DELETE FROM room_enhancements WHERE room_id = ?', ['viewpoint-access']);
+
+  await runAsync(`INSERT INTO room_amenities (room_id, name) VALUES
+    ('viewpoint-access', 'Panoramic Views'),
+    ('viewpoint-access', 'Short Visit Window'),
+    ('viewpoint-access', 'Photo Friendly')
+  `);
+
+  await runAsync(`INSERT INTO room_facilities (room_id, name) VALUES
+    ('viewpoint-access', 'Trail Access'),
+    ('viewpoint-access', 'Entry Ticket'),
+    ('viewpoint-access', 'Guidance Available')
+  `);
+
+  await runAsync(`INSERT INTO room_enhancements (room_id, name, price) VALUES
+    ('viewpoint-access', 'Sunrise Add-On', 15),
+    ('viewpoint-access', 'Photography Guide', 20)
+  `);
+
+  await sanitizeExistingRecords();
+}
+
 // Configure your email transporter (requires real credentials to work)
 const transporter = nodemailer.createTransport({
   service: 'gmail', // Use your provider
@@ -34,6 +226,10 @@ const transporter = nodemailer.createTransport({
     user: 'dambullatigerrock@gmail.com', // Replace with actual email
     pass: process.env.GMAIL_APP_PASSWORD // Loaded from .env file securely
   }
+});
+
+ensureSchema().catch((err) => {
+  console.error('Schema initialization failed', err);
 });
 
 // Function to generate PDF receipt and send email & whatsapp
@@ -107,11 +303,200 @@ function handleReceiptAndNotifications(booking, roomName) {
 }
 
 // GET /api/rooms
-app.get('/api/rooms', (req, res) => {
-  db.all('SELECT * FROM rooms', [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
+app.get('/api/rooms', async (req, res) => {
+  try {
+    const rooms = await allAsync('SELECT * FROM rooms ORDER BY name ASC');
+    const roomIds = rooms.map((room) => room.id);
+    const amenities = roomIds.length
+      ? await allAsync(`SELECT * FROM room_amenities WHERE room_id IN (${roomIds.map(() => '?').join(',')}) ORDER BY id ASC`, roomIds)
+      : [];
+    const facilities = roomIds.length
+      ? await allAsync(`SELECT * FROM room_facilities WHERE room_id IN (${roomIds.map(() => '?').join(',')}) ORDER BY id ASC`, roomIds)
+      : [];
+    const enhancements = roomIds.length
+      ? await allAsync(`SELECT * FROM room_enhancements WHERE room_id IN (${roomIds.map(() => '?').join(',')}) ORDER BY id ASC`, roomIds)
+      : [];
+
+    const amenitiesByRoom = {};
+    amenities.forEach((item) => {
+      if (!amenitiesByRoom[item.room_id]) amenitiesByRoom[item.room_id] = [];
+      amenitiesByRoom[item.room_id].push(item);
+    });
+
+    const facilitiesByRoom = {};
+    facilities.forEach((item) => {
+      if (!facilitiesByRoom[item.room_id]) facilitiesByRoom[item.room_id] = [];
+      facilitiesByRoom[item.room_id].push(item);
+    });
+
+    const enhancementsByRoom = {};
+    enhancements.forEach((item) => {
+      if (!enhancementsByRoom[item.room_id]) enhancementsByRoom[item.room_id] = [];
+      enhancementsByRoom[item.room_id].push({
+        ...item,
+        price: Number(item.price || 0),
+        name: normalizeText(item.name)
+      });
+    });
+
+    res.json(rooms.map((room) => ({
+      ...room,
+      name: normalizeText(room.name),
+      description: normalizeText(room.description),
+      room_type: normalizeText(room.room_type),
+      condition: normalizeText(room.condition),
+      image_url: normalizeText(room.image_url),
+      price: Number(room.price || 0),
+      price_unit: normalizePriceUnit(room.price_unit),
+      amenities: (amenitiesByRoom[room.id] || []).map((item) => ({
+        ...item,
+        name: normalizeText(item.name)
+      })),
+      facilities: (facilitiesByRoom[room.id] || []).map((item) => ({
+        ...item,
+        name: normalizeText(item.name)
+      })),
+      enhancements: (enhancementsByRoom[room.id] || []).map((item) => ({
+        ...item,
+        name: normalizeText(item.name)
+      }))
+    })));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/admin/rooms', async (req, res) => {
+  try {
+    const { id, name, price, total_quantity, room_type, condition, description, image_url, price_unit } = req.body;
+    if (!id || !name || price === undefined || total_quantity === undefined) {
+      return res.status(400).json({ error: 'id, name, price, and total_quantity are required' });
+    }
+
+    await runAsync(
+      `INSERT INTO rooms (id, name, price, total_quantity, room_type, condition, description, image_url, price_unit)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+       ON CONFLICT(id) DO UPDATE SET
+         name = excluded.name,
+         price = excluded.price,
+         total_quantity = excluded.total_quantity,
+         room_type = excluded.room_type,
+         condition = excluded.condition,
+         description = excluded.description,
+         image_url = excluded.image_url,
+         price_unit = excluded.price_unit`,
+      [id, name, price, total_quantity, room_type || '', condition || '', description || '', image_url || '', normalizePriceUnit(price_unit)]
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/admin/rooms/:id', async (req, res) => {
+  try {
+    await runAsync('DELETE FROM room_amenities WHERE room_id = ?', [req.params.id]);
+    await runAsync('DELETE FROM room_facilities WHERE room_id = ?', [req.params.id]);
+    await runAsync('DELETE FROM room_enhancements WHERE room_id = ?', [req.params.id]);
+    await runAsync('DELETE FROM rooms WHERE id = ?', [req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/admin/rooms/:id/amenities', async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ error: 'name is required' });
+    await runAsync('INSERT INTO room_amenities (room_id, name) VALUES (?, ?)', [req.params.id, name]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/admin/amenities/:id', async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ error: 'name is required' });
+    await runAsync('UPDATE room_amenities SET name = ? WHERE id = ?', [normalizeText(name), req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/admin/amenities/:id', async (req, res) => {
+  try {
+    await runAsync('DELETE FROM room_amenities WHERE id = ?', [req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/admin/rooms/:id/enhancements', async (req, res) => {
+  try {
+    const { name, price } = req.body;
+    if (!name) return res.status(400).json({ error: 'name is required' });
+    await runAsync('INSERT INTO room_enhancements (room_id, name, price) VALUES (?, ?, ?)', [req.params.id, normalizeText(name), Number(price || 0)]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/admin/enhancements/:id', async (req, res) => {
+  try {
+    const { name, price } = req.body;
+    if (!name) return res.status(400).json({ error: 'name is required' });
+    await runAsync('UPDATE room_enhancements SET name = ?, price = ? WHERE id = ?', [normalizeText(name), Number(price || 0), req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/admin/enhancements/:id', async (req, res) => {
+  try {
+    await runAsync('DELETE FROM room_enhancements WHERE id = ?', [req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/admin/rooms/:id/facilities', async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ error: 'name is required' });
+    await runAsync('INSERT INTO room_facilities (room_id, name) VALUES (?, ?)', [req.params.id, name]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/admin/facilities/:id', async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ error: 'name is required' });
+    await runAsync('UPDATE room_facilities SET name = ? WHERE id = ?', [normalizeText(name), req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/admin/facilities/:id', async (req, res) => {
+  try {
+    await runAsync('DELETE FROM room_facilities WHERE id = ?', [req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // GET /api/availability
@@ -218,6 +603,12 @@ app.delete('/api/bookings/:id', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = {
+  normalizeText
+};

@@ -125,10 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Room Inventory details matching index card representations
-  const roomInventory = {
-    'sunrise-loft': { name: 'The Sunrise Loft', price: 180 },
-    'sigiriya-view': { name: 'The Sigiriya View Chalet', price: 220 }
-  };
+  const roomInventory = {};
 
   const bookingModal = document.querySelector('.booking-modal-overlay');
   const openModalBtns = document.querySelectorAll('.open-booking');
@@ -143,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Open & Close handlers
   const openBookingModal = (preCheck = false) => {
+    if (!bookingModal) return;
     bookingModal.classList.add('open');
     document.body.style.overflow = 'hidden';
     
@@ -161,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const closeBookingModal = () => {
+    if (!bookingModal) return;
     bookingModal.classList.remove('open');
     document.body.style.overflow = 'auto';
   };
@@ -174,14 +173,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  closeModalBtn.addEventListener('click', closeBookingModal);
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', closeBookingModal);
+  }
 
   // Close when clicking outside container
-  bookingModal.addEventListener('click', (e) => {
-    if (e.target === bookingModal) {
-      closeBookingModal();
-    }
-  });
+  if (bookingModal) {
+    bookingModal.addEventListener('click', (e) => {
+      if (e.target === bookingModal) {
+        closeBookingModal();
+      }
+    });
+  }
 
   // Steps Navigation
   const goToStep = (stepNum) => {
@@ -350,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (guestsEl) guestsEl.textContent = `${bookingData.guests} Guests`;
 
       const rateEl = sidebar.querySelector('.sum-rate');
-      if (rateEl) rateEl.textContent = `$${rate} / night`;
+      if (rateEl) rateEl.textContent = `$${rate} / guest`;
 
       const subtotalEl = sidebar.querySelector('.sum-subtotal');
       if (subtotalEl) subtotalEl.textContent = `$${baseTotal.toFixed(2)}`;
@@ -416,23 +419,27 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Next & Back Buttons bindings
-  btnNext.addEventListener('click', () => {
-    if (validateStep(currentStep)) {
-      if (currentStep < 4) {
-        goToStep(currentStep + 1);
-      } else if (currentStep === 4) {
-        // Complete Booking
-        generateSuccessReceipt();
-        goToStep(5);
+  if (btnNext) {
+    btnNext.addEventListener('click', () => {
+      if (validateStep(currentStep)) {
+        if (currentStep < 4) {
+          goToStep(currentStep + 1);
+        } else if (currentStep === 4) {
+          // Complete Booking
+          generateSuccessReceipt();
+          goToStep(5);
+        }
       }
-    }
-  });
+    });
+  }
 
-  btnPrev.addEventListener('click', () => {
-    if (currentStep > 1) {
-      goToStep(currentStep - 1);
-    }
-  });
+  if (btnPrev) {
+    btnPrev.addEventListener('click', () => {
+      if (currentStep > 1) {
+        goToStep(currentStep - 1);
+      }
+    });
+  }
 
   // Success closing buttons
   const btnCloseSuccess = document.getElementById('btn-close-success');
@@ -557,18 +564,40 @@ document.addEventListener('DOMContentLoaded', function () {
     slideshowTimer = setInterval(nextSlide, 4000);
 
     // When video starts playing, fade the slideshow out and stop cycling
-    if (bgVideo) {
-        bgVideo.addEventListener('playing', function () {
-            clearInterval(slideshowTimer);
-            if (slideshow) {
-                slideshow.style.transition = 'opacity 1.5s ease';
+  if (bgVideo) {
+    bgVideo.addEventListener('playing', function () {
+      clearInterval(slideshowTimer);
+      if (slideshow) {
+        slideshow.style.transition = 'opacity 1.5s ease';
                 slideshow.style.opacity = '0';
                 setTimeout(function () {
                     slideshow.style.display = 'none';
                 }, 1600);
-            }
-        }, { once: true });
-    }
+      }
+    }, { once: true });
+  }
+})();
+
+// Floating WhatsApp CTA
+(function () {
+  var existingWhatsApp = document.querySelector('.floating-whatsapp');
+  if (existingWhatsApp) return;
+
+  var anyWhatsAppLink = document.querySelector('a[aria-label="Chat on WhatsApp"]');
+  if (anyWhatsAppLink) {
+    anyWhatsAppLink.classList.add('floating-whatsapp');
+    return;
+  }
+
+  var whatsappBtn = document.createElement('a');
+  whatsappBtn.href = 'https://wa.me/94743435434';
+  whatsappBtn.target = '_blank';
+  whatsappBtn.rel = 'noopener noreferrer';
+  whatsappBtn.setAttribute('aria-label', 'Chat on WhatsApp');
+  whatsappBtn.title = 'Chat on WhatsApp';
+  whatsappBtn.className = 'floating-whatsapp';
+  whatsappBtn.innerHTML = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.004 2.667A13.26 13.26 0 0 0 2.72 15.893a13.16 13.16 0 0 0 1.788 6.627L2.667 29.333l7.027-1.813A13.33 13.33 0 0 0 16.004 29.4c7.353 0 13.33-5.977 13.33-13.333 0-7.36-5.977-13.4-13.33-13.4Zm0 24.4a10.97 10.97 0 0 1-5.587-1.52l-.4-.24-4.16 1.093 1.12-4.08-.267-.42a10.93 10.93 0 0 1-1.68-5.84c0-6.067 4.94-11 11-11 6.053 0 11.067 4.933 11.067 11-.004 6.067-5.02 11.007-11.093 11.007Zm6.027-8.24c-.333-.167-1.96-.967-2.267-1.08-.307-.107-.527-.167-.747.167-.22.333-.86 1.08-1.053 1.3-.193.22-.393.247-.727.08-.333-.167-1.407-.52-2.68-1.653-.993-.88-1.66-1.973-1.853-2.307-.193-.333-.02-.513.147-.68.147-.147.333-.387.5-.58.167-.193.22-.333.333-.553.113-.22.06-.413-.027-.58-.08-.167-.747-1.8-1.02-2.467-.267-.647-.54-.56-.747-.567l-.64-.013a1.22 1.22 0 0 0-.887.413c-.307.333-1.16 1.133-1.16 2.767 0 1.633 1.187 3.213 1.353 3.433.167.22 2.34 3.567 5.667 5 .793.34 1.413.547 1.893.7.793.253 1.52.22 2.093.133.64-.1 1.96-.8 2.24-1.573.28-.773.28-1.44.193-1.573-.08-.14-.3-.22-.633-.387Z"/></svg>';
+  document.body.appendChild(whatsappBtn);
 })();
 
 // Sound Toggle Button Logic

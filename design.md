@@ -1,74 +1,94 @@
 # Dambulla Tiger Rock - Design System Specification
 
-This document details the visual style, colors, typography, components, and animations compiled from the visual analysis of the luxury resort web design system, adapted for **Dambulla Tiger Rock**.
+This document details the visual style, colors, typography, components, and animations for Dambulla Tiger Rock.
 
 ---
 
-## 🎨 Color Palette & Themes
+## Color Palette and Themes
 
-The website uses an earthy, organic luxury palette, blending deep natural forest backdrops with soft ivory text and warm gold highlights to evoke Sri Lanka's jungle summits.
+The website uses an earthy, organic luxury palette, blending deep forest backdrops with soft ivory text and warm gold highlights.
 
 | Color Name | Hex Code | Role in Interface | Visual Vibe |
 | :--- | :--- | :--- | :--- |
-| **Forest Green** | `#2C332C` | Dominant brand backdrop, solid sections, dark container frames | Deep, grounding jungle |
-| **Moss Green** | `#525646` | Secondary panels, borders, text labels, and form backgrounds | Natural foliage |
-| **Pine Green** | `#787C68` | Active filters, secondary CTA buttons, cards, hover backgrounds | Earthy, welcoming |
-| **Ivory** | `#EAEBE8` | Primary text color, light-block backgrounds, menu labels | Soft, luxurious white |
-| **Sunrise Gold** | `#F4C430` | Active highlights, primary CTA buttons (e.g. *Book Now* / *Check Availability*) | Warm sunrise glow |
+| Forest Green | `#2C332C` | Dominant brand backdrop, solid sections, dark container frames | Deep, grounding jungle |
+| Moss Green | `#525646` | Secondary panels, borders, labels, and form backgrounds | Natural foliage |
+| Pine Green | `#787C68` | Active filters, secondary CTA buttons, cards, hover backgrounds | Earthy, welcoming |
+| Ivory | `#EAEBE8` | Primary text color, light-block backgrounds, menu labels | Soft, luxurious white |
+| Sunrise Gold | `#F4C430` | Active highlights, primary CTA buttons, booking accents | Warm sunrise glow |
 
 ### Color Usage Guide
-- **Backgrounds:** Use `#2C332C` (Forest Green) for the overall body and dark-themed pages. For modals or input boxes, use a semi-transparent version or `#525646` (Moss Green).
-- **Borders:** Thin borders (`1px solid rgba(234, 235, 232, 0.15)`) separate items in grids and outline form boxes.
-- **Glassmorphism:** Navigation bar and booking bar overlays use a high-blur transparent background:
-  ```css
-  background: rgba(44, 51, 44, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(234, 235, 232, 0.1);
-  ```
+- Use `#2C332C` for the overall body background and dark-themed sections.
+- Use semi-transparent dark panels with thin borders for cards, forms, and overlays.
+- Use `#F4C430` for primary CTAs, active states, and highlighted copy.
+- Avoid purple-heavy accents or flat white page design. The brand should feel warm, natural, and premium.
 
 ---
 
-## font-family: Typography
+## Typography
 
-A classic editorial pairing that contrasts sophisticated serif headings with highly legible, clean sans-serif interfaces.
+A classic editorial pairing creates the premium feel:
 
-- **Headings & Key Quotations:**
-  - **Primary Font:** `Garamond`, `Georgia`, or `Playfair Display` (Serif).
-  - **Style:** Light or Regular weight, italicized in select headers (e.g., *Experience Nature in Luxury*).
-  - **Text-transform:** Uppercase for main titles (e.g., `HOME SCREEN`, `WORK PROCESS`), title case for copy.
-- **Body, Inputs & Interface Controls:**
-  - **Primary Font:** `Poppins` or `Inter` (Sans-Serif).
-  - **Weights:** Light (300), Regular (400), Medium (500), Semi-Bold (600).
-  - **Role:** Handles room details, input labels, pricing, check-out forms, and table directories.
+- Headings and quotes use `Playfair Display`, `Georgia`, or similar serif styling.
+- Body copy, labels, forms, and interface controls use `Poppins` or `Inter`.
+- Large titles can use italic emphasis on a single word or phrase.
+- Uppercase labels are reserved for kicker text, section tags, and button microcopy.
 
 ---
 
-## 🧱 Key Interface Elements
+## Key Interface Elements
 
-### 1. The Glassmorphism Booking Bar
-A central capsule-shaped booking interface positioned at the bottom of the Hero section or sticky at the page header.
-- **Structure:** Divided into three interactive zones separated by vertical line borders:
-  1. **Check In:** Displays arrival date selector.
-  2. **Check Out:** Displays departure date selector.
-  3. **Guest:** Pax dropdown (e.g., "2 Guests").
-- **CTA:** A rounded rectangular button in Sunrise Gold (`#F4C430`) or Sage Green (`#787C68`) reading "Check Availability".
+### 1. Glassmorphism Booking Bar
+A central capsule-shaped booking interface positioned at the bottom of the hero section or fixed as a booking entry point.
 
-### 2. Category & Grid Cards
-- **Accommodation Grid:** 3-column grid showing `Rooms`, `Suites`, and `Villas`. Features cards with a slightly tall aspect ratio, rounded corners (`border-radius: 16px`), image backgrounds, and central title overlays with arrow indicators.
-- **Room Listing Card:** Top-rounded images, card body with dark green background, thin white borders, wish-list heart icon in the corner, and a clear `Book Now` CTA button.
+- Structure: check-in, check-out, and guest selection zones separated by subtle borders.
+- CTA: a rounded `Book Now` or `Check Availability` button in Sunrise Gold.
+
+### 2. Card-Based Content Grids
+- Cabana cards use tall imagery, rounded corners, and dark body panels.
+- Experience cards use image-first layouts with badges and compact copy blocks.
+- Booking summary cards use a sticky right-column layout with a strong visual hierarchy.
+
+### 3. Standalone Booking Page Layout
+The `booking.html` page should follow a concierge-style two-column layout:
+
+- Left column: hero copy, package cards, form fields, add-ons, and the send request button.
+- Right column: sticky booking summary, selected package image, total calculation, and supporting copy.
+- Package cards should feel tactile, with hover lift, image overlays, and gold outline states.
+- Add-on checkboxes should use soft bordered cards rather than plain list items.
+
+### 4. Footer and Contact Blocks
+- Footer sections should remain dark, structured, and content-rich.
+- Contact buttons should use gold-filled or gold-outlined CTA styling.
+- Social icons should remain simple and monochrome until hover.
 
 ---
 
-## ⚙️ Interactive States & Micro-Animations
+## Interactive States and Micro-Animations
 
-- **Hover States:**
-  - **Grid Cards:** Shift upward slightly (`transform: translateY(-5px)`) and scale (`transform: scale(1.02)`) with a smooth transition.
-  - **Buttons:** Background color morphs from Pine Green (`#787C68`) or Forest Green (`#2C332C`) to Sunrise Gold (`#F4C430`), with text color flipping to dark.
-  - **Service Accordion:** Expanding service list items (Accommodations, Dining, Wellness) shift the arrow icon `↗` horizontally.
-- **Transitions:**
-  - Standard transition speed is `300ms` using `ease-in-out` timing:
-    ```css
-    transition: all 0.3s ease-in-out;
-    ```
-- **Modal Blurs:** When the Booking Flow overlay launches, the background blur transitions from `blur(0px)` to `blur(10px)` with a semi-transparent dark overlay fade-in.
+- Grid cards should lift slightly on hover and scale subtly.
+- Buttons should shift between Pine Green, Forest Green, Ivory, and Sunrise Gold depending on hierarchy.
+- The booking summary should feel stable and premium, with minimal motion.
+- Package cards on the booking page should visibly indicate the selected state through border color, lift, and stronger shadow.
+- Form focus states should use a soft gold glow rather than a bright blue browser default.
+
+---
+
+## Booking Page Styling Notes
+
+The booking page was inspired by the Green Breeze booking structure, but translated into Tiger Rock styling.
+
+- Hero background: dark forest gradient with a scenic image overlay.
+- Body panels: near-black green with subtle texture and soft borders.
+- Summary panel: sticky, image-led, and easy to scan.
+- CTA buttons: gold primary buttons and outlined secondary buttons.
+- Tone: concierge-led, calm, premium, and direct.
+
+---
+
+## Responsive Behavior
+
+- Multi-column booking layouts collapse to a single column on tablets and phones.
+- Package cards stack vertically before the summary panel.
+- CTA buttons expand to full width on small screens.
+- Forms keep generous padding and large tap targets.
+- All pages should preserve readable spacing and avoid cramped layouts.

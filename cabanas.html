@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-Frame Cabanas | Dambulla Tiger Rock 360 Sunrise</title>
+  <meta name="description" content="Explore our exclusive A-frame loft cabanas at Dambulla Tiger Rock. Premium boho styling, room condition, amenities and facilities, plus full access to the 360 degree summit trail.">
+  <meta name="keywords" content="Dambulla Tiger Rock cabana, A-frame loft Sri Lanka, boutique eco hotel Dambulla, Sigiriya view accommodation">
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="assets/css/style.css?v=3">
+  <style>
+    .page-hero {
+      position: relative;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-align: center;
+      background: linear-gradient(135deg, #0c140c 0%, #1a2a1a 60%, #0c140c 100%);
+      padding: 140px 20px 80px;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('assets/images/cabana-architecture/dambulla-tiger-rock-cabana-exterior-1.jpeg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.18;
+    }
+    .page-hero-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244,196,48,0.1) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+    .page-hero-content { position: relative; z-index: 2; max-width: 720px; }
+    .page-tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+    .page-hero h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(40px, 7vw, 72px);
+      font-weight: 700;
+      color: var(--color-ivory);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .page-hero h2 em { font-style: italic; font-weight: 400; color: var(--color-gold); }
+    .hero-rule { width: 80px; height: 1px; background: var(--color-gold); opacity: 0.35; margin: 0 auto 24px; }
+    .page-hero p { font-size: 16px; opacity: 0.72; line-height: 1.9; max-width: 560px; margin: 0 auto 32px; }
+
+    .stats-bar {
+      background: #0e150e;
+      border-top: 1px solid rgba(234,235,232,0.06);
+      border-bottom: 1px solid rgba(234,235,232,0.06);
+      padding: 50px 0;
+    }
+    .stats-inner { display: flex; justify-content: center; gap: 80px; flex-wrap: wrap; }
+    .stat-item { text-align: center; }
+    .stat-num { font-family: var(--font-serif); font-size: 42px; color: var(--color-gold); font-weight: 700; line-height: 1; }
+    .stat-label { font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase; opacity: 0.5; margin-top: 6px; }
+
+    .cabana-section { padding: 100px 0 60px; }
+    .cabana-grid {
+      display: grid;
+      gap: 28px;
+    }
+    .cabana-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 520px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-premium);
+      border: 1px solid rgba(234,235,232,0.06);
+      background: #141e14;
+    }
+    .cabana-card.reverse { direction: rtl; }
+    .cabana-card.reverse > * { direction: ltr; }
+    .cabana-card-img { position: relative; overflow: hidden; }
+    .cabana-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cabana-card-body {
+      background: #141e14;
+      padding: 60px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .cabana-card-body h3 {
+      font-family: var(--font-serif);
+      font-size: clamp(26px, 3vw, 38px);
+      color: var(--color-ivory);
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+    .card-eyebrow {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 14px;
+    }
+    .cabana-card-body p {
+      font-size: 14px;
+      opacity: 0.68;
+      line-height: 1.95;
+      margin-bottom: 24px;
+    }
+    .card-pill {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(8,16,8,0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(244,196,48,0.35);
+      border-radius: 40px;
+      padding: 6px 18px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+    }
+    .cabana-spec-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+    .cabana-spec-box {
+      border: 1px solid rgba(234,235,232,0.08);
+      background: rgba(234,235,232,0.04);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+    .cabana-spec-box h4 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--color-gold);
+      margin-bottom: 10px;
+    }
+    .cabana-chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .cabana-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(234,235,232,0.1);
+      background: rgba(234,235,232,0.04);
+      color: rgba(234,235,232,0.82);
+      font-size: 11px;
+    }
+    .card-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .cta-band {
+      background: linear-gradient(135deg, #192419, #0e180e);
+      border: 1px solid rgba(244,196,48,0.12);
+      border-radius: var(--radius-lg);
+      padding: 72px 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-top: 28px;
+      margin-bottom: 40px;
+    }
+    .cta-band::before {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244,196,48,0.07) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
+    .cta-band h2 { font-family: var(--font-serif); font-size: clamp(26px, 4vw, 42px); color: var(--color-ivory); margin-bottom: 14px; position: relative; }
+    .cta-band p { font-size: 14px; opacity: 0.62; max-width: 440px; margin: 0 auto 30px; line-height: 1.85; position: relative; }
+    .cta-band .cta-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; position: relative; }
+
+    @media (max-width: 768px) {
+      .cabana-card, .cabana-card.reverse { grid-template-columns: 1fr; direction: ltr; }
+      .cabana-card-body { padding: 36px 26px; }
+      .cabana-card-img { height: 260px; }
+      .cabana-spec-grid { grid-template-columns: 1fr; }
+      .stats-inner { gap: 36px; }
+      .cta-band { padding: 50px 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav-wrapper">
+      <div class="logo-container">
+        <a href="index.html">
+          <img src="assets/images/Dambulla%20Tiger%20Rock%20Logo.png" alt="Dambulla Tiger Rock Logo">
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html"><div class="nav-text-wrap"><span>Home</span><span class="nav-text-hover">Home</span></div></a>
+        <a href="cabanas.html" class="active"><div class="nav-text-wrap"><span>Cabanas</span><span class="nav-text-hover">Cabanas</span></div></a>
+        <a href="experiences.html"><div class="nav-text-wrap"><span>Experiences</span><span class="nav-text-hover">Experiences</span></div></a>
+        <a href="find-us.html" class="find-us-link"><div class="nav-text-wrap"><span>Find Us</span><span class="nav-text-hover">Find Us</span></div></a>
+        <a href="booking.html" class="booking-link">Book Now</a>
+      </nav>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </header>
+
+  <div class="mobile-nav-overlay">
+    <a href="index.html">Home</a>
+    <a href="cabanas.html">Cabanas</a>
+    <a href="experiences.html">Experiences</a>
+    <a href="find-us.html">Find Us</a>
+    <a href="booking.html">Booking</a>
+    <a href="booking.html" class="btn-primary booking-link" style="margin-top:20px;">Book Now</a>
+  </div>
+
+  <h1 class="sr-only">Dambulla Tiger Rock A-Frame Cabanas</h1>
+
+  <section class="page-hero">
+    <div class="page-hero-glow"></div>
+    <div class="page-hero-content">
+      <p class="page-tag">Our Exclusive Retreats</p>
+      <h2>Sleep Inside the <em>Rock</em></h2>
+      <div class="hero-rule"></div>
+      <p>Our handcrafted A-frame loft cabanas nestle directly among ancient granite boulders, with room type, condition, amenities and facilities all managed from the admin panel.</p>
+      <a href="booking.html" class="btn-primary booking-link">Reserve Your Cabana</a>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="container stats-inner">
+      <div class="stat-item"><div class="stat-num">02</div><div class="stat-label">Exclusive Cabanas</div></div>
+      <div class="stat-item"><div class="stat-num">360°</div><div class="stat-label">Summit Panorama</div></div>
+      <div class="stat-item"><div class="stat-num">$40</div><div class="stat-label">From Per Night</div></div>
+      <div class="stat-item"><div class="stat-num">300m</div><div class="stat-label">From Dambulla Town</div></div>
+    </div>
+  </div>
+
+  <section class="cabana-section">
+    <div class="container">
+      <div class="cabana-grid" id="cabana-grid">
+        <div class="cabana-card">
+          <div class="cabana-card-body">
+            <p class="card-eyebrow">Loading Rooms</p>
+            <h3>Fetching cabana details</h3>
+            <p>Please wait while we load the latest room types, condition, amenities, and facilities from the admin panel.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-band">
+        <h2>Tell Us How You Envision Your Stay</h2>
+        <p>Our team will tailor your entire experience, including meals, activities, sunrise timing and transport.</p>
+        <div class="cta-btns">
+          <a href="booking.html" class="btn-primary booking-link">Begin Your Journey</a>
+          <a href="experiences.html" class="btn-secondary">Explore Experiences</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><img src="assets/images/Dambulla%20Tiger%20Rock%20Logo.png" alt="Dambulla Tiger Rock Logo" style="height:100%;border-radius:0;"></div>
+        <p>A premium eco-hotel in Dambulla, Sri Lanka. Unique A-frame loft cabins with a 360 degree rock summit viewpoint.</p>
+        <div class="socials">
+          <a href="https://www.facebook.com/Dambullatigerrock2/" target="_blank" rel="noopener noreferrer" title="Facebook"><svg viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+          <a href="https://www.instagram.com/dambullatigerrock/" target="_blank" rel="noopener noreferrer" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="cabanas.html">Cabanas</a></li>
+          <li><a href="experiences.html">Experiences</a></li>
+          <li><a href="find-us.html">Find Us</a></li>
+          <li><a href="booking.html">Booking</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Address</h4>
+        <p>Tikiri Mawatha,<br>Dambulla, Sri Lanka</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+94743435434">+94 74 343 5434</a></li>
+          <li><a href="mailto:dambullatigerrock@gmail.com">dambullatigerrock@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Dambulla Tiger Rock. All Rights Reserved.</p>
+      <p>Where Sunrise Meets Stone</p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/94743435434" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"
+    style="position:fixed;bottom:24px;right:24px;z-index:9999;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 25px rgba(37,211,102,0.4);">
+    <svg viewBox="0 0 32 32" style="width:28px;height:28px;fill:white;"><path d="M16.004 2.667A13.26 13.26 0 0 0 2.72 15.893a13.16 13.16 0 0 0 1.788 6.627L2.667 29.333l7.027-1.813A13.33 13.33 0 0 0 16.004 29.4c7.353 0 13.33-5.977 13.33-13.333 0-7.36-5.977-13.4-13.33-13.4Zm0 24.4a10.97 10.97 0 0 1-5.587-1.52l-.4-.24-4.16 1.093 1.12-4.08-.267-.42a10.93 10.93 0 0 1-1.68-5.84c0-6.067 4.94-11 11-11 6.053 0 11.067 4.933 11.067 11-.004 6.067-5.02 11.007-11.093 11.007Zm6.027-8.24c-.333-.167-1.96-.967-2.267-1.08-.307-.107-.527-.167-.747.167-.22.333-.86 1.08-1.053 1.3-.193.22-.393.247-.727.08-.333-.167-1.407-.52-2.68-1.653-.993-.88-1.66-1.973-1.853-2.307-.193-.333-.02-.513.147-.68.147-.147.333-.387.5-.58.167-.193.22-.333.333-.553.113-.22.06-.413-.027-.58-.08-.167-.747-1.8-1.02-2.467-.267-.647-.54-.56-.747-.567l-.64-.013a1.22 1.22 0 0 0-.887.413c-.307.333-1.16 1.133-1.16 2.767 0 1.633 1.187 3.213 1.353 3.433.167.22 2.34 3.567 5.667 5 .793.34 1.413.547 1.893.7.793.253 1.52.22 2.093.133.64-.1 1.96-.8 2.24-1.573.28-.773.28-1.44.193-1.573-.08-.14-.3-.22-.633-.387Z"/></svg>
+  </a>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var cabanaGrid = document.getElementById('cabana-grid');
+
+      function chipList(items, fallback) {
+        if (!items || !items.length) {
+          return '<span class="cabana-chip">' + fallback + '</span>';
+        }
+        return items.map(function (item) {
+          var label = item && item.name ? String(item.name).replace(/\s+/g, ' ').trim() : '';
+          return label ? '<span class="cabana-chip">' + label + '</span>' : '';
+        }).filter(Boolean).join('');
+      }
+
+      function renderRoom(room, index) {
+        var reverse = index % 2 === 1 ? ' reverse' : '';
+        return `
+          <div class="cabana-card${reverse}">
+            <div class="cabana-card-img">
+              <img src="${room.image_url || 'assets/images/cabana-architecture/dambulla-tiger-rock-cabana-interior-13.jpeg'}" alt="${room.name}">
+              <span class="card-pill">${room.room_type || 'Cabana'}</span>
+            </div>
+            <div class="cabana-card-body">
+              <p class="card-eyebrow">${room.room_type || 'Cabana'}</p>
+              <h3>${room.name}</h3>
+              <p>${(room.description || '').replace(/\s+/g, ' ').trim()}</p>
+              <div class="cabana-spec-grid">
+                <div class="cabana-spec-box">
+                  <h4>Overview</h4>
+                  <div class="cabana-chip-list">
+                    <span class="cabana-chip">${room.room_type || 'Cabana'}</span>
+                    <span class="cabana-chip">$${Number(room.price || 0).toFixed(2)}${(room.price_unit === 'per person' ? ' / person' : room.price_unit === 'per guest' ? ' / guest' : ' / night')}</span>
+                  </div>
+                </div>
+                <div class="cabana-spec-box">
+                  <h4>Amenities</h4>
+                  <div class="cabana-chip-list">${chipList(room.amenities, 'No amenities')}</div>
+                </div>
+                <div class="cabana-spec-box">
+                  <h4>Facilities</h4>
+                  <div class="cabana-chip-list">${chipList(room.facilities, 'No facilities')}</div>
+                </div>
+              </div>
+              <div class="card-btns">
+                <a href="booking.html" class="btn-primary booking-link">Reserve Now</a>
+                <a href="booking.html" class="btn-secondary">Book This Room</a>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      fetch('/api/rooms')
+        .then(function (res) { return res.json(); })
+        .then(function (rooms) {
+          if (!rooms || !rooms.length) {
+            cabanaGrid.innerHTML = '<div class="cabana-card"><div class="cabana-card-body"><p>No rooms found.</p></div></div>';
+            return;
+          }
+          cabanaGrid.innerHTML = rooms.map(renderRoom).join('');
+        })
+        .catch(function () {
+          cabanaGrid.innerHTML = '<div class="cabana-card"><div class="cabana-card-body"><p>Unable to load cabana details right now.</p></div></div>';
+        });
+    });
+  </script>
+</body>
+</html>

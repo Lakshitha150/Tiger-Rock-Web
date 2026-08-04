@@ -3,55 +3,585 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Tiger Rock Reservations</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <title>Admin Dashboard | Dambulla Tiger Rock</title>
+  <link rel="stylesheet" href="assets/css/style.css?v=3">
   <style>
-    body { padding: 50px 20px; }
-    .admin-container { max-width: 1000px; margin: 0 auto; background: var(--bg-glass-dark); padding: 30px; border-radius: var(--radius-lg); }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { text-align: left; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    th { color: var(--color-gold); }
-    .btn-delete { background: #d9534f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-    .form-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
-    .form-row input, .form-row select { padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 4px; flex: 1; min-width: 200px; }
+    body {
+      padding: 30px 0 60px;
+      background:
+        radial-gradient(circle at top, rgba(244,196,48,0.08), transparent 30%),
+        linear-gradient(180deg, #121a12 0%, #0d140d 100%);
+    }
+    .admin-shell {
+      width: min(1280px, 92vw);
+      margin: 0 auto;
+    }
+    .admin-hero {
+      margin-bottom: 26px;
+      padding: 26px 28px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(20,30,20,0.96), rgba(12,18,12,0.96));
+      border: 1px solid rgba(234,235,232,0.08);
+      box-shadow: var(--shadow-premium);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .admin-hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(30px, 4vw, 48px);
+      color: var(--color-ivory);
+      margin-bottom: 8px;
+    }
+    .admin-hero p {
+      max-width: 700px;
+      color: rgba(234,235,232,0.7);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+    .admin-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(244,196,48,0.32);
+      color: var(--color-gold);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      white-space: nowrap;
+    }
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 22px;
+      margin-bottom: 22px;
+    }
+    .admin-card {
+      background: rgba(20,30,20,0.96);
+      border: 1px solid rgba(234,235,232,0.08);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-premium);
+      overflow: hidden;
+    }
+    .admin-card-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(234,235,232,0.07);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .admin-card-header h2,
+    .admin-card-header h3 {
+      font-family: var(--font-serif);
+      color: var(--color-ivory);
+      margin: 0;
+    }
+    .admin-card-body {
+      padding: 24px;
+    }
+    .admin-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .admin-tab {
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(234,235,232,0.1);
+      background: rgba(234,235,232,0.04);
+      color: rgba(234,235,232,0.8);
+      cursor: pointer;
+      font-size: 12px;
+      transition: var(--transition-smooth);
+    }
+    .admin-tab.active {
+      background: linear-gradient(135deg, var(--color-gold), #ffd76a);
+      color: var(--color-forest);
+      border-color: transparent;
+      box-shadow: 0 10px 24px rgba(244,196,48,0.22);
+    }
+    .admin-panel {
+      display: none;
+    }
+    .admin-panel.active {
+      display: block;
+    }
+    .admin-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .admin-form .full {
+      grid-column: 1 / -1;
+    }
+    .admin-form label,
+    .field-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(234,235,232,0.62);
+      display: block;
+      margin-bottom: 8px;
+    }
+    .admin-form input,
+    .admin-form textarea,
+    .admin-form select {
+      width: 100%;
+      background: rgba(234,235,232,0.05);
+      color: var(--color-ivory);
+      border: 1px solid rgba(234,235,232,0.1);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+    .admin-form textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+    .admin-form input:focus,
+    .admin-form textarea:focus,
+    .admin-form select:focus {
+      border-color: rgba(244,196,48,0.45);
+      box-shadow: 0 0 0 3px rgba(244,196,48,0.08);
+    }
+    .image-picker {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+    }
+    .image-picker input {
+      flex: 1;
+    }
+    .image-picker .btn-secondary {
+      white-space: nowrap;
+      min-height: 48px;
+    }
+    .image-preview {
+      margin-top: 12px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(234,235,232,0.08);
+      background: rgba(234,235,232,0.03);
+      min-height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(234,235,232,0.55);
+      font-size: 13px;
+    }
+    .image-preview img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+    .room-list {
+      display: grid;
+      gap: 14px;
+    }
+    .room-item {
+      border: 1px solid rgba(234,235,232,0.08);
+      border-radius: var(--radius-md);
+      background: rgba(234,235,232,0.03);
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+    }
+    .room-item h4 {
+      margin: 0 0 6px;
+      font-family: var(--font-serif);
+      color: var(--color-ivory);
+      font-size: 22px;
+    }
+    .room-item p {
+      font-size: 13px;
+      line-height: 1.7;
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .chip {
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(234,235,232,0.12);
+      background: rgba(234,235,232,0.04);
+      color: rgba(234,235,232,0.82);
+    }
+    .inline-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .list-box {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(234,235,232,0.04);
+      border: 1px solid rgba(234,235,232,0.08);
+    }
+    .mini-input-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+    }
+    .gallery-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      z-index: 9999;
+    }
+    .gallery-modal.show {
+      display: flex;
+    }
+    .gallery-modal-card {
+      width: min(1180px, 96vw);
+      max-height: 90vh;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(234,235,232,0.1);
+      background: linear-gradient(180deg, rgba(18,26,18,0.98), rgba(11,16,11,0.98));
+      box-shadow: var(--shadow-premium);
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+    }
+    .gallery-modal-header {
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid rgba(234,235,232,0.08);
+    }
+    .gallery-modal-header h3 {
+      margin: 0;
+      font-family: var(--font-serif);
+      color: var(--color-ivory);
+    }
+    .gallery-modal-header p {
+      margin: 4px 0 0;
+      color: rgba(234,235,232,0.65);
+      font-size: 13px;
+    }
+    .gallery-toolbar {
+      padding: 14px 22px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid rgba(234,235,232,0.06);
+    }
+    .gallery-filter-btn {
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(234,235,232,0.1);
+      background: rgba(234,235,232,0.04);
+      color: rgba(234,235,232,0.78);
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .gallery-filter-btn.active {
+      background: linear-gradient(135deg, var(--color-gold), #ffd76a);
+      color: var(--color-forest);
+      border-color: transparent;
+    }
+    .gallery-picker-grid {
+      padding: 18px 22px 22px;
+      overflow: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .gallery-picker-item {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(234,235,232,0.08);
+      background: rgba(234,235,232,0.03);
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+      text-align: left;
+    }
+    .gallery-picker-item:hover {
+      transform: translateY(-3px);
+      border-color: rgba(244,196,48,0.4);
+    }
+    .gallery-picker-item img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: block;
+    }
+    .gallery-picker-item .gallery-meta {
+      padding: 10px 12px 12px;
+    }
+    .gallery-picker-item .gallery-meta strong {
+      display: block;
+      color: var(--color-ivory);
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .gallery-picker-item .gallery-meta span {
+      display: block;
+      color: rgba(234,235,232,0.62);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(234,235,232,0.08);
+      text-align: left;
+      font-size: 13px;
+    }
+    th {
+      color: var(--color-gold);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .table-wrap {
+      overflow-x: auto;
+    }
+    .muted {
+      color: rgba(234,235,232,0.6);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    @media (max-width: 980px) {
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+      .admin-form {
+        grid-template-columns: 1fr;
+      }
+      .room-item {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="admin-container glass">
-    <h1 class="serif-title" style="color: var(--color-gold); margin-bottom: 30px;">Reservation Management</h1>
-    
-    <h3>Add Manual Reservation / Block Dates</h3>
-    <form id="admin-form" style="margin-top: 15px; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 8px;">
-      <div class="form-row">
-        <input type="text" id="admin-name" placeholder="Guest Name (or Reason to Block)" required>
-        <select id="admin-room" required>
-          <option value="">Select Room...</option>
-        </select>
+  <div class="admin-shell">
+    <section class="admin-hero glass">
+      <div>
+        <div class="admin-pill">Tiger Rock Admin</div>
+        <h1>Manage rooms, amenities, facilities, and bookings</h1>
+        <p>
+          Update the cabana content shown on the website, add or remove room features, and keep bookings organized from
+          one dashboard.
+        </p>
       </div>
-      <div class="form-row">
-        <input type="date" id="admin-checkin" required>
-        <input type="date" id="admin-checkout" required>
-      </div>
-      <button type="submit" class="btn-primary" style="padding: 10px 20px; font-size: 14px;">Add Reservation</button>
-    </form>
+      <a href="index.html" class="btn-secondary booking-link">Back to Site</a>
+    </section>
 
-    <h3 style="margin-top: 40px;">Current Bookings</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Guest</th>
-          <th>Room</th>
-          <th>Dates</th>
-          <th>Total</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="bookings-list">
-        <tr><td colspan="6">Loading...</td></tr>
-      </tbody>
-    </table>
+    <section class="admin-card" style="margin-bottom:22px;">
+      <div class="admin-card-header">
+        <h2>Site Manager</h2>
+        <span class="admin-pill">Live data from SQLite</span>
+      </div>
+      <div class="admin-card-body">
+        <div class="admin-tabs">
+          <button class="admin-tab active" data-tab="bookings">Bookings</button>
+          <button class="admin-tab" data-tab="rooms">Rooms</button>
+          <button class="admin-tab" data-tab="amenities">Amenities</button>
+          <button class="admin-tab" data-tab="facilities">Facilities</button>
+          <button class="admin-tab" data-tab="enhancements">Enhancements</button>
+        </div>
+
+        <div class="admin-panel active" id="panel-bookings">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Guest</th>
+                  <th>Room</th>
+                  <th>Dates</th>
+                  <th>Total</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="bookings-list">
+                <tr><td colspan="6">Loading bookings...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="admin-panel" id="panel-rooms">
+          <form id="room-form" class="admin-form">
+            <div>
+              <label for="room-id">Room ID</label>
+              <input id="room-id" placeholder="sunrise-loft" required>
+            </div>
+            <div>
+              <label for="room-name">Room Name</label>
+              <input id="room-name" placeholder="The Sunrise Loft" required>
+            </div>
+            <div>
+              <label for="room-type">Room Type</label>
+              <input id="room-type" placeholder="Signature Loft">
+            </div>
+            <div>
+              <label for="room-condition">Condition</label>
+              <select id="room-condition">
+                <option value="Excellent">Excellent</option>
+                <option value="Good">Good</option>
+                <option value="Needs Attention">Needs Attention</option>
+              </select>
+            </div>
+            <div>
+              <label for="room-price">Price</label>
+              <input id="room-price" type="number" step="0.01" placeholder="180" required>
+            </div>
+            <div>
+              <label for="room-price-unit">Price Unit</label>
+              <select id="room-price-unit">
+                <option value="per night">Per Night</option>
+                <option value="per guest">Per Guest</option>
+                <option value="per person">Per Person</option>
+              </select>
+            </div>
+            <div>
+              <label for="room-qty">Total Quantity</label>
+              <input id="room-qty" type="number" step="1" min="1" placeholder="2" required>
+            </div>
+            <div class="full">
+              <label for="room-description">Description</label>
+              <textarea id="room-description" placeholder="Short description shown in the admin panel and future room cards."></textarea>
+            </div>
+            <div class="full">
+              <label for="room-image">Image URL</label>
+              <div class="image-picker">
+                <input id="room-image" placeholder="assets/images/cabana-architecture/...jpeg">
+                <button type="button" id="room-image-pick" class="btn-secondary">Choose from Gallery</button>
+              </div>
+              <div class="image-preview" id="room-image-preview">No image selected</div>
+            </div>
+            <div class="full inline-actions">
+              <button type="submit" class="btn-primary booking-link">Save Room</button>
+              <button type="button" id="room-clear" class="btn-secondary">Clear Form</button>
+            </div>
+          </form>
+
+          <div class="room-list" id="rooms-list"></div>
+        </div>
+
+        <div class="admin-panel" id="panel-amenities">
+          <div class="admin-form">
+            <div>
+              <label for="amenity-room">Room</label>
+              <select id="amenity-room"></select>
+            </div>
+            <div>
+              <label for="amenity-name">Amenity Name</label>
+              <input id="amenity-name" placeholder="Forest View">
+              <input id="amenity-edit-id" type="hidden">
+            </div>
+            <div class="full inline-actions">
+              <button type="button" id="amenity-add" class="btn-primary booking-link">Save Amenity</button>
+            </div>
+          </div>
+          <p class="muted">Use this section to manage amenities that appear in the room records and future page content.</p>
+          <div class="list-box" id="amenities-list"></div>
+        </div>
+
+        <div class="admin-panel" id="panel-facilities">
+          <div class="admin-form">
+            <div>
+              <label for="facility-room">Room</label>
+              <select id="facility-room"></select>
+            </div>
+            <div>
+              <label for="facility-name">Facility Name</label>
+              <input id="facility-name" placeholder="Air Conditioning">
+              <input id="facility-edit-id" type="hidden">
+            </div>
+            <div class="full inline-actions">
+              <button type="button" id="facility-add" class="btn-primary booking-link">Save Facility</button>
+            </div>
+          </div>
+          <p class="muted">Use this section to manage facilities such as Wi-Fi, hot water, and minibar items.</p>
+          <div class="list-box" id="facilities-list"></div>
+        </div>
+
+        <div class="admin-panel" id="panel-enhancements">
+          <div class="admin-form">
+            <div>
+              <label for="enhancement-room">Room</label>
+              <select id="enhancement-room"></select>
+            </div>
+            <div>
+              <label for="enhancement-name">Enhancement Name</label>
+              <input id="enhancement-name" placeholder="Breakfast Service">
+              <input id="enhancement-edit-id" type="hidden">
+            </div>
+            <div>
+              <label for="enhancement-price">Price</label>
+              <input id="enhancement-price" type="number" step="0.01" min="0" placeholder="15">
+            </div>
+            <div class="full inline-actions">
+              <button type="button" id="enhancement-add" class="btn-primary booking-link">Save Enhancement</button>
+            </div>
+          </div>
+          <p class="muted">Use this section to manage optional upgrades that appear on the booking page with their own price.</p>
+          <div class="list-box" id="enhancements-list"></div>
+        </div>
+      </div>
+    </section>
   </div>
+
+  <div class="gallery-modal" id="gallery-modal" aria-hidden="true">
+    <div class="gallery-modal-card" role="dialog" aria-modal="true" aria-labelledby="gallery-modal-title">
+      <div class="gallery-modal-header">
+        <div>
+          <h3 id="gallery-modal-title">Choose an Image From Gallery</h3>
+          <p>Select a gallery photo to fill the room image field.</p>
+        </div>
+        <button type="button" class="btn-secondary" id="gallery-modal-close">Close</button>
+      </div>
+      <div class="gallery-toolbar">
+        <button type="button" class="gallery-filter-btn active" data-filter="all">All</button>
+        <button type="button" class="gallery-filter-btn" data-filter="cabana">Cabanas</button>
+        <button type="button" class="gallery-filter-btn" data-filter="viewpoint">Viewpoint</button>
+        <button type="button" class="gallery-filter-btn" data-filter="nature">Nature</button>
+      </div>
+      <div class="gallery-picker-grid" id="gallery-picker-grid">
+        <p class="muted">Loading gallery images...</p>
+      </div>
+    </div>
+  </div>
+
   <script src="assets/js/admin.js"></script>
 </body>
 </html>

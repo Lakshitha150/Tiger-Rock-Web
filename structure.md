@@ -1,12 +1,47 @@
 # Dambulla Tiger Rock - Page & Flow Structure Specification
 
-This document defines the page architecture, component breakdown, step-by-step booking flow, and mobile responsive adaptations, based on the luxury resort case study structure.
+This document captures the site map, current live pages, booking flow, and responsive behavior for Dambulla Tiger Rock.
 
 ---
 
-## 📂 Page Architecture
+## Current Live Pages
 
-The web platform is structured into **seven core pages** to deliver a premium, content-rich storytelling experience.
+The repository currently ships these live pages:
+
+- `index.html` - landing page and home story
+- `cabanas.html` - A-frame cabana showcase
+- `experiences.html` - experiences and amenities
+- `booking.html` - standalone booking request page
+- `admin.html` - admin utility page
+
+`booking.html` and `cabanas.html` now read live room data from `GET /api/rooms`, so admin changes to room name, room type, condition, amenities, facilities, price, quantity, and image update both pages automatically.
+
+---
+
+## Current Room Memory
+
+Current room records in the database:
+
+| Room ID | Name | Type | Condition | Price | Qty |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `Cabana-1` | Deluxe Room with Mountain View | `""` | `""` | `40` | `2` |
+| `sunrise-loft` | The Sunrise Loft | Signature Loft | Excellent | `180` | `2` |
+| `sigiriya-view` | The Sigiriya View Chalet | View Chalet | Excellent | `220` | `1` |
+
+`Cabana-1` is the legacy record that currently has amenities and facilities attached:
+
+- Amenities: Two Floors, Mini Fridge, Sofa Bed, Private Bathroom
+- Facilities: Hot Water Shower, Air Condition
+
+The other two rooms are seeded defaults and can be edited from `admin.html`.
+
+`booking.html` is modeled on the Green Breeze booking page structure, but all colors, wording, and property details are Tiger Rock specific.
+
+---
+
+## Page Architecture
+
+The long-term web platform is structured into seven core content pages to deliver a premium, content-rich storytelling experience.
 
 ```mermaid
 graph TD
@@ -19,49 +54,49 @@ graph TD
 ```
 
 ### 1. Home Page (`index.html`)
-- **Hero Canvas:** Immersive full-screen background image of Dambulla summit forest views, header navigation, and overlay title: *"Experience Nature in Luxury"*.
-- **Booking Bar:** Glassmorphism overlay positioned at the bottom of the hero block.
-- **Resort Pillars:** A three-section row highlighting the resort's cores: `Wellness`, `Adventure`, and `Sustainability`.
-- **Introduction Segment ("01 Introduction"):** Left-side photo grid (outdoor dining/nature) and right-side text column describing the 360° climbing and forest retreat.
-- **Accommodations Showcase:** A 3-column category grid showing links to `Rooms`, `Suites`, and `Villas` with horizontal CTA.
-- **Stay in Package Slider:** A horizontal card carousel presenting specific packages (e.g. *Sunset Chalet*, *Pidurangala Sunrise Package*) with individual `Book Now` CTAs.
-- **Interactive Service List:** Vertical photo on the left, accordion expansion list on the right (Accommodations, Dining, Wellness, Adventures, Events).
-- **Testimonial Slider:** Customer quote block over a dark green card backdrop.
-- **Social Inspiration Grid ("Feel Inspired"):** Masonry grid linking Instagram pictures.
-- **Footer Block:** Multi-column links (Rooms, Accommodations, Sustainability, Address, Booking & Support) with bottom Booking bar insertion.
+- Hero canvas with full-screen background imagery, header navigation, and a premium brand title.
+- Glassmorphism booking bar positioned at the bottom of the hero block.
+- Resort pillar row highlighting wellness, adventure, and sustainability.
+- Introduction section with image grid and story copy.
+- Cabana showcase with room cards and CTA links.
+- Service accordion, testimonial slider, social inspiration grid, and footer links.
 
-### 2. Rooms & Rates Page (`rooms.html`)
-- **Hero Title Banner:** Slim header card displaying "Rooms & Rates" with sub-booking bar.
-- **Sidebar Filters (Left):**
-  - Interactive mini-map selector ("Show on map").
-  - Room type checkboxes (Forest Cabins, Cliff Villas, Earth Domes, Bamboos, Lakefront).
-  - Rate/Price slider ($100 - $1200+).
-  - Floor area select.
-  - Amenity tag selectors (Pool, Gym, Aircon, Free Wifi, Electricity backup).
-- **Listing Grid (Right):**
-  - 3-column card grid of available chalets (Garden Haven, Sunset Suite, etc.).
-  - Pagination row at bottom (`< 1 2 3 4 5 >`).
+### 2. Cabanas Page (`cabanas.html`)
+- Hero banner with strong visual intro.
+- Two featured cabana cards for the A-frame units.
+- Stats bar and CTA band for reservations.
 
-### 3. Gallery Page (`gallery.html`)
-- **Breadcrumb Navigation:** `Home > Gallery`.
-- **Filter Tabs Bar:** Row of tags (`All`, `Hotel`, `Views`, `Restaurant`) to filter grid contents dynamically.
-- **Visual Masonry Grid:** Responsive image display with differing aspect ratios, rounded corners, and lightbox zoom on click.
+### 3. Experiences Page (`experiences.html`)
+- Experience cards for summit trail, dining, ATV ride, bike hire, and Sigiriya trips.
+- Town proximity highlight section.
+- Concierge CTA and support links.
 
-### 4. Restaurant & Dining Page (`dining.html`)
-- **Hero Title Banner:** "Savor Every Bite in Paradise" backdrop.
-- **Story Block:** Description details of the fine dining setup, local Sri Lankan ingredients, and table reservation button.
-- **Specialty Grid:** Highlights signature local dishes and cocktails with individual table book prompts.
-- **Opening Hours Card:** Centered scheduling card (Open Tuesday - Saturday, 7:00 PM - 9:30 PM).
+### 4. Booking Page (`booking.html`)
+- Hero section with concierge-style introduction.
+- Package selector cards for the two cabanas plus a custom-quote option.
+- Guest form with dates, name, email, phone, add-ons, and special requests.
+- Sticky summary panel with estimated total.
+- WhatsApp handoff for booking requests.
 
-### 5. Offers Page (`offers.html`)
-- **Header:** "Special Offers" banner.
-- **Promotional Grid:** List of promotional cards (e.g., "25% off for February Bookings", "3-Night Getaway Package") with quick check-out links.
+### 5. Rooms & Rates Page (`rooms.html`)
+- Planned hero banner and filter sidebar.
+- Listing grid for room and chalet options.
+
+### 6. Gallery Page (`gallery.html`)
+- Planned breadcrumb and filter tabs.
+- Masonry grid with lightbox interaction.
+
+### 7. Restaurant & Dining Page (`dining.html`)
+- Planned hero banner, story block, specialty grid, and opening-hours card.
+
+### 8. Offers Page (`offers.html`)
+- Planned promotional cards and quick checkout links.
 
 ---
 
-## 🔄 Interactive Booking Flow Modal
+## Interactive Booking Flow Modal
 
-The booking engine is built as an interactive multi-step wizard overlaying the active screen.
+The original booking engine is built as an interactive multi-step wizard overlaying the active screen.
 
 ```mermaid
 sequenceDiagram
@@ -81,32 +116,43 @@ sequenceDiagram
 
 ### Wizard Step Specifications
 
-1. **Step 1 (Select Dates & Guests):**
-   - Calendar date picker interface for Check In & Check Out.
-   - Guest count selector dropdown.
-2. **Step 2 (Choose Your Room):**
-   - Grid list showing matching rooms with ratings, photos, and prices.
-   - Filter drawer/sidebar sliding out to adjust size, price, and types.
-3. **Step 3 (Guest Information):**
-   - Text fields: `First Name*`, `Last Name*`, `Email*`, `Phone*`.
-   - Right-side sidebar displaying the Booking Summary (dates, nights count, pax, total cost breakdown).
-4. **Step 4 (Payment):**
-   - Dual checkout options: GPay click-button or standard credit card input fields (Holder name, Card number, Expiry, CVV).
-   - Coupon voucher code entry bar.
-5. **Success Screen:**
-   - Confirmation text, checkmark animation, unique Booking ID generation, guest outline, and buttons to download receipt or close modal.
+1. Step 1, Select Dates and Guests
+- Calendar date picker interface for check-in and check-out.
+- Guest count selector dropdown.
+
+2. Step 2, Choose Your Room
+- Grid list showing matching rooms with ratings, photos, and prices.
+- Filter drawer/sidebar for size, price, and room types.
+
+3. Step 3, Guest Information
+- Text fields for first name, last name, email, and phone.
+- Right-side sidebar displaying booking summary, nights, pax, and total breakdown.
+
+4. Step 4, Payment
+- GPay express option plus standard credit card inputs.
+- Coupon voucher code entry bar.
+
+5. Success Screen
+- Confirmation text, checkmark animation, unique Booking ID generation, guest outline, and buttons to download receipt or close modal.
+
+### Standalone Booking Page Notes
+
+- The standalone `booking.html` page uses the same brand language, but it is not the modal wizard.
+- It is designed as a simpler request flow for guests who want to send a concierge-style inquiry without stepping through the full modal checkout.
+- Total calculation is intentionally lightweight: nightly rate plus optional add-ons, with a custom-quote fallback when the selected package is not fixed-price.
 
 ---
 
-## 📱 Mobile-First Responsive Mapping
+## Mobile-First Responsive Mapping
 
-To ensure a premium booking experience on mobile devices (tablets and smartphones):
+To ensure a premium booking experience on mobile devices, the site adapts as follows:
 
 | Desktop Component | Mobile Adaptation Behavior |
 | :--- | :--- |
-| **Navigation Menu** | Collapses to a sticky top header hamburger icon (`☰ Menu`) that slides open full-screen. |
-| **Booking Bar** | Hero bar collapses to a single floating button ("Book Now") at the bottom of the viewport. |
-| **Filter Sidebar** | Collapses into a floating sticky drawer button ("Filters ☖") that opens full-width from the side. |
-| **Grids (Rooms, Dining, Gallery)** | Grid columns collapse: 3-column desktop rows wrap to a scrollable 1-column layout. |
-| **Stay in Package Carousel** | Swaps desktop slider navigation to native mobile touch-swipe gesture support with pagination dots. |
-| **Form Fields (Guest & Payment)** | Input margins are enlarged for fat-finger tapping, with native calendar popups for date fields. |
+| Navigation menu | Collapses to a sticky top header hamburger menu that slides open full-screen. |
+| Booking bar | Collapses to a single floating button at the bottom of the viewport. |
+| Standalone booking page | Two-column layout collapses to one column; package cards stack above the summary panel, and the submit CTA fills the width. |
+| Filter sidebar | Collapses into a floating drawer button that opens full-width from the side. |
+| Grids (Rooms, Dining, Gallery) | Grid columns collapse from multi-column layouts to a single-column stack. |
+| Stay in package carousel | Swaps desktop slider navigation to native mobile swipe behavior. |
+| Form fields | Input spacing is enlarged for easier tapping, with native date pickers on supported devices. |

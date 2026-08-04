@@ -30,19 +30,25 @@
       </div>
 
       <nav class="nav-links">
-        <a href="#about">
-          <div class="nav-text-wrap"><span>About</span><span class="nav-text-hover">About</span></div>
+        <a href="index.html">
+          <div class="nav-text-wrap"><span>Home</span><span class="nav-text-hover">Home</span></div>
         </a>
-        <a href="#cabanas">
+        <a href="cabanas.html">
           <div class="nav-text-wrap"><span>Cabanas</span><span class="nav-text-hover">Cabanas</span></div>
         </a>
-        <a href="#experience">
+        <a href="experiences.html">
           <div class="nav-text-wrap"><span>Experiences</span><span class="nav-text-hover">Experiences</span></div>
+        </a>
+        <a href="#about">
+          <div class="nav-text-wrap"><span>About</span><span class="nav-text-hover">About</span></div>
         </a>
         <a href="#services">
           <div class="nav-text-wrap"><span>Services</span><span class="nav-text-hover">Services</span></div>
         </a>
-        <a href="#" class="open-booking btn-secondary" style="font-size: 10px; padding: 10px 20px;">Book Now</a>
+        <a href="find-us.html" class="find-us-link">
+          <div class="nav-text-wrap"><span>Find Us</span><span class="nav-text-hover">Find Us</span></div>
+        </a>
+        <a href="booking.html" class="booking-link">Book Now</a>
       </nav>
 
       <div class="hamburger">
@@ -55,11 +61,14 @@
 
   <!-- Mobile Nav Overlay -->
   <div class="mobile-nav-overlay">
+    <a href="index.html">Home</a>
+    <a href="cabanas.html">Cabanas</a>
+    <a href="experiences.html">Experiences</a>
+    <a href="find-us.html">Find Us</a>
+    <a href="booking.html">Booking</a>
     <a href="#about">About</a>
-    <a href="#cabanas">Cabanas</a>
-    <a href="#experience">Experiences</a>
     <a href="#services">Services</a>
-    <a href="#" class="open-booking btn-primary" style="margin-top: 20px;">Book Now</a>
+    <a href="booking.html" class="btn-primary booking-link" style="margin-top: 20px;">Book Now</a>
   </div>
 
   <!-- ==========================================
@@ -93,7 +102,7 @@
       <p style="font-size: 16px; opacity: 0.9; max-width: 600px; margin: 0 auto 30px auto; font-weight: 300;">
         Escape to an intimate, boulder-integrated eco-retreat offering panoramic 360° views of Sigiriya and Pidurangala.
       </p>
-      <a href="#" class="open-booking btn-primary">Start Reservation</a>
+      <a href="booking.html" class="btn-primary booking-link">Start Reservation</a>
     </div>
 
     <!-- Sound Toggle Button -->
@@ -110,28 +119,6 @@
     </button>
 
 
-    <div class="booking-bar glass">
-      <div class="booking-fields">
-        <div class="booking-field">
-          <label for="home-checkin">Check In</label>
-          <input type="date" id="home-checkin" required>
-        </div>
-        <div class="booking-field">
-          <label for="home-checkout">Check Out</label>
-          <input type="date" id="home-checkout" required>
-        </div>
-        <div class="booking-field">
-          <label for="home-guests">Guests</label>
-          <select id="home-guests">
-            <option value="1">1 Guest</option>
-            <option value="2" selected>2 Guests</option>
-            <option value="3">3 Guests</option>
-            <option value="4">4 Guests</option>
-          </select>
-        </div>
-      </div>
-      <button class="open-booking btn-primary" id="home-check-availability">Check Availability</button>
-    </div>
   </section>
 
   <!-- ==========================================
@@ -192,7 +179,7 @@
           decks. Step outside your cabin to hike our private stone steps winding directly through giant rocks to reach
           the summit viewpoint, capturing panoramic sunrises over the forest canopy.
         </p>
-        <a href="#cabanas" class="btn-secondary" style="align-self: flex-start;">Explore Cabanas</a>
+        <a href="cabanas.html" class="btn-secondary" style="align-self: flex-start;">Explore Cabanas</a>
       </div>
     </div>
   </section>
@@ -222,7 +209,7 @@
             <h3 class="serif-title">A-Frame Cabana</h3>
             <p>Premium boho styling, double-decker mezzanine layout, low platform bed, desk work zone, and jungle views.
               Includes full access to viewpoint.</p>
-            <a href="#" class="open-booking room-card-btn">Book Now</a>
+            <a href="booking.html" class="room-card-btn booking-link">Book Now</a>
           </div>
         </div>
 
@@ -235,7 +222,7 @@
             <h3 class="serif-title">360° Rock Trail (Sunrise/Sunset)</h3>
             <p>Hike steps leading through massive granite boulders to reach the private summit viewing nets and sunrise
               tea deck.</p>
-            <a href="#experience" class="room-card-btn" style="border-color: var(--color-ivory);">Explore Trail</a>
+            <a href="experiences.html" class="room-card-btn" style="border-color: var(--color-ivory);">Explore Trail</a>
           </div>
         </div>
         <!-- Quad Bike Card -->
@@ -246,7 +233,7 @@
             <span class="room-card-price" style="color: var(--color-gold);">Paid Option</span>
             <h3 class="serif-title">Quad Bike Ride</h3>
             <p>Explore the rugged off-road pathways and nature trails around the property on our premium ATVs.</p>
-            <a href="#contact" class="room-card-btn" style="border-color: var(--color-ivory);">Inquire Now</a>
+            <a href="booking.html" class="room-card-btn booking-link" style="border-color: var(--color-ivory);">Inquire Now</a>
           </div>
         </div>
       </div>
@@ -523,9 +510,12 @@
         <div class="footer-col">
           <h4>Navigation</h4>
           <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cabanas.html">Cabanas</a></li>
+            <li><a href="experiences.html">Experiences</a></li>
+            <li><a href="find-us.html">Find Us</a></li>
+            <li><a href="booking.html">Booking</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="#cabanas">Cabanas</a></li>
-            <li><a href="#experience">Experiences</a></li>
             <li><a href="#services">Services</a></li>
           </ul>
         </div>
