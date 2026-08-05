@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let roomsCache = [];
   let galleryCache = [];
   let activeGalleryFilter = 'all';
+  let editingRoomId = '';
   const adminLoginModal = document.getElementById('admin-login-modal');
   const googleLoginForm = document.getElementById('google-email-login-form');
   const loginGoogleEmail = document.getElementById('login-google-email');
@@ -49,6 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const adminUserProfile = document.getElementById('admin-user-profile');
   const userDisplayEmail = document.getElementById('user-display-email');
   const adminLogoutBtn = document.getElementById('admin-logout-btn');
+  const apiBase = window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
+
+  const clearAuthState = () => {
+    localStorage.removeItem('tr_admin_token');
+    localStorage.removeItem('tr_admin_email');
+    sessionStorage.removeItem('tr_admin_token');
+    sessionStorage.removeItem('tr_admin_email');
+  };
 
   const checkAuthStatus = () => {
     const token = localStorage.getItem('tr_admin_token') || sessionStorage.getItem('tr_admin_token');
@@ -57,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (token && userEmail) {
       if (adminLoginModal) adminLoginModal.style.display = 'none';
       if (adminUserProfile) adminUserProfile.style.display = 'flex';
-      if (userDisplayEmail) userDisplayEmail.textContent = '👤 ' + userEmail;
+      if (userDisplayEmail) userDisplayEmail.textContent = 'User: ' + userEmail;
       return true;
     } else {
       if (adminLoginModal) adminLoginModal.style.display = 'flex';
@@ -72,17 +81,24 @@ document.addEventListener('DOMContentLoaded', () => {
         loginStatusMsg.style.color = 'var(--color-gold)';
         loginStatusMsg.textContent = 'Verifying Google authorization...';
       }
-      const res = await fetch('/api/auth/google-login', {
+      const res = await fetch(`${apiBase}/api/auth/google-login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      const data = await res.json();
+      const rawBody = await res.text();
+      const contentType = res.headers.get('content-type') || '';
+      const isJson = contentType.includes('application/json') || rawBody.trim().startsWith('{');
+      const data = isJson ? JSON.parse(rawBody) : null;
 
       if (!res.ok) {
         if (loginStatusMsg) {
           loginStatusMsg.style.color = '#ff6b6b';
-          loginStatusMsg.textContent = data.error || 'Authorization failed';
+          if (!isJson && rawBody.trim().startsWith('<')) {
+            loginStatusMsg.textContent = 'The admin API returned HTML instead of JSON. Make sure the Node server is running and open the site through `http://localhost:3000/admin.html`.';
+          } else {
+            loginStatusMsg.textContent = (data && data.error) || 'Authorization failed';
+          }
         }
         return false;
       }
@@ -92,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (loginStatusMsg) {
         loginStatusMsg.style.color = '#51cf66';
-        loginStatusMsg.textContent = '✅ Access Granted! Loading dashboard...';
+        loginStatusMsg.textContent = 'Access granted! Loading dashboard...';
       }
 
       setTimeout(() => {
@@ -127,10 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (adminLogoutBtn) {
     adminLogoutBtn.addEventListener('click', () => {
-      localStorage.removeItem('tr_admin_token');
-      localStorage.removeItem('tr_admin_email');
-      sessionStorage.removeItem('tr_admin_token');
-      sessionStorage.removeItem('tr_admin_email');
+      clearAuthState();
       checkAuthStatus();
     });
   }
@@ -146,15 +159,21 @@ document.addEventListener('DOMContentLoaded', () => {
       ...(options.headers || {})
     };
 
-    const res = await fetch(path, { ...options, headers });
-    const data = await res.json();
+    const res = await fetch(`${apiBase}${path}`, { ...options, headers });
+    const rawBody = await res.text();
+    const contentType = res.headers.get('content-type') || '';
+    const isJson = contentType.includes('application/json') || rawBody.trim().startsWith('{');
+    const data = isJson ? JSON.parse(rawBody) : null;
     if (res.status === 401 || res.status === 403) {
-      localStorage.removeItem('tr_admin_token');
+      clearAuthState();
       checkAuthStatus();
-      throw new Error(data.error || 'Session expired. Please sign in again.');
+      throw new Error((data && data.error) || 'Session expired. Please sign in again.');
     }
     if (!res.ok) {
-      throw new Error(data.error || 'Request failed');
+      if (!isJson && rawBody.trim().startsWith('<')) {
+        throw new Error('The admin API returned HTML instead of JSON. Make sure the Node server is running and open the site through `http://localhost:3000/admin.html`.');
+      }
+      throw new Error((data && data.error) || 'Request failed');
     }
     return data;
   };
@@ -587,3 +606,5 @@ document.addEventListener('DOMContentLoaded', () => {
     bookingsList.innerHTML = `<tr><td colspan="6">Error: ${err.message}</td></tr>`;
   });
 });
+
+
