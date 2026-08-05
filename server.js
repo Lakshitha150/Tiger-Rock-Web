@@ -47,14 +47,6 @@ const adminAuth = (req, res, next) => {
     return res.status(401).json({ error: 'Authentication required. Please sign in with the admin username and password.' });
   }
 
-  // Basic auth fallback support for legacy API requests
-  if (authHeader.startsWith('Basic ')) {
-    const creds = Buffer.from(authHeader.split(' ')[1], 'base64').toString().split(':');
-    if (creds[0] === (process.env.ADMIN_USER || 'admin') && creds[1] === (process.env.ADMIN_PASS || 'tigerrock2026')) {
-      return next();
-    }
-  }
-
   const token = authHeader.replace(/^Bearer\s+/i, '').trim();
   if (activeAdminSessions.has(token)) {
     return next();
