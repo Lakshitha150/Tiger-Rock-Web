@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard | Dambulla Tiger Rock</title>
   <link rel="stylesheet" href="assets/css/style.css?v=3">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     body {
       padding: 30px 0 60px;
@@ -605,7 +604,7 @@
     </div>
   </div>
 
-  <!-- Google Sign-In Admin Security Overlay -->
+  <!-- Admin Login Overlay -->
   <div id="admin-login-modal" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(10,15,10,0.95);backdrop-filter:blur(12px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;">
     <div style="background:linear-gradient(135deg, rgba(20,30,20,0.98), rgba(12,18,12,0.98));border:1px solid rgba(244,196,48,0.3);border-radius:20px;max-width:440px;width:100%;padding:36px;box-shadow:0 25px 50px rgba(0,0,0,0.6);text-align:center;">
       <div style="width:64px;height:64px;margin:0 auto 18px;border-radius:50%;background:rgba(244,196,48,0.15);border:1px solid rgba(244,196,48,0.4);display:flex;align-items:center;justify-content:center;font-size:28px;">
@@ -613,34 +612,15 @@
       </div>
       <h2 style="font-family:var(--font-serif);color:#fff;font-size:26px;margin-bottom:8px;">Admin Security Check</h2>
       <p style="color:rgba(234,235,232,0.7);font-size:13px;line-height:1.6;margin-bottom:24px;">
-        Only the authorized Google email account can access this admin panel.
+        Only the authorized admin username and password can access this panel.
       </p>
 
-      <!-- Google Official One-Tap & Button Container -->
-      <div id="g_id_onload" style="display:none;"
-           data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-           data-context="signin"
-           data-ux_mode="popup"
-           data-callback="handleGoogleCredentialResponse"
-           data-auto_prompt="false">
-      </div>
-
-      <div style="display:none;">
-        <div class="g_id_signin"
-             data-type="standard"
-             data-shape="rectangular"
-             data-theme="filled_black"
-             data-text="signin_with"
-             data-size="large"
-             data-logo_alignment="left">
-        </div>
-      </div>
-
-      <p style="color:rgba(234,235,232,0.72);font-size:13px;line-height:1.7;margin-bottom:16px;">Google One Tap is not configured in this build. Use the authorized email form below to unlock the dashboard.</p>
-      <!-- Quick Email Verification Sign In -->
-      <form id="google-email-login-form" style="margin-top:16px;background:rgba(255,255,255,0.03);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);">
-        <label style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-gold);margin-bottom:8px;">Authorized Admin Email</label>
-        <input type="email" id="login-google-email" placeholder="dambullatigerrock@gmail.com" required style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.4);color:#fff;font-size:14px;margin-bottom:12px;text-align:center;">
+      <p style="color:rgba(234,235,232,0.72);font-size:13px;line-height:1.7;margin-bottom:16px;">Use the admin username and password below to unlock the dashboard.</p>
+      <form id="admin-login-form" style="margin-top:16px;background:rgba(255,255,255,0.03);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);">
+        <label style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-gold);margin-bottom:8px;">Admin Username</label>
+        <input type="text" id="admin-username" placeholder="admin" required autocomplete="username" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.4);color:#fff;font-size:14px;margin-bottom:12px;text-align:center;">
+        <label style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-gold);margin-bottom:8px;">Password</label>
+        <input type="password" id="admin-password" placeholder="2026" required autocomplete="current-password" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.4);color:#fff;font-size:14px;margin-bottom:12px;text-align:center;">
         <button type="submit" class="btn-primary" style="width:100%;padding:12px;font-weight:700;letter-spacing:0.05em;">Unlock Dashboard</button>
       </form>
 

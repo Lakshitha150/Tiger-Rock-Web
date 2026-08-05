@@ -44,8 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeGalleryFilter = 'all';
   let editingRoomId = '';
   const adminLoginModal = document.getElementById('admin-login-modal');
-  const googleLoginForm = document.getElementById('google-email-login-form');
-  const loginGoogleEmail = document.getElementById('login-google-email');
+  const adminLoginForm = document.getElementById('admin-login-form');
+  const adminUsernameInput = document.getElementById('admin-username');
+  const adminPasswordInput = document.getElementById('admin-password');
   const loginStatusMsg = document.getElementById('login-status-msg');
   const adminUserProfile = document.getElementById('admin-user-profile');
   const userDisplayEmail = document.getElementById('user-display-email');
@@ -75,13 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  const performGoogleLogin = async (payload) => {
+  const performAdminLogin = async (payload) => {
     try {
       if (loginStatusMsg) {
         loginStatusMsg.style.color = 'var(--color-gold)';
-        loginStatusMsg.textContent = 'Verifying Google authorization...';
+        loginStatusMsg.textContent = 'Verifying admin credentials...';
       }
-      const res = await fetch(`${apiBase}/api/auth/google-login`, {
+      const res = await fetch(`${apiBase}/api/auth/admin-login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -104,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       localStorage.setItem('tr_admin_token', data.token);
-      localStorage.setItem('tr_admin_email', data.user.email);
+      localStorage.setItem('tr_admin_email', data.user.username);
 
       if (loginStatusMsg) {
         loginStatusMsg.style.color = '#51cf66';
@@ -125,18 +126,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  window.handleGoogleCredentialResponse = (response) => {
-    if (response && response.credential) {
-      performGoogleLogin({ credential: response.credential });
-    }
-  };
-
-  if (googleLoginForm) {
-    googleLoginForm.addEventListener('submit', (e) => {
+  if (adminLoginForm) {
+    adminLoginForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const email = loginGoogleEmail.value.trim();
-      if (email) {
-        performGoogleLogin({ email: email });
+      const username = adminUsernameInput.value.trim();
+      const password = adminPasswordInput.value;
+      if (username && password) {
+        performAdminLogin({ username, password });
       }
     });
   }

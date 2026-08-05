@@ -44,7 +44,7 @@ const adminAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
   
   if (!authHeader) {
-    return res.status(401).json({ error: 'Authentication required. Please sign in with Google.' });
+    return res.status(401).json({ error: 'Authentication required. Please sign in with the admin username and password.' });
   }
 
   // Basic auth fallback support for legacy API requests
@@ -60,58 +60,35 @@ const adminAuth = (req, res, next) => {
     return next();
   }
 
-  return res.status(401).json({ error: 'Session expired or unauthorized. Please sign in with Google.' });
+  return res.status(401).json({ error: 'Session expired or unauthorized. Please sign in with the admin username and password.' });
 };
 
-// Google Sign-In Authentication Endpoint
-app.post('/api/auth/google-login', async (req, res) => {
-  try {
-    const { credential, email: providedEmail } = req.body;
-    let userEmail = '';
-    let userName = 'Admin Owner';
-    let userPicture = '';
+// Admin username/password authentication endpoint
+app.post('/api/auth/admin-login', (req, res) => {
+  const { username, password } = req.body || {};
+  const expectedUser = (process.env.ADMIN_USER || 'admin').toString().trim();
+  const expectedPass = (process.env.ADMIN_PASS || '2026').toString();
 
-    if (credential) {
-      // Verify token directly with Google
-      const payload = await verifyGoogleIdToken(credential);
-      userEmail = (payload.email || '').toLowerCase().trim();
-      userName = payload.name || payload.given_name || 'Admin Owner';
-      userPicture = payload.picture || '';
-    } else if (providedEmail) {
-      userEmail = String(providedEmail).toLowerCase().trim();
-    }
-
-    if (!userEmail) {
-      return res.status(400).json({ error: 'Google Email is required.' });
-    }
-
-    // STRICT EMAIL AUTHORIZATION CHECK
-    const allowedEmail = (process.env.ALLOWED_ADMIN_EMAIL || 'dambullatigerrock@gmail.com').toLowerCase().trim();
-    
-    if (userEmail !== allowedEmail) {
-      return res.status(403).json({
-        error: `Access Denied: ${userEmail} is not authorized. Only ${allowedEmail} can access the admin dashboard.`
-      });
-    }
-
-    // Create session token
-    const crypto = require('crypto');
-    const sessionToken = 'tr_admin_' + crypto.randomBytes(32).toString('hex');
-    activeAdminSessions.add(sessionToken);
-
-    return res.json({
-      success: true,
-      token: sessionToken,
-      allowedEmail: allowedEmail,
-      user: {
-        email: userEmail,
-        name: userName,
-        picture: userPicture
-      }
-    });
-  } catch (err) {
-    return res.status(400).json({ error: 'Google Verification Failed: ' + err.message });
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username and password are required.' });
   }
+
+  if (String(username).trim() !== expectedUser || String(password) !== expectedPass) {
+    return res.status(403).json({ error: 'Invalid admin credentials.' });
+  }
+
+  const crypto = require('crypto');
+  const sessionToken = 'tr_admin_' + crypto.randomBytes(32).toString('hex');
+  activeAdminSessions.add(sessionToken);
+
+  return res.json({
+    success: true,
+    token: sessionToken,
+    user: {
+      username: expectedUser,
+      displayName: 'Admin'
+    }
+  });
 });
 
 // Protect all /api/admin/* endpoints
