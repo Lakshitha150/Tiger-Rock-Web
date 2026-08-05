@@ -14,38 +14,108 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-// Basic Auth Middleware
-const basicAuth = (req, res, next) => {
-  // Use environment variables or fallback credentials
-  const username = process.env.ADMIN_USER || 'admin';
-  const password = process.env.ADMIN_PASS || 'tigerrock2026';
-  
-  const authheader = req.headers.authorization;
-  if (!authheader) {
-    res.setHeader('WWW-Authenticate', 'Basic');
-    return res.status(401).send('Authentication required.');
-  }
+// Google Auth & Admin Session Storage
+const activeAdminSessions = new Set();
+const https = require('https');
 
-  const auth = Buffer.from(authheader.split(' ')[1], 'base64').toString().split(':');
-  const user = auth[0];
-  const pass = auth[1];
-
-  if (user === username && pass === password) {
-    next();
-  } else {
-    res.setHeader('WWW-Authenticate', 'Basic');
-    return res.status(401).send('Authentication required.');
-  }
+// Helper to verify Google ID Token via Google API
+const verifyGoogleIdToken = (idToken) => {
+  return new Promise((resolve, reject) => {
+    https.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(idToken)}`, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.error_description || parsed.error) {
+            return reject(new Error(parsed.error_description || parsed.error));
+          }
+          resolve(parsed);
+        } catch (e) {
+          reject(e);
+        }
+      });
+    }).on('error', reject);
+  });
 };
 
-// Protect admin.html and all /api/admin/* routes
-app.use('/admin.html', basicAuth);
-app.use('/api/admin', basicAuth);
+// Admin Protection Middleware
+const adminAuth = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  
+  if (!authHeader) {
+    return res.status(401).json({ error: 'Authentication required. Please sign in with Google.' });
+  }
 
-// Serve static files from the current directory
-app.use(express.static(path.join(__dirname)));
-// Serve the receipts directory so users can download PDFs
-app.use('/receipts', express.static(path.join(__dirname, 'receipts')));
+  // Basic auth fallback support for legacy API requests
+  if (authHeader.startsWith('Basic ')) {
+    const creds = Buffer.from(authHeader.split(' ')[1], 'base64').toString().split(':');
+    if (creds[0] === (process.env.ADMIN_USER || 'admin') && creds[1] === (process.env.ADMIN_PASS || 'tigerrock2026')) {
+      return next();
+    }
+  }
+
+  const token = authHeader.replace(/^Bearer\s+/i, '').trim();
+  if (activeAdminSessions.has(token)) {
+    return next();
+  }
+
+  return res.status(401).json({ error: 'Session expired or unauthorized. Please sign in with Google.' });
+};
+
+// Google Sign-In Authentication Endpoint
+app.post('/api/auth/google-login', async (req, res) => {
+  try {
+    const { credential, email: providedEmail } = req.body;
+    let userEmail = '';
+    let userName = 'Admin Owner';
+    let userPicture = '';
+
+    if (credential) {
+      // Verify token directly with Google
+      const payload = await verifyGoogleIdToken(credential);
+      userEmail = (payload.email || '').toLowerCase().trim();
+      userName = payload.name || payload.given_name || 'Admin Owner';
+      userPicture = payload.picture || '';
+    } else if (providedEmail) {
+      userEmail = String(providedEmail).toLowerCase().trim();
+    }
+
+    if (!userEmail) {
+      return res.status(400).json({ error: 'Google Email is required.' });
+    }
+
+    // STRICT EMAIL AUTHORIZATION CHECK
+    const allowedEmail = (process.env.ALLOWED_ADMIN_EMAIL || 'dambullatigerrock@gmail.com').toLowerCase().trim();
+    
+    if (userEmail !== allowedEmail) {
+      return res.status(403).json({
+        error: `Access Denied: ${userEmail} is not authorized. Only ${allowedEmail} can access the admin dashboard.`
+      });
+    }
+
+    // Create session token
+    const crypto = require('crypto');
+    const sessionToken = 'tr_admin_' + crypto.randomBytes(32).toString('hex');
+    activeAdminSessions.add(sessionToken);
+
+    return res.json({
+      success: true,
+      token: sessionToken,
+      allowedEmail: allowedEmail,
+      user: {
+        email: userEmail,
+        name: userName,
+        picture: userPicture
+      }
+    });
+  } catch (err) {
+    return res.status(400).json({ error: 'Google Verification Failed: ' + err.message });
+  }
+});
+
+// Protect all /api/admin/* endpoints
+app.use('/api/admin', adminAuth);
 
 // Connect to SQLite DB
 const db = new sqlite3.Database('./database.sqlite', (err) => {
@@ -310,8 +380,8 @@ function handleReceiptAndNotifications(booking, roomName) {
   }, 1500); 
 }
 
-// GET /api/rooms
-app.get('/api/rooms', async (req, res) => {
+// Shared Rooms Handler
+const fetchRoomsHandler = async (req, res) => {
   try {
     const rooms = await allAsync('SELECT * FROM rooms ORDER BY name ASC');
     const roomIds = rooms.map((room) => room.id);
@@ -375,6 +445,22 @@ app.get('/api/rooms', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+};
+
+app.get('/api/rooms', fetchRoomsHandler);
+app.get('/api/admin/rooms', fetchRoomsHandler);
+
+app.get('/api/admin/bookings', (req, res) => {
+  const query = `
+    SELECT b.*, r.name as room_name 
+    FROM bookings b 
+    LEFT JOIN rooms r ON b.room_id = r.id 
+    ORDER BY b.checkIn ASC
+  `;
+  db.all(query, [], (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
+  });
 });
 
   app.post('/api/admin/rooms', async (req, res) => {
@@ -616,6 +702,10 @@ app.delete('/api/bookings/:id', (req, res) => {
     res.json({ success: true, deleted: this.changes });
   });
 });
+
+// Serve static files from the current directory
+app.use(express.static(path.join(__dirname)));
+app.use('/receipts', express.static(path.join(__dirname, 'receipts')));
 
 if (require.main === module) {
   app.listen(PORT, () => {

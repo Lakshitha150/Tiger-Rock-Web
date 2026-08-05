@@ -42,14 +42,117 @@ document.addEventListener('DOMContentLoaded', () => {
   let roomsCache = [];
   let galleryCache = [];
   let activeGalleryFilter = 'all';
-  let editingRoomId = null;
+  const adminLoginModal = document.getElementById('admin-login-modal');
+  const googleLoginForm = document.getElementById('google-email-login-form');
+  const loginGoogleEmail = document.getElementById('login-google-email');
+  const loginStatusMsg = document.getElementById('login-status-msg');
+  const adminUserProfile = document.getElementById('admin-user-profile');
+  const userDisplayEmail = document.getElementById('user-display-email');
+  const adminLogoutBtn = document.getElementById('admin-logout-btn');
+
+  const checkAuthStatus = () => {
+    const token = localStorage.getItem('tr_admin_token') || sessionStorage.getItem('tr_admin_token');
+    const userEmail = localStorage.getItem('tr_admin_email') || sessionStorage.getItem('tr_admin_email');
+    
+    if (token && userEmail) {
+      if (adminLoginModal) adminLoginModal.style.display = 'none';
+      if (adminUserProfile) adminUserProfile.style.display = 'flex';
+      if (userDisplayEmail) userDisplayEmail.textContent = '👤 ' + userEmail;
+      return true;
+    } else {
+      if (adminLoginModal) adminLoginModal.style.display = 'flex';
+      if (adminUserProfile) adminUserProfile.style.display = 'none';
+      return false;
+    }
+  };
+
+  const performGoogleLogin = async (payload) => {
+    try {
+      if (loginStatusMsg) {
+        loginStatusMsg.style.color = 'var(--color-gold)';
+        loginStatusMsg.textContent = 'Verifying Google authorization...';
+      }
+      const res = await fetch('/api/auth/google-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (loginStatusMsg) {
+          loginStatusMsg.style.color = '#ff6b6b';
+          loginStatusMsg.textContent = data.error || 'Authorization failed';
+        }
+        return false;
+      }
+
+      localStorage.setItem('tr_admin_token', data.token);
+      localStorage.setItem('tr_admin_email', data.user.email);
+
+      if (loginStatusMsg) {
+        loginStatusMsg.style.color = '#51cf66';
+        loginStatusMsg.textContent = '✅ Access Granted! Loading dashboard...';
+      }
+
+      setTimeout(() => {
+        checkAuthStatus();
+        refreshAll();
+      }, 400);
+      return true;
+    } catch (err) {
+      if (loginStatusMsg) {
+        loginStatusMsg.style.color = '#ff6b6b';
+        loginStatusMsg.textContent = 'Login Error: ' + err.message;
+      }
+      return false;
+    }
+  };
+
+  window.handleGoogleCredentialResponse = (response) => {
+    if (response && response.credential) {
+      performGoogleLogin({ credential: response.credential });
+    }
+  };
+
+  if (googleLoginForm) {
+    googleLoginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = loginGoogleEmail.value.trim();
+      if (email) {
+        performGoogleLogin({ email: email });
+      }
+    });
+  }
+
+  if (adminLogoutBtn) {
+    adminLogoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('tr_admin_token');
+      localStorage.removeItem('tr_admin_email');
+      sessionStorage.removeItem('tr_admin_token');
+      sessionStorage.removeItem('tr_admin_email');
+      checkAuthStatus();
+    });
+  }
+
+  // Check auth status immediately on page load
+  checkAuthStatus();
 
   const api = async (path, options = {}) => {
-    const res = await fetch(path, {
-      headers: options.body ? { 'Content-Type': 'application/json' } : undefined,
-      ...options
-    });
+    const token = localStorage.getItem('tr_admin_token') || sessionStorage.getItem('tr_admin_token');
+    const headers = {
+      ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+      ...(options.headers || {})
+    };
+
+    const res = await fetch(path, { ...options, headers });
     const data = await res.json();
+    if (res.status === 401 || res.status === 403) {
+      localStorage.removeItem('tr_admin_token');
+      checkAuthStatus();
+      throw new Error(data.error || 'Session expired. Please sign in again.');
+    }
     if (!res.ok) {
       throw new Error(data.error || 'Request failed');
     }
