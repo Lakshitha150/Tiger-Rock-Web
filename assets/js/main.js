@@ -619,3 +619,38 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 })();
+
+// Fetch and render accommodations
+(async function () {
+    const grid = document.getElementById('home-accommodations-grid');
+    if (!grid) return;
+    
+    try {
+        const res = await fetch('/api/rooms');
+        if (!res.ok) throw new Error('Failed to fetch');
+        const rooms = await res.json();
+        
+        if (rooms.length === 0) {
+            grid.innerHTML = '<p style="text-align:center; color: var(--color-gold); grid-column: 1/-1;">No accommodations available at the moment.</p>';
+            return;
+        }
+
+        grid.innerHTML = rooms.map(room => `
+            <div class="room-card">
+              <img src="${room.image_url || 'assets/images/placeholder.jpg'}" alt="${room.name}">
+              <div class="room-card-content">
+                <!-- User requested no prices to be shown on frontend -->
+                ${room.is_offer ? `<div style="background: var(--color-gold); color: var(--color-forest); padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; display: inline-block; margin-bottom: 8px; letter-spacing: 0.1em; text-transform: uppercase;">🔥 Special Offer: ${room.offer_text}</div>` : ''}
+                <h3 class="serif-title">${room.name}</h3>
+                <p>${room.description || room.condition}</p>
+                ${room.type === 'experience' 
+                  ? `<a href="experiences.html" class="room-card-btn" style="border-color: var(--color-ivory);">Explore</a>` 
+                  : `<a href="booking.html" class="room-card-btn booking-link">Book Now</a>`}
+              </div>
+            </div>
+        `).join('');
+    } catch (err) {
+        console.error('Error fetching rooms:', err);
+        grid.innerHTML = '<p style="text-align:center; color: #ff6b6b; grid-column: 1/-1;">Failed to load accommodations.</p>';
+    }
+})();

@@ -14,6 +14,34 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+// Basic Auth Middleware
+const basicAuth = (req, res, next) => {
+  // Use environment variables or fallback credentials
+  const username = process.env.ADMIN_USER || 'admin';
+  const password = process.env.ADMIN_PASS || 'tigerrock2026';
+  
+  const authheader = req.headers.authorization;
+  if (!authheader) {
+    res.setHeader('WWW-Authenticate', 'Basic');
+    return res.status(401).send('Authentication required.');
+  }
+
+  const auth = Buffer.from(authheader.split(' ')[1], 'base64').toString().split(':');
+  const user = auth[0];
+  const pass = auth[1];
+
+  if (user === username && pass === password) {
+    next();
+  } else {
+    res.setHeader('WWW-Authenticate', 'Basic');
+    return res.status(401).send('Authentication required.');
+  }
+};
+
+// Protect admin.html and all /api/admin/* routes
+app.use('/admin.html', basicAuth);
+app.use('/api/admin', basicAuth);
+
 // Serve static files from the current directory
 app.use(express.static(path.join(__dirname)));
 // Serve the receipts directory so users can download PDFs
@@ -183,38 +211,18 @@ async function ensureSchema() {
   }
   await runAsync(`UPDATE rooms SET price_unit = COALESCE(NULLIF(price_unit, ''), 'per night') WHERE price_unit IS NULL OR price_unit = ''`);
 
-  const legacyRoomIds = ['sunrise-loft', 'sigiriya-view'];
-  for (const roomId of legacyRoomIds) {
-    await runAsync('DELETE FROM room_enhancements WHERE room_id = ?', [roomId]);
-    await runAsync('DELETE FROM room_amenities WHERE room_id = ?', [roomId]);
-    await runAsync('DELETE FROM room_facilities WHERE room_id = ?', [roomId]);
-    await runAsync('DELETE FROM rooms WHERE id = ?', [roomId]);
+  if (!columnNames.includes('type')) {
+    await runAsync(`ALTER TABLE rooms ADD COLUMN type TEXT DEFAULT 'cabana'`);
   }
+  if (!columnNames.includes('is_offer')) {
+    await runAsync(`ALTER TABLE rooms ADD COLUMN is_offer BOOLEAN DEFAULT 0`);
+  }
+  if (!columnNames.includes('offer_text')) {
+    await runAsync(`ALTER TABLE rooms ADD COLUMN offer_text TEXT DEFAULT ''`);
+  }
+  
+  // We no longer destroy legacy rooms here because they are seeded in init_db.js
 
-  await runAsync(`INSERT OR REPLACE INTO rooms (id, name, price, total_quantity, room_type, condition, description, image_url, price_unit) VALUES
-    ('viewpoint-access', 'Viewpoint Access Pass', 40, 10, 'Short Access', 'Excellent', 'Short access pass for the viewpoint for 1-2 hours, ideal for a quick visit rather than an overnight stay.', 'assets/images/viewpoint-scenery/dambulla-tiger-rock-viewpoint-1.jpeg', 'per person')
-  `);
-
-  await runAsync('DELETE FROM room_amenities WHERE room_id = ?', ['viewpoint-access']);
-  await runAsync('DELETE FROM room_facilities WHERE room_id = ?', ['viewpoint-access']);
-  await runAsync('DELETE FROM room_enhancements WHERE room_id = ?', ['viewpoint-access']);
-
-  await runAsync(`INSERT INTO room_amenities (room_id, name) VALUES
-    ('viewpoint-access', 'Panoramic Views'),
-    ('viewpoint-access', 'Short Visit Window'),
-    ('viewpoint-access', 'Photo Friendly')
-  `);
-
-  await runAsync(`INSERT INTO room_facilities (room_id, name) VALUES
-    ('viewpoint-access', 'Trail Access'),
-    ('viewpoint-access', 'Entry Ticket'),
-    ('viewpoint-access', 'Guidance Available')
-  `);
-
-  await runAsync(`INSERT INTO room_enhancements (room_id, name, price) VALUES
-    ('viewpoint-access', 'Sunrise Add-On', 15),
-    ('viewpoint-access', 'Photography Guide', 20)
-  `);
 
   await sanitizeExistingRecords();
 }
@@ -348,6 +356,9 @@ app.get('/api/rooms', async (req, res) => {
       image_url: normalizeText(room.image_url),
       price: Number(room.price || 0),
       price_unit: normalizePriceUnit(room.price_unit),
+      type: normalizeText(room.type || 'cabana'),
+      is_offer: Boolean(room.is_offer),
+      offer_text: normalizeText(room.offer_text),
       amenities: (amenitiesByRoom[room.id] || []).map((item) => ({
         ...item,
         name: normalizeText(item.name)
@@ -366,27 +377,30 @@ app.get('/api/rooms', async (req, res) => {
   }
 });
 
-app.post('/api/admin/rooms', async (req, res) => {
-  try {
-    const { id, name, price, total_quantity, room_type, condition, description, image_url, price_unit } = req.body;
-    if (!id || !name || price === undefined || total_quantity === undefined) {
-      return res.status(400).json({ error: 'id, name, price, and total_quantity are required' });
-    }
-
-    await runAsync(
-      `INSERT INTO rooms (id, name, price, total_quantity, room_type, condition, description, image_url, price_unit)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-       ON CONFLICT(id) DO UPDATE SET
-         name = excluded.name,
-         price = excluded.price,
-         total_quantity = excluded.total_quantity,
-         room_type = excluded.room_type,
-         condition = excluded.condition,
-         description = excluded.description,
-         image_url = excluded.image_url,
-         price_unit = excluded.price_unit`,
-      [id, name, price, total_quantity, room_type || '', condition || '', description || '', image_url || '', normalizePriceUnit(price_unit)]
-    );
+  app.post('/api/admin/rooms', async (req, res) => {
+    try {
+      const { id, name, price, total_quantity, room_type, condition, description, image_url, price_unit, type, is_offer, offer_text } = req.body;
+      if (!id || !name || price === undefined || total_quantity === undefined) {
+        return res.status(400).json({ error: 'id, name, price, and total_quantity are required' });
+      }
+  
+      await runAsync(
+        `INSERT INTO rooms (id, name, price, total_quantity, room_type, condition, description, image_url, price_unit, type, is_offer, offer_text)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         ON CONFLICT(id) DO UPDATE SET
+           name = excluded.name,
+           price = excluded.price,
+           total_quantity = excluded.total_quantity,
+           room_type = excluded.room_type,
+           condition = excluded.condition,
+           description = excluded.description,
+           image_url = excluded.image_url,
+           price_unit = excluded.price_unit,
+           type = excluded.type,
+           is_offer = excluded.is_offer,
+           offer_text = excluded.offer_text`,
+        [id, name, price, total_quantity, room_type || '', condition || '', description || '', image_url || '', normalizePriceUnit(price_unit), type || 'cabana', is_offer ? 1 : 0, offer_text || '']
+      );
 
     res.json({ success: true });
   } catch (err) {

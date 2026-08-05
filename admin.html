@@ -453,6 +453,13 @@
               <input id="room-type" placeholder="Signature Loft">
             </div>
             <div>
+              <label for="room-category">Item Category</label>
+              <select id="room-category">
+                <option value="cabana">Cabana / Room</option>
+                <option value="experience">Experience / Activity</option>
+              </select>
+            </div>
+            <div>
               <label for="room-condition">Condition</label>
               <select id="room-condition">
                 <option value="Excellent">Excellent</option>
@@ -471,6 +478,15 @@
                 <option value="per guest">Per Guest</option>
                 <option value="per person">Per Person</option>
               </select>
+            </div>
+            <div>
+              <label for="room-is-offer" style="display:flex;align-items:center;gap:8px;">
+                <input type="checkbox" id="room-is-offer" style="width:auto;margin:0;"> Is Offer / Promotion?
+              </label>
+            </div>
+            <div class="full">
+              <label for="room-offer-text">Offer Text Badge</label>
+              <input id="room-offer-text" placeholder="e.g. Free for foreigners" />
             </div>
             <div>
               <label for="room-qty">Total Quantity</label>
@@ -582,6 +598,6 @@
     </div>
   </div>
 
-  <script src="assets/js/admin.js"></script>
+  <script src="assets/js/admin.js?v=3"></script>
 </body>
 </html>

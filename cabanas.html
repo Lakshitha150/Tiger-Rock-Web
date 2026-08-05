@@ -253,7 +253,7 @@
     <div class="container stats-inner">
       <div class="stat-item"><div class="stat-num">02</div><div class="stat-label">Exclusive Cabanas</div></div>
       <div class="stat-item"><div class="stat-num">360°</div><div class="stat-label">Summit Panorama</div></div>
-      <div class="stat-item"><div class="stat-num">$40</div><div class="stat-label">From Per Night</div></div>
+      <div class="stat-item"><div class="stat-num">Eco</div><div class="stat-label">Friendly Retreat</div></div>
       <div class="stat-item"><div class="stat-num">300m</div><div class="stat-label">From Dambulla Town</div></div>
     </div>
   </div>
@@ -349,6 +349,7 @@
             </div>
             <div class="cabana-card-body">
               <p class="card-eyebrow">${room.room_type || 'Cabana'}</p>
+              ${room.is_offer ? `<div style="background: var(--color-gold); color: var(--color-forest); padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; display: inline-block; margin-bottom: 8px; letter-spacing: 0.1em; text-transform: uppercase;">🔥 Special Offer: ${room.offer_text}</div>` : ''}
               <h3>${room.name}</h3>
               <p>${(room.description || '').replace(/\s+/g, ' ').trim()}</p>
               <div class="cabana-spec-grid">
@@ -356,7 +357,6 @@
                   <h4>Overview</h4>
                   <div class="cabana-chip-list">
                     <span class="cabana-chip">${room.room_type || 'Cabana'}</span>
-                    <span class="cabana-chip">$${Number(room.price || 0).toFixed(2)}${(room.price_unit === 'per person' ? ' / person' : room.price_unit === 'per guest' ? ' / guest' : ' / night')}</span>
                   </div>
                 </div>
                 <div class="cabana-spec-box">

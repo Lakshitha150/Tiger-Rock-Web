@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const roomPrice = document.getElementById('room-price');
   const roomPriceUnit = document.getElementById('room-price-unit');
   const roomQty = document.getElementById('room-qty');
+  const roomIsOffer = document.getElementById('room-is-offer');
+  const roomOfferText = document.getElementById('room-offer-text');
   const roomDescription = document.getElementById('room-description');
   const roomImage = document.getElementById('room-image');
   const roomImagePick = document.getElementById('room-image-pick');
@@ -127,8 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
     editingRoomId = null;
     roomForm.reset();
     roomId.disabled = false;
+    document.getElementById('room-category').value = 'cabana';
     if (roomPriceUnit) roomPriceUnit.value = 'per night';
     updateImagePreview('');
+    const submitBtn = roomForm.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.textContent = 'Save Room';
   };
 
   const renderRoomSelectors = () => {
@@ -147,19 +152,20 @@ document.addEventListener('DOMContentLoaded', () => {
     roomsList.innerHTML = roomsCache.map((room) => {
       const amenities = (room.amenities || []).map((item) => `<span class="chip">${item.name}</span>`).join('') || '<span class="chip">No amenities</span>';
       const facilities = (room.facilities || []).map((item) => `<span class="chip">${item.name}</span>`).join('') || '<span class="chip">No facilities</span>';
+      const offerBadge = room.is_offer ? `<span style="background:var(--color-gold);color:#000;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:700;">🔥 ${room.offer_text || 'OFFER'}</span>` : '';
       return `
         <div class="room-item">
-          <div>
-            <h4>${room.name}</h4>
-            <p><strong>ID:</strong> ${room.id} | <strong>Type:</strong> ${room.room_type || '-'} | <strong>Condition:</strong> ${room.condition || '-'}</p>
-            <p><strong>Price:</strong> $${room.price} ${room.price_unit === 'per person' ? '/ person' : room.price_unit === 'per guest' ? '/ guest' : '/ night'} | <strong>Qty:</strong> ${room.total_quantity}</p>
-            <p>${room.description || ''}</p>
+          <div style="flex:1;">
+            <h4 style="margin:0 0 6px;">${room.name} <small style="opacity:0.6;font-weight:400;margin-left:8px;">${room.type}</small></h4>
+            <p class="muted" style="font-size:13px;margin:0;">$${room.price} ${room.price_unit} &bull; Qty: ${room.total_quantity} &bull; ${room.room_type} &bull; ${room.condition}</p>
+            ${offerBadge ? `<div style="margin-top:6px;">${offerBadge}</div>` : ''}
+            <p style="margin-top:10px;">${room.description || ''}</p>
             <p class="field-label" style="margin-top:12px;">Amenities</p>
             <div class="chip-list">${amenities}</div>
             <p class="field-label" style="margin-top:12px;">Facilities</p>
             <div class="chip-list">${facilities}</div>
           </div>
-          <div class="inline-actions">
+          <div class="inline-actions" style="display:flex;gap:10px;">
             <button class="btn-secondary edit-room" data-id="${room.id}">Edit</button>
             <button class="btn-secondary delete-room" data-id="${room.id}">Delete</button>
           </div>
@@ -175,23 +181,36 @@ document.addEventListener('DOMContentLoaded', () => {
         roomId.value = room.id;
         roomId.disabled = true;
         roomName.value = room.name;
+        document.getElementById('room-category').value = room.type || 'cabana';
         roomType.value = room.room_type || '';
         roomCondition.value = room.condition || 'Excellent';
         roomPrice.value = room.price;
-        roomPriceUnit.value = room.price_unit === 'per person' ? 'per person' : room.price_unit === 'per guest' ? 'per guest' : 'per night';
+        roomPriceUnit.value = room.price_unit || 'per night';
         roomQty.value = room.total_quantity;
+        roomIsOffer.checked = !!room.is_offer;
+        roomOfferText.value = room.offer_text || '';
         roomDescription.value = room.description || '';
         roomImage.value = room.image_url || '';
         updateImagePreview(roomImage.value);
+        
+        // Visual feedback & auto-scroll
+        const submitBtn = roomForm.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.textContent = `Update "${room.name}"`;
+        
         setTab('rooms');
+        roomForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
     });
 
     document.querySelectorAll('.delete-room').forEach((btn) => {
       btn.addEventListener('click', async () => {
         if (!confirm('Delete this room and its amenities/facilities?')) return;
-        await api(`/api/admin/rooms/${btn.dataset.id}`, { method: 'DELETE' });
-        await refreshAll();
+        try {
+          await api(`/api/admin/rooms/${btn.dataset.id}`, { method: 'DELETE' });
+          await refreshAll();
+        } catch (err) {
+          alert('Failed to delete room: ' + err.message);
+        }
       });
     });
   };
@@ -330,22 +349,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   roomForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    await api('/api/admin/rooms', {
-      method: 'POST',
+    const targetId = (editingRoomId || roomId.value).trim();
+    if (!targetId) {
+      alert('Room ID is required.');
+      return;
+    }
+    
+    try {
+      await api('/api/admin/rooms', {
+        method: 'POST',
         body: JSON.stringify({
-          id: roomId.value.trim(),
+          id: targetId,
           name: roomName.value.trim(),
           price: Number(roomPrice.value),
-          price_unit: roomPriceUnit.value === 'per person' ? 'per person' : roomPriceUnit.value === 'per guest' ? 'per guest' : 'per night',
+          price_unit: roomPriceUnit.value,
           total_quantity: Number(roomQty.value),
           room_type: roomType.value.trim(),
           condition: roomCondition.value,
           description: roomDescription.value.trim(),
-          image_url: roomImage.value.trim()
+          image_url: roomImage.value.trim(),
+          type: document.getElementById('room-category').value,
+          is_offer: roomIsOffer.checked,
+          offer_text: roomOfferText.value.trim()
         })
-    });
-    resetRoomForm();
-    await refreshAll();
+      });
+      alert('Room saved successfully!');
+      resetRoomForm();
+      await refreshAll();
+    } catch (err) {
+      alert('Failed to save room: ' + err.message);
+    }
   });
 
   roomClearBtn.addEventListener('click', () => {
