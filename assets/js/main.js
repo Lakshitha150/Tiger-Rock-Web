@@ -626,11 +626,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!grid) return;
     
     try {
-        const res = await fetch('/api/rooms');
-        if (!res.ok) throw new Error('Failed to fetch');
-        const rooms = await res.json();
+        const rooms = typeof window.TigerRockDB !== 'undefined'
+            ? await window.TigerRockDB.fetchRoomsSmart()
+            : [];
         
-        if (rooms.length === 0) {
+        if (!rooms || rooms.length === 0) {
             grid.innerHTML = '<p style="text-align:center; color: var(--color-gold); grid-column: 1/-1;">No accommodations available at the moment.</p>';
             return;
         }
@@ -650,7 +650,6 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         `).join('');
     } catch (err) {
-        console.error('Error fetching rooms:', err);
-        grid.innerHTML = '<p style="text-align:center; color: #ff6b6b; grid-column: 1/-1;">Failed to load accommodations.</p>';
+        console.error('Error rendering rooms:', err);
     }
 })();

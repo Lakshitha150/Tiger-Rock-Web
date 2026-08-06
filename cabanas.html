@@ -332,63 +332,59 @@
       function chipList(items, fallback) {
         if (!items || !items.length) {
           return '<span class="cabana-chip">' + fallback + '</span>';
-        }
-        return items.map(function (item) {
-          var label = item && item.name ? String(item.name).replace(/\s+/g, ' ').trim() : '';
-          return label ? '<span class="cabana-chip">' + label + '</span>' : '';
-        }).filter(Boolean).join('');
-      }
+      if (!cabanaGrid) return;
 
-      function renderRoom(room, index) {
-        var reverse = index % 2 === 1 ? ' reverse' : '';
+      function renderRoom(room) {
+        var amenitiesHtml = (room.amenities || []).map(function (item) {
+          return '<span class="amenity-chip">' + item.name + '</span>';
+        }).join('');
+
+        var facilitiesHtml = (room.facilities || []).map(function (item) {
+          return '<span class="facility-chip">' + item.name + '</span>';
+        }).join('');
+
         return `
-          <div class="cabana-card${reverse}">
-            <div class="cabana-card-img">
-              <img src="${room.image_url || 'assets/images/cabana-architecture/dambulla-tiger-rock-cabana-interior-13.jpeg'}" alt="${room.name}">
-              <span class="card-pill">${room.room_type || 'Cabana'}</span>
+          <div class="cabana-card" id="${room.id}">
+            <div class="cabana-card-media">
+              <img src="${room.image_url || 'assets/images/placeholder.jpg'}" alt="${room.name}">
             </div>
             <div class="cabana-card-body">
-              <p class="card-eyebrow">${room.room_type || 'Cabana'}</p>
               ${room.is_offer ? `<div style="background: var(--color-gold); color: var(--color-forest); padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; display: inline-block; margin-bottom: 8px; letter-spacing: 0.1em; text-transform: uppercase;">🔥 Special Offer: ${room.offer_text}</div>` : ''}
-              <h3>${room.name}</h3>
-              <p>${(room.description || '').replace(/\s+/g, ' ').trim()}</p>
-              <div class="cabana-spec-grid">
-                <div class="cabana-spec-box">
-                  <h4>Overview</h4>
-                  <div class="cabana-chip-list">
-                    <span class="cabana-chip">${room.room_type || 'Cabana'}</span>
-                  </div>
-                </div>
-                <div class="cabana-spec-box">
+              <h2 class="serif-title">${room.name}</h2>
+              <div class="cabana-card-meta">${room.room_type || 'Cabana'} • ${room.condition || 'Excellent'}</div>
+              <p>${room.description || ''}</p>
+
+              ${amenitiesHtml ? `
+                <div class="cabana-chip-section">
                   <h4>Amenities</h4>
-                  <div class="cabana-chip-list">${chipList(room.amenities, 'No amenities')}</div>
+                  <div class="cabana-chip-grid">${amenitiesHtml}</div>
                 </div>
-                <div class="cabana-spec-box">
+              ` : ''}
+
+              ${facilitiesHtml ? `
+                <div class="cabana-chip-section">
                   <h4>Facilities</h4>
-                  <div class="cabana-chip-list">${chipList(room.facilities, 'No facilities')}</div>
+                  <div class="cabana-chip-grid">${facilitiesHtml}</div>
                 </div>
-              </div>
-              <div class="card-btns">
-                <a href="booking.html" class="btn-primary booking-link">Reserve Now</a>
-                <a href="booking.html" class="btn-secondary">Book This Room</a>
+              ` : ''}
+
+              <div style="margin-top: 24px;">
+                <a href="booking.html" class="btn-primary booking-link">Book Now</a>
               </div>
             </div>
           </div>
         `;
       }
 
-      fetch('/api/rooms')
-        .then(function (res) { return res.json(); })
-        .then(function (rooms) {
+      if (typeof window.TigerRockDB !== 'undefined') {
+        window.TigerRockDB.fetchRoomsSmart().then(function (rooms) {
           if (!rooms || !rooms.length) {
             cabanaGrid.innerHTML = '<div class="cabana-card"><div class="cabana-card-body"><p>No rooms found.</p></div></div>';
             return;
           }
           cabanaGrid.innerHTML = rooms.map(renderRoom).join('');
-        })
-        .catch(function () {
-          cabanaGrid.innerHTML = '<div class="cabana-card"><div class="cabana-card-body"><p>Unable to load cabana details right now.</p></div></div>';
         });
+      }
     });
   </script>
 </body>
